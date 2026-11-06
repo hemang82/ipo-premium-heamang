@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap');
+
+:root {
+  --font-heading: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Dark theme */
+  --bg: #0B0F19;
+  --card: #111827;
+  --card2: #1F2937;
+  --line: #2D3748;
+  --tx: #F9FAFB;
+  --mut: #94A3B8;
+  --accent: #E06336;
+  --on-accent: #FFFFFF;
+  --up: #22C55E;
+  --dn: #EF4444;
+  --glow: rgba(224, 99, 54, 0.12);
+}
+
+[data-theme="light"] {
+  /* Exact Color System from the Reference Dashboard */
+  --bg: #F8F9FA;
+  --card: #FFFFFF;
+  --card2: #F1F3F5;
+  --line: #E5E7EB;
+  --tx: #111827;
+  --mut: #64748B;
+  --accent: #D95A2B;
+  --on-accent: #FFFFFF;
+  --up: #16A34A;
+  --dn: #DC2626;
+  --glow: rgba(217, 90, 43, 0.08);
+}
+
+body {
+  color: var(--tx);
+  background-color: var(--bg);
+  background-image: radial-gradient(circle 800px at 50% -200px, var(--glow), transparent 70%);
+  background-repeat: no-repeat;
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Tabular nums on all prices and metrics */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--mut);
+}

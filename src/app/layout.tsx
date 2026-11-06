@@ -9,10 +9,7 @@ import { getBaseMetadata, getOrganizationSchema } from "@/lib/seo";
 export const metadata: Metadata = getBaseMetadata();
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#0A1022" },
-    { media: "(prefers-color-scheme: light)", color: "#F6F4F2" },
-  ],
+  themeColor: "#F8F9FA",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -29,7 +26,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      data-theme="dark"
+      data-theme="light"
     >
       <head>
         {/* Google Tag Manager (GTM) */}
@@ -63,7 +60,7 @@ export default function RootLayout({
           />
         </noscript>
 
-        <ThemeProvider>
+        <ThemeProvider forcedTheme="light" defaultTheme="light" enableSystem={false}>
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />

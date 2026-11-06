@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ThemeToggle } from "./ThemeToggle";
 import {
   Menu,
   X,
@@ -330,9 +329,8 @@ export function Header() {
 
           </nav>
 
-          {/* 3. Right: Theme Toggle & Mobile Hamburger */}
+          {/* 3. Right: Mobile Hamburger */}
           <div className="flex items-center gap-2">
-            <ThemeToggle />
             <button
               onClick={() => setMobileMenuOpen(true)}
               aria-label="Open mobile menu"

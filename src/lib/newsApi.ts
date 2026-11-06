@@ -28,7 +28,7 @@ export interface NewsResponse {
 }
 
 const NEWS_API_ENDPOINT = "https://docipo.ipotrending.com/api/v1/common/getNewsList";
-const DEFAULT_DOMAIN = process.env.NEXT_PUBLIC_NEWS_DOMAIN || "ipo-premium.com";
+const DEFAULT_DOMAIN = "ipo-premium.com";
 const FALLBACK_DOMAIN = "ipogreypremium.com";
 const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=1200&auto=format&fit=crop";
 

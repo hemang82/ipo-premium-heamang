@@ -22,7 +22,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-export const revalidate = 3600; // ISR 1 hour
+export const revalidate = 10; // ISR 1 hour
 
 interface NewsDetailProps {
   params: Promise<{

@@ -21,32 +21,27 @@ import {
   Sparkles,
 } from "lucide-react";
 
-export const revalidate = 120; // Refresh data every 2 minutes
+export const revalidate = 10; // Refresh data every 2 minutes
 
 export const metadata: Metadata = {
-  title: "Check IPO Allotment Status Online – Live & Upcoming IPOs Allotment Dates",
+  title: "Check IPO Allotment Status Online",
   description:
-    "Check live & upcoming IPO allotment status online with direct links to Link Intime, KFintech, Bigshare, BSE & NSE. View allotment date calendar, PAN verification guide, and refund timeline.",
+    "Check IPO allotment status online with direct links to Link Intime, KFintech, and Bigshare. Verify your application allotment by PAN or DP ID.",
   alternates: {
     canonical: `${SITE_URL}/allotment`,
   },
   keywords: [
     "IPO Allotment Status",
     "Check IPO Allotment Online",
-    "Link Intime IPO Allotment",
-    "KFintech IPO Status",
-    "Bigshare IPO Allotment",
-    "BSE IPO Allotment Check",
-    "NSE IPO Allotment Status",
-    "IPO Allotment Date 2025",
-    "Live IPO Allotment",
-    "Upcoming IPO Allotment",
-    "IPO Refund Date UPI",
+    "Link Intime Allotment Status",
+    "KFintech Allotment Status",
+    "Bigshare Allotment Check",
+    "IPO Registrar Allotment Link",
   ],
   openGraph: {
-    title: "Check IPO Allotment Status Online – Live & Upcoming IPOs Allotment Dates",
+    title: "Check IPO Allotment Status Online",
     description:
-      "Verify share allocation for all live, upcoming, and recently closed IPOs with direct registrar links (Link Intime, KFintech, Bigshare, BSE, NSE).",
+      "Check IPO allotment status online with direct links to Link Intime, KFintech, and Bigshare. Verify your application allotment by PAN or DP ID.",
     url: `${SITE_URL}/allotment`,
     type: "website",
     locale: "en_IN",

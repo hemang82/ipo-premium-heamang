@@ -3,28 +3,24 @@ import { getHomePageIpoList, transformApiIpo } from "@/lib/ipo-service";
 import { IpoListClient } from "@/components/ipo/IpoListClient";
 import { SITE_URL, getBreadcrumbSchema } from "@/lib/seo";
 
-export const revalidate = 180;
+export const revalidate = 10;
 
 export const metadata: Metadata = {
-  title: "Upcoming IPO 2024–25 – All Upcoming IPOs with Dates, GMP & Allotment",
+  title: "Upcoming IPOs – Dates & Issue Details",
   description:
-    "Complete list of all upcoming IPOs in India for 2024–25 with open date, close date, price band, lot size, GMP forecast, subscription status and allotment date on BSE and NSE.",
+    "Complete list of upcoming IPOs in India. Check issue opening and closing dates, expected price bands, issue sizes, and DRHP filings on BSE and NSE.",
   alternates: { canonical: `${SITE_URL}/ipo/upcoming` },
   keywords: [
-    "Upcoming IPO",
-    "Upcoming IPO 2025",
-    "New IPO This Week",
-    "Upcoming Mainboard IPO",
-    "SME Upcoming IPO",
-    "IPO Opening This Month",
-    "IPO Date 2025",
-    "Upcoming BSE NSE IPO",
-    "IPO Open Date",
+    "Upcoming IPO Calendar",
+    "New IPOs This Month",
+    "Upcoming Mainboard IPOs",
+    "Upcoming SME Issues",
+    "IPO Issue Open Dates",
   ],
   openGraph: {
-    title: "Upcoming IPO 2024–25 – Dates, GMP & Allotment",
+    title: "Upcoming IPO Calendar – Dates & Issue Details",
     description:
-      "Track all upcoming IPOs in India 2024–25 with open/close dates, price band, lot size, GMP forecast and allotment dates.",
+      "Complete list of upcoming IPOs in India. Check issue opening and closing dates, expected price bands, issue sizes, and DRHP filings on BSE and NSE.",
     url: `${SITE_URL}/ipo/upcoming`,
     type: "website",
     locale: "en_IN",

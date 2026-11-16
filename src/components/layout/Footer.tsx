@@ -4,9 +4,9 @@ export function Footer() {
   return (
     <footer className="w-full border-t border-line mt-16 bg-card/40">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
           {/* Brand Info */}
-          <div className="md:col-span-2 space-y-3">
+          <div className="sm:col-span-2 space-y-3">
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 rounded-md bg-accent flex items-center justify-center">
                 <div className="w-2.5 h-2.5 rotate-45 bg-[#2A130B] rounded-[1px]" />
@@ -28,7 +28,7 @@ export function Footer() {
             <h4 className="font-heading font-semibold text-sm text-tx">IPO Tracking</h4>
             <ul className="space-y-1.5 text-xs text-mut">
               <li><Link href="/ipo/live" className="hover:text-accent transition-colors">Live IPO Today</Link></li>
-              <li><Link href="/ipo/upcoming" className="hover:text-accent transition-colors">Upcoming IPO 2025</Link></li>
+              <li><Link href="/ipo/upcoming" className="hover:text-accent transition-colors">Upcoming IPOs</Link></li>
               <li><Link href="/ipo/listed" className="hover:text-accent transition-colors">Recently Listed IPOs</Link></li>
               <li><Link href="/ipo-gmp" className="hover:text-accent transition-colors">IPO GMP Today</Link></li>
               <li><Link href="/subscription" className="hover:text-accent transition-colors">Subscription Status</Link></li>
@@ -39,24 +39,27 @@ export function Footer() {
           <div className="space-y-2">
             <h4 className="font-heading font-semibold text-sm text-tx">Tools & Insights</h4>
             <ul className="space-y-1.5 text-xs text-mut">
-              <li><Link href="/news" className="hover:text-accent transition-colors font-medium text-tx/90">IPO News & Market Updates</Link></li>
+              <li><Link href="/news" className="hover:text-accent transition-colors font-medium text-tx/90">IPO News & Market</Link></li>
               <li><Link href="/tools/lot-calculator" className="hover:text-accent transition-colors">IPO Lot Calculator</Link></li>
               <li><Link href="/faq" className="hover:text-accent transition-colors">IPO FAQs Knowledge Hub</Link></li>
               <li><Link href="/articles" className="hover:text-accent transition-colors">IPO Guides & Articles</Link></li>
-              <li><Link href="/allotment" className="hover:text-accent transition-colors">IPO Allotment Status</Link></li>
-              <li><Link href="/guides/what-is-ipo-gmp" className="hover:text-accent transition-colors">What is IPO GMP?</Link></li>
+              <li><Link href="/allotment" className="hover:text-accent transition-colors">IPO Allotment Tracker</Link></li>
+              <li><Link href="/articles/what-is-ipo-gmp-grey-market-premium" className="hover:text-accent transition-colors">What is IPO GMP?</Link></li>
             </ul>
           </div>
 
-          {/* Legal / Trust */}
-          {/* <div className="space-y-2">
+          {/* Legal / Trust & Transparency */}
+          <div className="space-y-2">
             <h4 className="font-heading font-semibold text-sm text-tx">Trust & Policies</h4>
             <ul className="space-y-1.5 text-xs text-mut">
-              <li><Link href="/about" className="hover:text-accent">About & Methodology</Link></li>
-              <li><Link href="/disclaimer" className="hover:text-accent">SEBI Disclaimer</Link></li>
-              <li><Link href="/privacy-policy" className="hover:text-accent">Privacy Policy</Link></li>
+              <li><Link href="/about" className="hover:text-accent transition-colors">About Us</Link></li>
+              <li><Link href="/contact" className="hover:text-accent transition-colors">Contact Us</Link></li>
+              <li><Link href="/editorial-policy" className="hover:text-accent transition-colors">Editorial Policy</Link></li>
+              <li><Link href="/privacy-policy" className="hover:text-accent transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/terms" className="hover:text-accent transition-colors">Terms of Service</Link></li>
+              <li><Link href="/disclaimer" className="hover:text-accent transition-colors">SEBI Disclaimer</Link></li>
             </ul>
-          </div> */}
+          </div>
         </div>
 
         {/* Regulatory Disclaimer Card */}
@@ -70,9 +73,23 @@ export function Footer() {
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-mut pt-4 border-t border-line/40 gap-2">
+        {/* Bottom Bar with Links */}
+        <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-mut pt-4 border-t border-line/40 gap-3">
           <p>© {new Date().getFullYear()} ipo-premium.com. All rights reserved.</p>
-          <p>Made with precision for Indian stock market investors.</p>
+          
+          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs">
+            <Link href="/about" className="hover:text-accent transition-colors">About</Link>
+            <span>•</span>
+            <Link href="/contact" className="hover:text-accent transition-colors">Contact</Link>
+            <span>•</span>
+            <Link href="/editorial-policy" className="hover:text-accent transition-colors">Editorial Policy</Link>
+            <span>•</span>
+            <Link href="/privacy-policy" className="hover:text-accent transition-colors">Privacy</Link>
+            <span>•</span>
+            <Link href="/terms" className="hover:text-accent transition-colors">Terms</Link>
+            <span>•</span>
+            <Link href="/disclaimer" className="hover:text-accent transition-colors">Disclaimer</Link>
+          </div>
         </div>
       </div>
     </footer>

@@ -6,12 +6,12 @@ import { HelpCircle, BookOpen, Sparkles, ShieldCheck } from "lucide-react";
 
 // Pure static generation - Zero API calls, instant static serving
 export const dynamic = "force-static";
-export const revalidate = false;
+export const revalidate = 10;
 
 export const metadata: Metadata = {
-  title: "IPO FAQs – Complete Investor Guide on GMP, Allotment, Bidding & Rules",
+  title: "IPO FAQs – Allotment, GMP & Bidding Guide",
   description:
-    "Comprehensive answers to all your Indian stock market IPO questions: Grey Market Premium (GMP) legality, retail lottery allotment system, UPI mandate refunds, and SEBI regulations.",
+    "Answers to essential IPO questions: how GMP is calculated, lottery allotment mechanics, UPI mandate release, and SEBI application rules.",
   alternates: {
     canonical: `${SITE_URL}/faq`,
   },
@@ -21,14 +21,13 @@ export const metadata: Metadata = {
     "How IPO Allotment Works",
     "What is IPO GMP",
     "IPO UPI Mandate Refund",
-    "SEBI IPO Rules 2025",
     "Retail vs HNI Quota",
     "IPO Listing Gain Tax",
   ],
   openGraph: {
-    title: "IPO FAQs – Complete Investor Guide on GMP, Allotment & Bidding",
+    title: "IPO FAQs – Allotment, GMP & Bidding Guide",
     description:
-      "Expert answers to Indian IPO questions: live GMP accuracy, allotment lottery process, ASBA bidding, and tax rules.",
+      "Answers to essential IPO questions: how GMP is calculated, lottery allotment mechanics, UPI mandate release, and SEBI application rules.",
     url: `${SITE_URL}/faq`,
     type: "website",
     locale: "en_IN",

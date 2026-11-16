@@ -13,7 +13,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 
-export const revalidate = 3600; // ISR 1 hour
+export const revalidate = 10; // ISR 1 hour
 
 interface NewsPageProps {
   searchParams: Promise<{
@@ -28,25 +28,25 @@ export async function generateMetadata({ searchParams }: NewsPageProps): Promise
     currentPage > 1 ? `${SITE_URL}/news?page=${currentPage}` : `${SITE_URL}/news`;
 
   return {
-    title: `Latest IPO News & Market Trends (Page ${currentPage}) | ipo-premium`,
+    title: currentPage > 1 ? `Latest IPO News – Page ${currentPage}` : "Latest IPO News & Market Trends",
     description:
-      "Stay informed with real-time Indian stock market IPO news: upcoming public issues, Grey Market Premium (GMP) alerts, SEBI DRHP approvals, and expert listing analyses.",
+      "Breaking Indian primary market news, SEBI DRHP approvals, IPO filing updates, anchor investor allocations, and market commentary.",
     keywords: [
       "Latest IPO News",
       "IPO Market Trends",
       "Upcoming IPO News India",
-      "Grey Market Premium News",
       "SEBI IPO Approvals",
+      "DRHP Filing News",
       "Mainboard IPO News",
-      "SME IPO News 2025",
+      "SME IPO News",
     ],
     alternates: {
       canonical: canonicalUrl,
     },
     openGraph: {
-      title: "Latest IPO News & Market Trends | ipo-premium",
+      title: "Latest IPO News & Market Trends",
       description:
-        "Breaking news and verified analyses on Indian IPOs, GMP trends, and primary market updates.",
+        "Breaking Indian primary market news, SEBI DRHP approvals, IPO filing updates, anchor investor allocations, and market commentary.",
       url: canonicalUrl,
       type: "website",
       siteName: "ipo-premium",

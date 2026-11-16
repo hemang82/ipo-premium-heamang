@@ -77,6 +77,18 @@ const moreSubLinks = [
     icon: HelpCircle,
     desc: "Complete Q&A on GMP, Allotment & SEBI rules",
   },
+  {
+    label: "About Us",
+    href: "/about",
+    icon: ShieldCheck,
+    desc: "Our tracking standards, data sources & mission",
+  },
+  {
+    label: "Contact Us",
+    href: "/contact",
+    icon: Layers,
+    desc: "Editorial desk, queries & support inquiries",
+  },
 ];
 
 export function Header() {

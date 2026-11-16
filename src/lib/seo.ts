@@ -10,11 +10,11 @@ export function getBaseMetadata(): Metadata {
   return {
     metadataBase: new URL(SITE_URL),
     title: {
-      default: `${SITE_NAME} | Live IPO GMP, Subscription & Allotment Tracker`,
+      default: `IPO GMP Today, Subscription & Allotment | ${SITE_NAME}`,
       template: `%s | ${SITE_NAME}`,
     },
     description:
-      "Track live Grey Market Premium (GMP) for Indian IPOs today, subscription figures (QIB, NII, Retail), issue price band, listing dates and allotment status.",
+      "Track live IPO GMP today, real-time BSE & NSE subscription status, allotment dates, and expected listing gains for all Mainboard and SME IPOs in India.",
     keywords: [
       "IPO GMP Today",
       "Grey Market Premium",
@@ -29,6 +29,9 @@ export function getBaseMetadata(): Metadata {
     authors: [{ name: "ipo-premium Team" }],
     creator: "ipo-premium.com",
     publisher: "ipo-premium.com",
+    alternates: {
+      canonical: `${SITE_URL}/`,
+    },
     robots: {
       index: true,
       follow: true,
@@ -54,6 +57,16 @@ export function getBaseMetadata(): Metadata {
       title: `${SITE_NAME} | Live IPO GMP Tracker`,
       description:
         "Check today's live IPO GMP, subscription status and listing gain estimates for all Indian IPOs.",
+    },
+    icons: {
+      icon: [
+        { url: "/favicon.ico", sizes: "32x32" },
+        { url: "/icon.svg", type: "image/svg+xml" },
+      ],
+      shortcut: "/favicon.ico",
+      apple: [
+        { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+      ],
     },
   };
 }

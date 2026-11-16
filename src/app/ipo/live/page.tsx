@@ -4,28 +4,24 @@ import { IpoListClient } from "@/components/ipo/IpoListClient";
 import { SITE_URL } from "@/lib/seo";
 import { getBreadcrumbSchema } from "@/lib/seo";
 
-export const revalidate = 120;
+export const revalidate = 10;
 
 export const metadata: Metadata = {
-  title: "Live IPO 2024–25 – Open IPOs with GMP, Subscription & Allotment",
+  title: "Live IPO Today – Open for Bidding",
   description:
-    "Track all currently open (live) IPOs in India with live GMP, subscription status (QIB, NII, Retail), price band, lot size, allotment date, and expected listing gain on BSE and NSE.",
+    "View all currently open IPOs available for bidding on BSE and NSE. Check live subscription status, price bands, lot sizes, and closing dates.",
   alternates: { canonical: `${SITE_URL}/ipo/live` },
   keywords: [
-    "Live IPO",
-    "Open IPO Today",
-    "Current IPO GMP",
-    "Live IPO Subscription",
-    "IPO Open Today India",
-    "Mainboard IPO 2025",
-    "SME IPO Open Today",
-    "BSE NSE Live IPO",
-    "IPO Allotment Date",
+    "Live IPO Today",
+    "Open IPO for Bidding",
+    "Current IPO Bidding Status",
+    "Mainboard Live IPO",
+    "SME IPO Open Now",
   ],
   openGraph: {
-    title: "Live IPO 2024–25 – Open IPOs with GMP & Subscription Status",
+    title: "Live IPO Today – Open Public Issues for Bidding",
     description:
-      "Check all live & open IPOs today on BSE and NSE with real-time GMP, subscription figures, price band, lot size and allotment dates.",
+      "View all currently open IPOs available for bidding on BSE and NSE. Check live subscription status, price bands, lot sizes, and closing dates.",
     url: `${SITE_URL}/ipo/live`,
     type: "website",
     locale: "en_IN",

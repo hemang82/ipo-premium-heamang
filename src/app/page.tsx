@@ -6,7 +6,7 @@ import { SeoContentSection } from "@/components/home/SeoContentSection";
 import { Faq } from "@/components/ui/Faq";
 import { getFaqSchema } from "@/lib/seo";
 
-export const revalidate = 300; // ISR 5 minutes
+export const revalidate = 10; // ISR 5 minutes
 
 interface HomePageProps {
   searchParams: Promise<{

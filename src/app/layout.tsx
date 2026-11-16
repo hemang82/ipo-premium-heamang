@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 import { getBaseMetadata, getOrganizationSchema } from "@/lib/seo";
 
 export const metadata: Metadata = getBaseMetadata();
+export const revalidate = 10;
 
 export const viewport: Viewport = {
   themeColor: "#F8F9FA",

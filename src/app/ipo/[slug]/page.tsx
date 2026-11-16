@@ -1,6 +1,8 @@
 import { notFound, redirect } from "next/navigation";
 import { getIpoBySlug } from "@/lib/ipo-service";
 
+export const revalidate = 10;
+
 interface PageProps {
   params: Promise<{
     slug: string;

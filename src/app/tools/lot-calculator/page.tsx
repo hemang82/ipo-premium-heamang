@@ -18,12 +18,12 @@ import {
   Percent,
 } from "lucide-react";
 
-export const revalidate = 180; // ISR 3 minutes
+export const revalidate = 10; // ISR 3 minutes
 
 export const metadata: Metadata = {
-  title: "IPO Lot Size & Profit Calculator – Retail, sHNI & bHNI Returns",
+  title: "IPO Lot Size & Profit Calculator",
   description:
-    "Free IPO Lot Size & Profit Calculator for Indian stock market IPOs. Calculate required application capital, share quantities, retail cutoff, and estimated listing profits based on live GMP.",
+    "Free online IPO lot calculator. Calculate required application capital, retail lot limits, sHNI/bHNI categories, and expected listing profits.",
   alternates: {
     canonical: `${SITE_URL}/tools/lot-calculator`,
   },
@@ -34,12 +34,11 @@ export const metadata: Metadata = {
     "Retail vs HNI Lot Calculator",
     "sHNI bHNI IPO Lots",
     "IPO Application Capital",
-    "GMP Gain Calculator 2025",
   ],
   openGraph: {
-    title: "IPO Lot Size & Profit Calculator – Retail, sHNI & bHNI Returns",
+    title: "IPO Lot Size & Profit Calculator",
     description:
-      "Calculate required capital, maximum retail lots, and expected listing returns based on current live Grey Market Premium (GMP).",
+      "Free online IPO lot calculator. Calculate required application capital, retail lot limits, sHNI/bHNI categories, and expected listing profits.",
     url: `${SITE_URL}/tools/lot-calculator`,
     type: "website",
     locale: "en_IN",

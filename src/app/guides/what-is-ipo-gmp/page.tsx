@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import { Card } from "@/components/ui/Card";
 import { SITE_URL } from "@/lib/seo";
 
+export const revalidate = 10;
+
 export const metadata: Metadata = {
   title: "What is IPO Grey Market Premium (GMP)? Complete Guide",
   description:

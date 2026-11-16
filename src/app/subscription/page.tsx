@@ -4,28 +4,30 @@ import { SubscriptionClient } from "@/components/subscription/SubscriptionClient
 import { subscriptionFaqs } from "@/lib/subscription-faqs";
 import { SITE_URL } from "@/lib/seo";
 
-export const revalidate = 30; // ISR revalidate every 30 seconds for live subscription tracking
+export const revalidate = 10; // ISR revalidate every 30 seconds for live subscription tracking
 
 export const metadata: Metadata = {
-  title: "IPO Subscription Status Live 2026 | QIB, NII & Retail (BSE & NSE)",
+  title: "Live IPO Subscription Status – BSE & NSE",
   description:
-    "Track Live IPO Subscription Status for 2026 in real-time across QIB, NII (HNI), and Retail categories. Updated BSE & NSE oversubscription rates for Mainboard & SME IPOs.",
+    "Track real-time IPO subscription numbers on BSE and NSE across QIB, NII, and Retail quotas with updated oversubscription multiples.",
   alternates: {
     canonical: `${SITE_URL}/subscription`,
   },
   keywords: [
-    "live ipo subscription status",
-    "ipo subscription status today",
-    "qib nii retail subscription",
-    "bse nse ipo bidding",
-    "ipo oversubscription rates",
-    "sme ipo subscription",
-    "live bidding demand 2026",
+    "Live IPO Subscription Status",
+    "BSE NSE IPO Bidding Live",
+    "QIB NII Retail Subscription",
+    "IPO Oversubscription Rates",
+    "sHNI bHNI Subscription Status",
+    "IPO Subscription Day 2",
+    "IPO Subscription Day 3",
+    "Mainboard IPO Subscription",
+    "SME IPO Bidding Status",
   ],
   openGraph: {
-    title: "IPO Subscription Status Live 2026 | QIB, NII & Retail (BSE & NSE)",
+    title: "Live IPO Subscription Status – BSE & NSE Bidding",
     description:
-      "Track Live IPO Subscription Status for 2026 in real-time across QIB, NII (HNI), and Retail categories. Updated BSE & NSE oversubscription rates for Mainboard & SME IPOs.",
+      "Track real-time IPO subscription numbers on BSE and NSE across QIB, NII, and Retail quotas with updated oversubscription multiples.",
     url: `${SITE_URL}/subscription`,
     type: "website",
     locale: "en_IN",

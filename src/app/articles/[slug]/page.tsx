@@ -6,6 +6,8 @@ import { Card } from "@/components/ui/Card";
 import { SITE_URL, getBreadcrumbSchema } from "@/lib/seo";
 import { ArrowLeft, Clock, BookOpen, Share2, Sparkles, AlertCircle } from "lucide-react";
 
+export const revalidate = 10;
+
 interface ArticleDetailPageProps {
   params: Promise<{
     slug: string;

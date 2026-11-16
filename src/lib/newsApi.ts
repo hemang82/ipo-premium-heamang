@@ -84,7 +84,7 @@ export async function getNewsList(page = 1, limit = 9): Promise<NewsResponse> {
         limit: limitNum,
         web: DEFAULT_DOMAIN,
       }),
-      next: { revalidate: 3600 },
+      next: { revalidate: 10 },
     });
 
     let json = await res.json().catch(() => null);
@@ -106,7 +106,7 @@ export async function getNewsList(page = 1, limit = 9): Promise<NewsResponse> {
           limit: limitNum,
           web: FALLBACK_DOMAIN,
         }),
-        next: { revalidate: 3600 },
+        next: { revalidate: 10 },
       });
       const fallbackJson = await fallbackRes.json().catch(() => null);
       if (fallbackJson?.data?.data && fallbackJson.data.data.length > 0) {
@@ -180,7 +180,7 @@ export async function getNewsDetail(id: string | number): Promise<NewsItem | nul
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ page: 1, limit: 100, web: "" }),
-      next: { revalidate: 3600 },
+      next: { revalidate: 10 },
     });
     const poolJson = await poolRes.json().catch(() => null);
     const poolItems = poolJson?.data?.data || [];

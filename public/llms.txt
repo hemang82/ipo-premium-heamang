@@ -1,0 +1,31 @@
+# ipo-premium
+
+> Live Indian IPO Grey Market Premium (GMP), real-time BSE & NSE subscription tracking, allotment status verification, and primary market analytics.
+
+ipo-premium.com provides real-time, verified data on Indian Mainboard and SME Initial Public Offerings (IPOs) listed on the Bombay Stock Exchange (BSE) and National Stock Exchange (NSE).
+
+## Core Market Trackers
+
+- [IPO GMP Today](https://ipo-premium.com/ipo-gmp): Live Grey Market Premium (GMP), estimated listing price, and expected listing gain percentages for active Mainboard and SME IPOs.
+- [Live IPO Subscription Status](https://ipo-premium.com/subscription): Real-time subscription tracking across QIB, NII (HNI), and Retail investor quotas with cumulative BSE/NSE bidding metrics.
+- [IPO Allotment Status](https://ipo-premium.com/allotment): Direct registrar lookup links (Link Intime, KFintech, Bigshare, Skyline) and allotment calendar schedules.
+- [Live Ongoing IPOs](https://ipo-premium.com/ipo/live): List of all currently open public issues accepting bids.
+- [Upcoming IPOs 2026](https://ipo-premium.com/ipo/upcoming): Comprehensive tracker for upcoming IPOs, tentative issue dates, price bands, issue sizes, and SEBI DRHP approvals.
+- [Listed IPO Performance](https://ipo-premium.com/ipo/listed): Historical listing day gains, current trading prices, and post-listing performance.
+
+## Investment Tools & Educational Resources
+
+- [IPO Lot Size & Investment Calculator](https://ipo-premium.com/tools/lot-calculator): Interactive calculator for lot sizes, cutoff prices, retail quotas (up to ₹2 Lakh), and HNI tiers (sHNI and bHNI).
+- [IPO Educational Articles](https://ipo-premium.com/articles): In-depth research articles on Grey Market mechanics, Kostak rates, Subject to Sauda agreements, and allotment probability.
+- [What is IPO GMP Guide](https://ipo-premium.com/guides/what-is-ipo-gmp): Foundational primer on how Grey Market Premiums are derived, dealer networks, and volatility considerations.
+- [IPO Market News](https://ipo-premium.com/news): Latest primary market reporting, anchor book allocations, SEBI regulatory updates, and filing news.
+- [Frequently Asked Questions](https://ipo-premium.com/faq): Detailed answers to common questions about UPI mandate approval, ASBA applications, and listing mechanics.
+
+## Trust, Governance & Editorial Standards
+
+- [About Us & Methodology](https://ipo-premium.com/about): Explanation of multi-dealer OTC triangulation methodology, factual data gathering, and platform mission.
+- [Editorial Policy](https://ipo-premium.com/editorial-policy): Editorial standards, fact-checking workflows, correction protocols, and commercial independence disclosures.
+- [Investment Risk Disclaimer](https://ipo-premium.com/disclaimer): Statutory disclaimer: ipo-premium.com is an educational platform and is not a SEBI-registered investment advisor.
+- [Contact Desk](https://ipo-premium.com/contact): Data corrections and investor support desk (support@ipo-premium.com).
+- [Privacy Policy](https://ipo-premium.com/privacy-policy): DPDP Act 2023 compliance and cookie policy.
+- [Terms of Service](https://ipo-premium.com/terms): Platform terms and conditions.

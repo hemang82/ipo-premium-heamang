@@ -3,15 +3,24 @@ import Link from "next/link";
 import { staticArticles } from "@/lib/articles-data";
 import { Card } from "@/components/ui/Card";
 import { SITE_URL } from "@/lib/seo";
-import { BookOpen, Clock, ArrowRight, Sparkles, TrendingUp } from "lucide-react";
+import { BookOpen, Clock, ArrowRight } from "lucide-react";
+
+export const revalidate = 10;
 
 export const metadata: Metadata = {
-  title: "IPO Guides & Research Articles | ipo-premium",
+  title: "IPO Guides & Research Articles",
   description:
-    "Explore 8 in-depth educational articles and guides on IPO Grey Market Premium (GMP), Kostak rates, Subject to Sauda, allotment checking, and primary market investment strategies.",
+    "Comprehensive educational guides on IPO Grey Market Premiums, Kostak rates, Subject to Sauda agreements, and allotment allocation strategies.",
   alternates: {
-    canonical: `${SITE_URL}/articles/`,
+    canonical: `${SITE_URL}/articles`,
   },
+  keywords: [
+    "IPO Educational Guides",
+    "What is IPO GMP",
+    "Kostak Rate vs Subject to Sauda",
+    "How to Increase Allotment Chances",
+    "Mainboard vs SME Comparison",
+  ],
 };
 
 export default function ArticlesIndexPage() {
@@ -31,22 +40,14 @@ export default function ArticlesIndexPage() {
         </p>
       </div>
 
-
-
-
-
-      
-
-      {/* Grid of 8 Articles */}
+      {/* Grid of Articles */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {staticArticles.map((article, idx) => (
+        {staticArticles.map((article) => (
           <Card
             key={article.slug}
             variant="default"
             className="flex flex-col justify-between p-6 border-line hover:border-accent/50 group transition-all"
           >
-
-            
             <div>
               {/* Category & Read Time */}
               <div className="flex items-center justify-between gap-2 mb-3">

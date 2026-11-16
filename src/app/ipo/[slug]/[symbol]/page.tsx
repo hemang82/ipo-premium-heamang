@@ -12,7 +12,7 @@ import { formatINR, formatPercent, gmpPercent, estimatedListingPrice, formatSubs
 import { IpoDetailsClientLayout } from "@/components/ipo/IpoDetailsClientLayout";
 import { MobileStickyBar } from "@/components/layout/MobileStickyBar";
 
-export const revalidate = 300; // ISR 5 mins
+export const revalidate = 10; // ISR 5 mins
 
 interface PageProps {
   params: Promise<{

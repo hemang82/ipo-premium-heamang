@@ -4,30 +4,31 @@ import { GmpClient } from "@/components/gmp/GmpClient";
 import { gmpFaqs } from "@/lib/gmp-faqs";
 import { SITE_URL } from "@/lib/seo";
 
-export const revalidate = 60; // Revalidate every 60 seconds for live GMP freshness
+export const revalidate = 10; // Revalidate every 60 seconds for live GMP freshness
 
 export const metadata: Metadata = {
-  title: "IPO GMP Today – Live Grey Market Premium (BSE & NSE)",
+  title: "IPO GMP Today – Live Grey Market Premium",
   description:
-    "Check IPO GMP today for all Mainboard & SME IPOs on BSE and NSE. View live Grey Market Premium, estimated listing price, expected gain %, and current IPO GMP trends on one page.",
+    "Check today's live Grey Market Premium (GMP) for all ongoing Mainboard and SME IPOs with expected listing price and estimated listing gain percentage.",
   alternates: {
     canonical: `${SITE_URL}/ipo-gmp`,
   },
   keywords: [
-    "IPO GMP",
     "IPO GMP Today",
     "Live Grey Market Premium",
-    "Current IPO GMP",
+    "IPO GMP",
     "SME IPO GMP Today",
-    "BSE SME GMP",
-    "NSE IPO GMP Rates",
-    "Expected Listing Gain",
-    "IPO Grey Market Premium India",
+    "Mainboard IPO GMP",
+    "IPO Expected Listing Price",
+    "Kostak Rate Today",
+    "Subject to Sauda Rate",
+    "IPO Listing Gain Estimates",
+    "Grey Market Premium BSE NSE",
   ],
   openGraph: {
-    title: "IPO GMP Today – Live Grey Market Premium (BSE & NSE)",
+    title: "IPO GMP Today – Live Grey Market Premium",
     description:
-      "Check IPO GMP today for all Mainboard & SME IPOs on BSE and NSE. View live Grey Market Premium, estimated listing price, and expected gain %.",
+      "Check today's live Grey Market Premium (GMP) for all ongoing Mainboard and SME IPOs with expected listing price and estimated listing gain percentage.",
     url: `${SITE_URL}/ipo-gmp`,
     type: "website",
     locale: "en_IN",

@@ -3,7 +3,7 @@ import { getHomePageIpoList, transformApiIpo } from "@/lib/ipo-service";
 import { IpoListClient } from "@/components/ipo/IpoListClient";
 import { SITE_URL, getBreadcrumbSchema } from "@/lib/seo";
 
-export const revalidate = 300;
+export const revalidate = 10;
 
 export const metadata: Metadata = {
   title: "Listed IPO 2024–25 – Recently Listed IPOs with Listing Day Gain & GMP",

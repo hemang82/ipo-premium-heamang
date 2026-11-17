@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: ArticleDetailPageProps): Prom
   const canonicalUrl = `${SITE_URL}/articles/${article.slug}/`;
 
   return {
-    title: `${article.title} | ipo-premium`,
+    title: article.title,
     description: article.excerpt,
     alternates: {
       canonical: canonicalUrl,

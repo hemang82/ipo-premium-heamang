@@ -5,12 +5,22 @@ import { SITE_URL } from "@/lib/seo";
 export const revalidate = 10;
 
 export const metadata: Metadata = {
-  title: "What is IPO Grey Market Premium (GMP)? Complete Guide",
+  title: "What is IPO Grey Market Premium (GMP)? Gray Market Guide",
   description:
-    "Learn what IPO GMP, Kostak Rate, and Subject to Sauda mean in Indian stock market trading. How GMP is determined and how to read it before applying for an IPO.",
+    "Complete guide to the IPO grey market (gray market) in India. Learn what IPO GMP means, how it is calculated, Kostak rates, Subject to Sauda, and key risks.",
   alternates: {
     canonical: `${SITE_URL}/guides/what-is-ipo-gmp/`,
   },
+  keywords: [
+    "grey market",
+    "gray market",
+    "ipo grey market",
+    "grey market ipo",
+    "grey market premium",
+    "what is ipo gmp",
+    "kostak rate",
+    "subject to sauda",
+  ],
 };
 
 export default function WhatIsGmpPage() {
@@ -18,14 +28,14 @@ export default function WhatIsGmpPage() {
     <div className="max-w-3xl mx-auto px-4 py-12">
       <article className="prose prose-invert max-w-none space-y-6">
         <h1 className="font-heading font-extrabold text-3xl sm:text-4xl text-tx tracking-tightest">
-          What is IPO Grey Market Premium (GMP)?
+          What is IPO Grey Market Premium (GMP)? Complete Gray Market Guide
         </h1>
         <p className="text-sm text-accent font-semibold">
           Last updated: Today • 5 min read • Educational Guide
         </p>
 
         <p className="text-sm text-tx/90 leading-relaxed">
-          The <strong>Grey Market Premium (GMP)</strong> is an unofficial, off-market price indicator that reflects how much buyers are willing to pay over and above the company&apos;s official IPO issue price before the shares are formally listed on stock exchanges (BSE or NSE).
+          The <strong>Grey Market Premium (GMP)</strong> (also widely searched as the <strong>gray market</strong> or <strong>IPO grey market</strong>) is an unofficial, off-market price indicator that reflects how much buyers are willing to pay over and above the company&apos;s official IPO issue price before the shares are formally listed on stock exchanges (BSE or NSE).
         </p>
 
         <Card variant="subtle" className="p-5 border-line text-xs space-y-2">

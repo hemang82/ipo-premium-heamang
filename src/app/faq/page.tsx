@@ -9,25 +9,30 @@ export const dynamic = "force-static";
 export const revalidate = 10;
 
 export const metadata: Metadata = {
-  title: "IPO FAQs – Allotment, GMP & Bidding Guide",
+  title: "IPO FAQs – Meaning, Allotment Process & GMP Guide",
   description:
-    "Answers to essential IPO questions: how GMP is calculated, lottery allotment mechanics, UPI mandate release, and SEBI application rules.",
+    "Answers to top IPO questions: what is IPO in share market, full form, meaning, allotment process by PAN, public issue of shares, and grey market premium.",
   alternates: {
     canonical: `${SITE_URL}/faq`,
   },
   keywords: [
-    "IPO FAQs",
-    "IPO Questions and Answers",
-    "How IPO Allotment Works",
-    "What is IPO GMP",
-    "IPO UPI Mandate Refund",
-    "Retail vs HNI Quota",
-    "IPO Listing Gain Tax",
+    "What is IPO in Share Market",
+    "IPO Full Form",
+    "IPO Meaning",
+    "IPO Definition",
+    "Public Issue of Shares",
+    "IPO Investment",
+    "IPO Allotment Process",
+    "Allotment Process Meaning",
+    "IPO Information",
+    "IPO Status Check",
+    "Current IPO GMP",
+    "Latest IPO GMP",
   ],
   openGraph: {
-    title: "IPO FAQs – Allotment, GMP & Bidding Guide",
+    title: "IPO FAQs – Meaning, Allotment Process & GMP Guide",
     description:
-      "Answers to essential IPO questions: how GMP is calculated, lottery allotment mechanics, UPI mandate release, and SEBI application rules.",
+      "Answers to top IPO questions: what is IPO in share market, full form, meaning, allotment process by PAN, public issue of shares, and grey market premium.",
     url: `${SITE_URL}/faq`,
     type: "website",
     locale: "en_IN",

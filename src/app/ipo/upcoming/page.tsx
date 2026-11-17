@@ -6,21 +6,24 @@ import { SITE_URL, getBreadcrumbSchema } from "@/lib/seo";
 export const revalidate = 10;
 
 export const metadata: Metadata = {
-  title: "Upcoming IPOs – Dates & Issue Details",
+  title: "Upcoming IPOs 2026 – Issue Dates, GMP & Price Bands",
   description:
-    "Complete list of upcoming IPOs in India. Check issue opening and closing dates, expected price bands, issue sizes, and DRHP filings on BSE and NSE.",
+    "Track forthcoming & upcoming IPOs 2026 in India. Check GMP of upcoming IPOs, issue open dates, price bands, issue sizes, and SEBI DRHP filings on BSE/NSE.",
   alternates: { canonical: `${SITE_URL}/ipo/upcoming` },
   keywords: [
-    "Upcoming IPO Calendar",
-    "New IPOs This Month",
+    "Upcoming IPOs 2026",
+    "GMP of Upcoming IPO",
+    "Forthcoming IPO GMP",
+    "Upcoming IPO GMP",
+    "New IPO Calendar",
     "Upcoming Mainboard IPOs",
     "Upcoming SME Issues",
-    "IPO Issue Open Dates",
+    "SEBI DRHP Approvals",
   ],
   openGraph: {
-    title: "Upcoming IPO Calendar – Dates & Issue Details",
+    title: "Upcoming IPOs 2026 – Issue Dates, GMP & Price Bands",
     description:
-      "Complete list of upcoming IPOs in India. Check issue opening and closing dates, expected price bands, issue sizes, and DRHP filings on BSE and NSE.",
+      "Track forthcoming & upcoming IPOs 2026 in India. Check GMP of upcoming IPOs, issue open dates, price bands, issue sizes, and SEBI DRHP filings on BSE/NSE.",
     url: `${SITE_URL}/ipo/upcoming`,
     type: "website",
     locale: "en_IN",
@@ -28,7 +31,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Upcoming IPO 2024–25 – Dates, GMP & Allotment",
+    title: "Upcoming IPOs 2026 – Dates, GMP & Allotment",
     description:
       "Track all upcoming IPOs in India with open/close dates, GMP forecast and allotment dates.",
   },

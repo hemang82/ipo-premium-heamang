@@ -138,7 +138,7 @@ export function GmpClient({ initialItems, updatedAt }: GmpClientProps) {
             </h1>
 
             <p className="text-sm sm:text-base text-mut leading-relaxed">
-              Track live Grey Market Premium (GMP) updates for all Mainboard &amp; SME IPOs on BSE and NSE. Monitor real-time estimated listing prices, expected listing gains, and bidding trends before applying.
+              Track live <strong>IPO GMP today</strong>, real-time <strong>grey market premium</strong> (gray market) rates, estimated listing prices, and expected listing gain percentages for all Mainboard &amp; SME IPOs on BSE and NSE.
             </p>
           </div>
 

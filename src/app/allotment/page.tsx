@@ -24,24 +24,31 @@ import {
 export const revalidate = 10; // Refresh data every 2 minutes
 
 export const metadata: Metadata = {
-  title: "Check IPO Allotment Status Online",
+  title: "IPO Allotment Status Check Online by PAN | BSE, NSE & SME",
   description:
-    "Check IPO allotment status online with direct links to Link Intime, KFintech, and Bigshare. Verify your application allotment by PAN or DP ID.",
+    "Check IPO allotment status online by PAN number for Mainboard & SME IPOs. Direct registrar links for Link Intime, KFintech, Bigshare & allotment dates.",
   alternates: {
     canonical: `${SITE_URL}/allotment`,
   },
   keywords: [
     "IPO Allotment Status",
-    "Check IPO Allotment Online",
+    "IPO Allotment Status Check Online by PAN Number",
+    "SME IPO Allotment Status",
+    "Check IPO Allotment",
+    "IPO Allotment Date",
+    "IPO Status Check",
+    "IPO Allocation",
+    "Allotment Process",
+    "Allotment Process Meaning",
+    "Next Allotment Date",
     "Link Intime Allotment Status",
     "KFintech Allotment Status",
     "Bigshare Allotment Check",
-    "IPO Registrar Allotment Link",
   ],
   openGraph: {
-    title: "Check IPO Allotment Status Online",
+    title: "IPO Allotment Status Check Online by PAN | BSE, NSE & SME",
     description:
-      "Check IPO allotment status online with direct links to Link Intime, KFintech, and Bigshare. Verify your application allotment by PAN or DP ID.",
+      "Check IPO allotment status online by PAN number for Mainboard & SME IPOs. Direct registrar links for Link Intime, KFintech, Bigshare & allotment dates.",
     url: `${SITE_URL}/allotment`,
     type: "website",
     locale: "en_IN",
@@ -49,7 +56,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Check IPO Allotment Status Online – Live & Upcoming IPOs",
+    title: "IPO Allotment Status Check Online by PAN | BSE, NSE & SME",
     description:
       "Track live & upcoming IPO allotment dates and verify your share allocation online with direct registrar links.",
   },
@@ -211,6 +218,16 @@ const TIMELINE_STEPS = [
 ];
 
 const ALLOTMENT_FAQS = [
+  {
+    question: "How to check IPO allotment status online by PAN number?",
+    answer:
+      "To check your IPO allotment status online by PAN number: 1) Open the official registrar website (Link Intime, KFintech, or Bigshare) or BSE India IPO allocation portal. 2) Select the IPO company from the issue dropdown. 3) Choose 'PAN' as your identification mode. 4) Enter your 10-digit PAN number and submit. You will immediately see your applied lots, allotted share quantity, and refund status.",
+  },
+  {
+    question: "What is the IPO allotment process and what does allotment meaning refer to?",
+    answer:
+      "The IPO allotment process (or allotment meaning) refers to the official method of distributing shares to investors who bid during the public issue. Under SEBI rules, when an IPO or SME IPO is oversubscribed, retail applicants receive shares via a computerized random lottery algorithm, ensuring fair and equal treatment.",
+  },
   {
     question: "When is IPO allotment usually finalized and made public online?",
     answer:

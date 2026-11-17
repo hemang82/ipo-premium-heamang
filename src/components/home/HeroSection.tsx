@@ -87,17 +87,17 @@ export function HeroSection() {
   return (
     <section className="relative pt-7 pb-4 text-center max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto flex flex-col items-center">
-        {/* Subtle Badge */}
-        {/* <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card2 border border-line text-xs font-semibold text-mut mb-3 shadow-xs">
-          <Sparkles className="w-3.5 h-3.5 text-accent" />
-          <span>India Live Grey Market Premium (GMP) & Allotment Engine</span>
-        </div> */}
+        {/* Visually hidden for clean UI, fully present in HTML for Google & SEO */}
+        <span className="sr-only">ipo-premium.com | Live IPO Tracker</span>
 
         {/* Main H1 Headline - perfectly centered */}
-        <h1 className="font-heading font-extrabold text-3xl sm:text-4xl md:text-5xl text-tx tracking-tight leading-[1.15] mb-2.5">
-          Know the premium{" "}
+        <h1 className="font-heading font-extrabold text-3xl sm:text-4xl md:text-5xl text-tx tracking-tight leading-[1.18] mb-2.5">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent via-[#FF7A45] to-[#D95A2B]">
+            IPO Premium
+          </span>{" "}
+          – Know the Premium{" "}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent via-[#F3C5B5] to-accent">
-            before you apply
+            Before You Apply
           </span>
         </h1>
 

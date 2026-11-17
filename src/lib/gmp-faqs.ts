@@ -45,8 +45,18 @@ export const gmpFaqs = [
       "The Floor Price is the lowest limit of the price band, while the Cutoff Price is the highest limit (Cap Price). Retail investors almost always bid at the Cutoff Price to maximize their allotment probability.",
   },
   {
+    question: "Is it spelled Grey Market or Gray Market in India?",
+    answer:
+      "Both 'Grey Market' and 'Gray Market' refer to the exact same unofficial, OTC share trading market in India. 'Grey' is the traditional British and Indian English spelling, whereas 'Gray' is the American English spelling. In financial terminology, IPO grey market, gray market premium, and IPO GMP all describe the same off-market price discovery process.",
+  },
+  {
     question: "Where can I check the official IPO allotment status?",
     answer:
       "You can verify your allocation on official registrar portals (such as Link Intime, KFin Technologies, Bigshare Services, Skyline) or through the BSE and NSE allotment verification portals using your PAN or Application Number.",
+  },
+  {
+    question: "How to check the live GMP of an IPO? (IPO GMP Status)",
+    answer:
+      "To check the live IPO GMP status today: 1) Open ipo-premium.com/ipo-gmp to view the live GMP table. 2) Filter by Mainboard or SME issues or search by company name. 3) Track the live grey market price, cutoff rate, estimated listing price, and listing gain percentage updated throughout market hours.",
   },
 ];

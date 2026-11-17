@@ -7,28 +7,41 @@ import { SITE_URL } from "@/lib/seo";
 export const revalidate = 10; // Revalidate every 60 seconds for live GMP freshness
 
 export const metadata: Metadata = {
-  title: "IPO GMP Today – Live Grey Market Premium",
+  title: "IPO GMP Today – Live Grey Market Premium (BSE & NSE)",
   description:
-    "Check today's live Grey Market Premium (GMP) for all ongoing Mainboard and SME IPOs with expected listing price and estimated listing gain percentage.",
+    "Check live IPO GMP today, grey market premium rates, and estimated listing prices for all Mainboard & SME IPOs on BSE and NSE with expected listing gains.",
   alternates: {
     canonical: `${SITE_URL}/ipo-gmp`,
   },
   keywords: [
-    "IPO GMP Today",
-    "Live Grey Market Premium",
     "IPO GMP",
+    "IPO GMP Today",
+    "grey market",
+    "gray market",
+    "ipo grey market",
+    "grey market ipo",
+    "grey market premium",
+    "ipo grey market premium today",
+    "gmp today",
+    "live grey market premium",
+    "ipo grey market premium",
+    "current ipo gmp",
+    "latest ipo gmp",
+    "recent ipo gmp",
+    "ipo gmp status",
+    "gmp today live",
+    "ipo gmp rate today",
+    "ipo grey market price",
+    "ipo gmp table",
+    "nse grey market premium",
     "SME IPO GMP Today",
-    "Mainboard IPO GMP",
-    "IPO Expected Listing Price",
     "Kostak Rate Today",
     "Subject to Sauda Rate",
-    "IPO Listing Gain Estimates",
-    "Grey Market Premium BSE NSE",
   ],
   openGraph: {
-    title: "IPO GMP Today – Live Grey Market Premium",
+    title: "IPO GMP Today – Live Grey Market Premium (BSE & NSE)",
     description:
-      "Check today's live Grey Market Premium (GMP) for all ongoing Mainboard and SME IPOs with expected listing price and estimated listing gain percentage.",
+      "Check live IPO GMP today, grey market premium rates, and estimated listing prices for all Mainboard & SME IPOs on BSE and NSE with expected listing gains.",
     url: `${SITE_URL}/ipo-gmp`,
     type: "website",
     locale: "en_IN",
@@ -38,7 +51,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "IPO GMP Today – Live Grey Market Premium (BSE & NSE)",
     description:
-      "Check live IPO GMP today, estimated listing price, and expected gain % for all Mainboard & SME IPOs.",
+      "Check live IPO GMP today, grey market premium rates, and estimated listing prices for all Mainboard & SME IPOs on BSE and NSE.",
   },
 };
 

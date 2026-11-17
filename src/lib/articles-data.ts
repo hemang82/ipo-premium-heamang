@@ -15,17 +15,17 @@ export interface Article {
 export const staticArticles: Article[] = [
   {
     slug: "what-is-ipo-gmp-grey-market-premium",
-    title: "What is IPO Grey Market Premium (GMP)? A Complete Beginner's Guide",
-    excerpt: "Understand how IPO Grey Market Premium works in India, how dealers quote unofficial premiums, and what it signals about listing day gains.",
+    title: "What is IPO Grey Market Premium (GMP)? Gray Market Guide",
+    excerpt: "Complete guide to the IPO grey market (gray market) in India. How dealers quote unofficial premiums, Kostak rates, Subject to Sauda, and listing day gains.",
     category: "GMP & Trading",
     readTime: "6 min read",
     date: "October 2026",
     content: [
       {
-        sectionTitle: "1. The Mechanics of Grey Market Trading",
+        sectionTitle: "1. The Mechanics of Grey Market (Gray Market) Trading",
         paragraphs: [
-          "Grey Market Premium (GMP) is an over-the-counter (OTC) financial premium at which shares of an upcoming IPO are privately traded before they formally ring the opening bell on BSE or NSE.",
-          "Unlike regulated exchanges, the grey market is an unofficial, trust-driven dealer network. It acts as an early barometer of supply and demand among retail participants, high-net-worth investors (HNIs), and institutional funds.",
+          "Grey Market Premium (GMP) — also commonly searched as gray market premium or IPO grey market — is an over-the-counter (OTC) financial premium at which unlisted shares of an upcoming IPO are privately traded before they formally list on BSE or NSE.",
+          "Unlike regulated exchanges, the IPO grey market is an unofficial, dealer-driven network. It acts as an early barometer of supply and demand for every grey market IPO among retail participants, high-net-worth investors (HNIs), and institutional funds.",
         ],
         keyTakeaway: "Estimated Listing Price = Issue Upper Price Band + Live GMP in Rupees.",
       },
@@ -77,19 +77,19 @@ export const staticArticles: Article[] = [
   },
   {
     slug: "how-to-check-ipo-allotment-status-fast",
-    title: "How to Check IPO Allotment Status Online: 4 Fastest Ways",
-    excerpt: "Step-by-step tutorial on checking your IPO allotment status via Link Intime, KFintech, Bigshare Services, BSE, and NSE portals using PAN card.",
+    title: "IPO Allotment Status Check Online by PAN Number: 4 Ways",
+    excerpt: "Step-by-step guide to IPO allotment status check online by PAN number for Mainboard and SME IPOs via Link Intime, KFintech, Bigshare, and BSE India.",
     category: "Allotment & Process",
     readTime: "4 min read",
     date: "November 2026",
     content: [
       {
-        sectionTitle: "1. Checking on Designated Registrar Websites (Fastest)",
+        sectionTitle: "1. Checking on Designated Registrar Websites (Fastest Online Method)",
         paragraphs: [
-          "Official registrars finalize and upload the basis of allotment database several hours before stock exchanges update their records.",
-          "The three primary registrars in India are Link Intime India, KFin Technologies (KFintech), and Bigshare Services. Select the company name, enter your 10-digit PAN or Application Number, and solve the captcha to view allotted share counts.",
+          "The fastest way to perform an IPO allotment status check online by PAN number is through the official registrar portal (such as Link Intime India, KFin Technologies, or Bigshare Services). Registrars finalize the basis of allotment database several hours before stock exchanges update their records.",
+          "Select the IPO company name from the dropdown list, choose 'PAN' as your identification mode, enter your 10-digit Permanent Account Number, and submit. This exact allotment process applies to both Mainboard and SME IPO allotment status checks.",
         ],
-        keyTakeaway: "Registrar portals update allotment results earliest, typically late evening of T+1 day.",
+        keyTakeaway: "Registrar portals update allotment results earliest, typically late evening of Day T+1.",
       },
       {
         sectionTitle: "2. Checking on BSE & NSE Official Status Portals",

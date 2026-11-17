@@ -16,8 +16,12 @@ export function getBaseMetadata(): Metadata {
     description:
       "Track live IPO GMP today, real-time BSE & NSE subscription status, allotment dates, and expected listing gains for all Mainboard and SME IPOs in India.",
     keywords: [
+      "IPO GMP",
       "IPO GMP Today",
       "Grey Market Premium",
+      "Gray Market",
+      "IPO Grey Market",
+      "Grey Market IPO",
       "Live IPO Subscription Status",
       "IPO Allotment Status",
       "Current IPO GMP",
@@ -126,8 +130,15 @@ export function getOrganizationSchema() {
     "@context": "https://schema.org",
     "@type": "FinancialService",
     name: SITE_NAME,
+    alternateName: [
+      "IPO Premium",
+      "ipopremium",
+      "ip premium",
+      "ipopremium.in",
+      "new ipo premium",
+    ],
     url: SITE_URL,
-    logo: `${SITE_URL}/logo.png`,
+    logo: `${SITE_URL}/icon.svg`,
     description: SITE_TAGLINE,
   };
 }

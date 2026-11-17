@@ -8,6 +8,35 @@ export interface FaqItem {
 }
 
 export const ALL_FAQS: FaqItem[] = [
+  // ── 0. Foundational IPO Basics (Share Market Meaning & Process) ──
+  {
+    id: "basic-1",
+    category: "bidding",
+    categoryLabel: "IPO Basics & Meaning",
+    question: "What is an IPO in the share market? (IPO Full Form, Meaning & Definition)",
+    answer:
+      "IPO stands for Initial Public Offering (full name: Initial Public Offering). In the Indian share market, an IPO is a public issue of shares where an unlisted company sells its shares to the public and institutional investors for the first time. This transforms a private enterprise into a publicly traded corporation listed on stock exchanges (BSE & NSE).",
+    tags: ["IPO Meaning", "IPO Full Form", "Share Market Definition"],
+  },
+  {
+    id: "basic-2",
+    category: "bidding",
+    categoryLabel: "IPO Basics & Meaning",
+    question: "How does IPO investment work and what is a public issue of shares?",
+    answer:
+      "A public issue of shares allows retail and HNI investors to invest in a company before it lists publicly on exchanges. Investors submit bids for share lots within a prescribed price band via ASBA (net banking) or UPI. After bidding concludes, shares are allotted based on subscription rates and credited to the investor's Demat account.",
+    tags: ["IPO Investment", "Public Issue", "ASBA"],
+  },
+  {
+    id: "basic-3",
+    category: "allotment",
+    categoryLabel: "Allotment & Process",
+    question: "What is the IPO allotment process and what does allotment meaning refer to?",
+    answer:
+      "The IPO allotment process (allotment process meaning) is the official reconciliation and share allocation procedure conducted by SEBI-registered registrars (e.g. Link Intime, KFintech). When an IPO or SME IPO is oversubscribed, retail applicants receive shares via a computerized random lottery algorithm, ensuring fair distribution across all bidders.",
+    tags: ["Allotment Process", "Allotment Meaning", "Allocation"],
+  },
+
   // ── 1. GMP FAQs ──
   {
     id: "gmp-1",

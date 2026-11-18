@@ -1,27 +1,10 @@
 import React from "react";
 import { IpoDate } from "@/lib/types";
-import { Calendar, LockOpen, Lock, CheckCircle2 } from "lucide-react";
+import { formatShortDate } from "@/lib/format";
+import { Calendar, Lock, ShieldCheck, CheckCircle2 } from "lucide-react";
 
 interface KeyDatesTimelineProps {
   dates: IpoDate[];
-}
-
-// Format date into short format like "29 OCT", "05 NOV"
-function formatShortDate(dateStr?: string): string {
-  if (!dateStr || dateStr === "-" || dateStr === "TBA") return "-";
-  try {
-    const d = new Date(dateStr);
-    if (isNaN(d.getTime())) {
-      const parts = dateStr.trim().split(" ");
-      if (parts.length >= 2) return `${parts[0]} ${parts[1].toUpperCase()}`;
-      return dateStr;
-    }
-    const day = String(d.getDate()).padStart(2, "0");
-    const month = d.toLocaleDateString("en-IN", { month: "short" }).toUpperCase();
-    return `${day} ${month}`;
-  } catch {
-    return dateStr;
-  }
 }
 
 export function KeyDatesTimeline({ dates }: KeyDatesTimelineProps) {
@@ -29,6 +12,7 @@ export function KeyDatesTimeline({ dates }: KeyDatesTimelineProps) {
 
   const openItem = dates.find((d) => d.label.toLowerCase().includes("open")) || dates[0];
   const closeItem = dates.find((d) => d.label.toLowerCase().includes("close")) || dates[1];
+  const allotmentItem = dates.find((d) => d.label.toLowerCase().includes("allot")) || dates[2];
   const listingItem = dates.find((d) => d.label.toLowerCase().includes("list")) || dates[3] || dates[dates.length - 1];
 
   const now = new Date();
@@ -44,44 +28,49 @@ export function KeyDatesTimeline({ dates }: KeyDatesTimelineProps) {
 
   const openTime = parseItemDate(openItem?.date);
   const closeTime = parseItemDate(closeItem?.date);
+  const allotTime = parseItemDate(allotmentItem?.date);
   const listingTime = parseItemDate(listingItem?.date);
 
-  // Determine stage status: 'completed' | 'current' | 'upcoming'
-  let currentStageIndex = 0; // 0: UPCOMING, 1: OPEN, 2: CLOSE, 3: LISTED
+  // Chronologically Strict Stage Index
+  let currentStageIndex = 0;
+  let isUpcoming = false;
 
-  if (listingTime && today >= listingTime) {
+  if (openTime && today < openTime) {
+    isUpcoming = true;
+    currentStageIndex = 0; // Upcoming: Next milestone is OPEN
+  } else if (listingTime && today >= listingTime) {
     currentStageIndex = 3; // LISTED is active
+  } else if (allotTime && today >= allotTime) {
+    currentStageIndex = 2; // ALLOTMENT is active
   } else if (closeTime && today > closeTime) {
-    currentStageIndex = 2; // CLOSE is active (Bidding closed, pending allotment/listing)
-  } else if (openTime && today >= openTime) {
-    currentStageIndex = 1; // OPEN is active (Bidding live)
+    currentStageIndex = 1; // CLOSE is active (Bidding closed, pending allotment)
   } else {
-    currentStageIndex = 0; // UPCOMING
+    currentStageIndex = 0; // OPEN is active (Bidding live)
   }
 
-  // Map 4 specific milestones: UPCOMING, OPEN, CLOSE, LISTED
+  // Map 4 true milestones: Open, Close, Allot, Listed
   const stages = [
     {
-      key: "UPCOMING",
-      label: "UPCOMING",
+      key: "OPEN",
+      label: "Open",
       date: formatShortDate(openItem?.date),
       icon: Calendar,
     },
     {
-      key: "OPEN",
-      label: "OPEN",
-      date: formatShortDate(openItem?.date),
-      icon: LockOpen,
-    },
-    {
       key: "CLOSE",
-      label: "CLOSE",
+      label: "Close",
       date: formatShortDate(closeItem?.date),
       icon: Lock,
     },
     {
+      key: "ALLOT",
+      label: "Allot",
+      date: formatShortDate(allotmentItem?.date),
+      icon: ShieldCheck,
+    },
+    {
       key: "LISTED",
-      label: "LISTED",
+      label: "Listed",
       date: formatShortDate(listingItem?.date),
       icon: CheckCircle2,
     },
@@ -93,7 +82,7 @@ export function KeyDatesTimeline({ dates }: KeyDatesTimelineProps) {
         {stages.map((stage, idx) => {
           const Icon = stage.icon;
           const isCurrent = idx === currentStageIndex;
-          const isPassed = idx < currentStageIndex;
+          const isPassed = !isUpcoming && idx < currentStageIndex;
 
           return (
             <div
@@ -111,9 +100,7 @@ export function KeyDatesTimeline({ dates }: KeyDatesTimelineProps) {
                 className={`w-7 h-7 rounded-lg flex items-center justify-center mb-1.5 shrink-0 transition-all ${
                   isCurrent
                     ? "bg-accent text-accent-foreground shadow-xs"
-                    : isPassed
-                    ? "bg-accent/15 text-accent"
-                    : "bg-card border border-line/60 text-mut/80"
+                    : "bg-card border border-line/60 text-mut/70"
                 }`}
               >
                 <Icon className="w-3.5 h-3.5" />
@@ -121,12 +108,8 @@ export function KeyDatesTimeline({ dates }: KeyDatesTimelineProps) {
 
               {/* Label */}
               <span
-                className={`text-[11px] tracking-wider uppercase leading-none font-bold ${
-                  isCurrent
-                    ? "text-accent font-extrabold"
-                    : isPassed
-                    ? "text-accent/90 font-semibold"
-                    : "text-mut"
+                className={`text-[11px] tracking-wide capitalize leading-none font-semibold ${
+                  isCurrent ? "text-accent" : "text-mut"
                 }`}
               >
                 {stage.label}
@@ -134,12 +117,8 @@ export function KeyDatesTimeline({ dates }: KeyDatesTimelineProps) {
 
               {/* Date */}
               <span
-                className={`text-[12px] font-bold font-mono mt-1 tabular-nums ${
-                  isCurrent
-                    ? "text-tx font-extrabold"
-                    : isPassed
-                    ? "text-tx/90 font-medium"
-                    : "text-mut"
+                className={`text-xs font-heading font-semibold mt-1 tabular-nums whitespace-nowrap ${
+                  isCurrent ? "text-accent" : "text-tx"
                 }`}
               >
                 {stage.date}

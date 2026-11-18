@@ -85,7 +85,7 @@ export default async function UpcomingIpoPage() {
                   </span>
                 </div>
                 <h1 className="font-heading font-black text-2xl sm:text-3xl lg:text-4xl text-tx tracking-tight">
-                  Upcoming IPO 2024–25 – All IPOs with Dates & GMP
+                  Upcoming IPOs 2026 – All Issues with Dates &amp; GMP
                 </h1>
                 <p className="text-sm sm:text-base text-mut leading-relaxed">
                   Complete upcoming IPO calendar for BSE and NSE. View open date, close date, price band,

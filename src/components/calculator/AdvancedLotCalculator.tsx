@@ -313,7 +313,7 @@ export function AdvancedLotCalculator({ ipos }: AdvancedLotCalculatorProps) {
             <span className="text-[11px] font-semibold text-mut uppercase tracking-wider block">
               Required Capital (Blocked in ASBA)
             </span>
-            <span className="text-2xl font-heading font-black text-tx font-mono tabular-nums block">
+            <span className="text-2xl font-heading font-black text-tx tabular-nums block">
               {formatINR(totalInvestment)}
             </span>
             <span className="text-[11px] text-mut">
@@ -352,7 +352,7 @@ export function AdvancedLotCalculator({ ipos }: AdvancedLotCalculatorProps) {
             <span className="text-[11px] font-bold text-accent uppercase tracking-wider block">
               Estimated Total Portfolio Value
             </span>
-            <span className="text-2xl font-heading font-black text-tx font-mono tabular-nums block">
+            <span className="text-2xl font-heading font-black text-tx tabular-nums block">
               {formatINR(totalReturn)}
             </span>
             <span className="text-[11px] text-mut">

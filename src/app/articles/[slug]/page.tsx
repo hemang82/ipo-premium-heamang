@@ -3,8 +3,21 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { staticArticles, Article } from "@/lib/articles-data";
 import { Card } from "@/components/ui/Card";
+import { renderLinkifiedParagraph } from "@/components/ui/LinkifiedText";
 import { SITE_URL, getBreadcrumbSchema } from "@/lib/seo";
-import { ArrowLeft, Clock, BookOpen, Share2, Sparkles, AlertCircle } from "lucide-react";
+import {
+  ArrowLeft,
+  Clock,
+  BookOpen,
+  Share2,
+  Sparkles,
+  AlertCircle,
+  TrendingUp,
+  Users,
+  CheckCircle2,
+  Calculator,
+  ArrowRight,
+} from "lucide-react";
 
 export const revalidate = 10;
 
@@ -136,7 +149,7 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
 
               {sec.paragraphs.map((p, pIdx) => (
                 <p key={pIdx} className="text-mut text-sm sm:text-base leading-relaxed">
-                  {p}
+                  {renderLinkifiedParagraph(p, article.slug)}
                 </p>
               ))}
 
@@ -162,6 +175,100 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
             <p>
               <strong>Disclaimer:</strong> This article is authored solely for educational and informational purposes. It does not constitute investment advice or a recommendation to buy or sell securities. Always review the Red Herring Prospectus (RHP) before applying for any IPO.
             </p>
+          </div>
+        </div>
+
+        {/* Keyword-Rich Internal Linking Grid */}
+        <div className="mt-12 p-6 rounded-2xl bg-card border border-line space-y-4">
+          <div>
+            <h3 className="font-heading font-bold text-base sm:text-lg text-tx">
+              Essential IPO Trackers &amp; Tools
+            </h3>
+            <p className="text-xs text-mut mt-0.5">
+              Live data tools and calculators to help you evaluate and track every public issue:
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+            <Link
+              href="/ipo-gmp"
+              className="p-3.5 rounded-xl bg-card2/50 border border-line hover:border-accent hover:bg-card transition-all group flex items-center justify-between"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center text-accent shrink-0">
+                  <TrendingUp className="w-4 h-4" />
+                </div>
+                <div>
+                  <span className="font-heading font-bold text-xs sm:text-sm text-tx group-hover:text-accent transition-colors block">
+                    IPO GMP Today
+                  </span>
+                  <span className="text-[11px] text-mut block">
+                    Live Grey Market Premium rates &amp; listing gains
+                  </span>
+                </div>
+              </div>
+              <ArrowRight className="w-3.5 h-3.5 text-mut group-hover:text-accent group-hover:translate-x-0.5 transition-all shrink-0 ml-2" />
+            </Link>
+
+            <Link
+              href="/subscription"
+              className="p-3.5 rounded-xl bg-card2/50 border border-line hover:border-accent hover:bg-card transition-all group flex items-center justify-between"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0">
+                  <Users className="w-4 h-4" />
+                </div>
+                <div>
+                  <span className="font-heading font-bold text-xs sm:text-sm text-tx group-hover:text-accent transition-colors block">
+                    Live IPO Subscription Status
+                  </span>
+                  <span className="text-[11px] text-mut block">
+                    Real-time QIB, NII &amp; Retail BSE/NSE bidding
+                  </span>
+                </div>
+              </div>
+              <ArrowRight className="w-3.5 h-3.5 text-mut group-hover:text-accent group-hover:translate-x-0.5 transition-all shrink-0 ml-2" />
+            </Link>
+
+            <Link
+              href="/allotment"
+              className="p-3.5 rounded-xl bg-card2/50 border border-line hover:border-accent hover:bg-card transition-all group flex items-center justify-between"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-500 shrink-0">
+                  <CheckCircle2 className="w-4 h-4" />
+                </div>
+                <div>
+                  <span className="font-heading font-bold text-xs sm:text-sm text-tx group-hover:text-accent transition-colors block">
+                    IPO Allotment Status Check
+                  </span>
+                  <span className="text-[11px] text-mut block">
+                    Verify share allocation online by PAN number
+                  </span>
+                </div>
+              </div>
+              <ArrowRight className="w-3.5 h-3.5 text-mut group-hover:text-accent group-hover:translate-x-0.5 transition-all shrink-0 ml-2" />
+            </Link>
+
+            <Link
+              href="/tools/lot-calculator"
+              className="p-3.5 rounded-xl bg-card2/50 border border-line hover:border-accent hover:bg-card transition-all group flex items-center justify-between"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 shrink-0">
+                  <Calculator className="w-4 h-4" />
+                </div>
+                <div>
+                  <span className="font-heading font-bold text-xs sm:text-sm text-tx group-hover:text-accent transition-colors block">
+                    IPO Lot Size Calculator
+                  </span>
+                  <span className="text-[11px] text-mut block">
+                    Calculate lot amounts, sHNI &amp; bHNI tiers
+                  </span>
+                </div>
+              </div>
+              <ArrowRight className="w-3.5 h-3.5 text-mut group-hover:text-accent group-hover:translate-x-0.5 transition-all shrink-0 ml-2" />
+            </Link>
           </div>
         </div>
 

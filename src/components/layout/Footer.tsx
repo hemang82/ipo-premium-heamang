@@ -48,6 +48,18 @@ export function Footer() {
             </ul>
           </div>
 
+          {/* Registrar Portals (Direct High-Ranking SEO Links) */}
+          <div className="space-y-2">
+            <h4 className="font-heading font-semibold text-sm text-tx">Registrar Status</h4>
+            <ul className="space-y-1.5 text-xs text-mut">
+              <li><Link href="/allotment/link-intime" className="hover:text-accent transition-colors">Link Intime Allotment</Link></li>
+              <li><Link href="/allotment/kfintech" className="hover:text-accent transition-colors">KFintech Allotment (S1-S5)</Link></li>
+              <li><Link href="/allotment/bigshare" className="hover:text-accent transition-colors">Bigshare SME Allotment</Link></li>
+              <li><Link href="/allotment/bse-india" className="hover:text-accent transition-colors">BSE India Allotment</Link></li>
+              <li><Link href="/allotment/skyline" className="hover:text-accent transition-colors">Skyline Allotment</Link></li>
+            </ul>
+          </div>
+
           {/* Legal / Trust & Transparency */}
           <div className="space-y-2">
             <h4 className="font-heading font-semibold text-sm text-tx">Trust & Policies</h4>

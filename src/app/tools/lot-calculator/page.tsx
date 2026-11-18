@@ -16,6 +16,8 @@ import {
   FileText,
   DollarSign,
   Percent,
+  BarChart3,
+  FileCheck2,
 } from "lucide-react";
 
 export const revalidate = 10; // ISR 3 minutes
@@ -263,30 +265,79 @@ export default async function LotCalculatorPage() {
             </div>
           </section>
 
-          {/* ── 6. Bottom Navigation CTA Banner ── */}
-          <div className="p-6 sm:p-8 rounded-3xl bg-accent/8 border border-accent/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+          {/* ── 6. Keyword-Rich Cross-Navigation Mesh ── */}
+          <div className="bg-card border border-line rounded-3xl p-6 sm:p-8 space-y-4 shadow-xs">
             <div>
-              <p className="font-heading font-bold text-base sm:text-lg text-tx">
-                Want to check your IPO share allotment?
-              </p>
-              <p className="text-xs text-mut mt-1">
-                Verify allotment status with direct links to Link Intime, KFintech, Bigshare, BSE &amp; NSE.
+              <h2 className="font-heading font-black text-xl sm:text-2xl text-tx">
+                Explore Related IPO Tools & Status Trackers
+              </h2>
+              <p className="text-sm text-mut mt-0.5">
+                Access live grey market premiums, day-wise bidding figures, and allotment verification portals.
               </p>
             </div>
-            <div className="flex items-center gap-3 shrink-0">
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+              <Link
+                href="/ipo-gmp"
+                className="group p-5 rounded-2xl bg-card2/40 border border-line hover:border-accent/40 transition-all flex flex-col justify-between space-y-3"
+              >
+                <div className="space-y-1.5">
+                  <div className="flex items-center gap-2 text-accent">
+                    <TrendingUp className="w-5 h-5" />
+                    <span className="text-xs uppercase font-bold tracking-wider">Premium Tracker</span>
+                  </div>
+                  <h3 className="font-heading font-bold text-base text-tx group-hover:text-accent transition-colors">
+                    IPO GMP Today
+                  </h3>
+                  <p className="text-xs text-mut leading-relaxed">
+                    Track live Grey Market Premium (GMP), estimated listing gains, and Kostak rates for all active and upcoming Mainboard &amp; SME IPOs.
+                  </p>
+                </div>
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-accent group-hover:underline pt-2">
+                  Check Live IPO GMP <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </Link>
+
+              <Link
+                href="/subscription"
+                className="group p-5 rounded-2xl bg-card2/40 border border-line hover:border-accent/40 transition-all flex flex-col justify-between space-y-3"
+              >
+                <div className="space-y-1.5">
+                  <div className="flex items-center gap-2 text-accent">
+                    <BarChart3 className="w-5 h-5" />
+                    <span className="text-xs uppercase font-bold tracking-wider">Bidding Demand</span>
+                  </div>
+                  <h3 className="font-heading font-bold text-base text-tx group-hover:text-accent transition-colors">
+                    Live IPO Subscription Status
+                  </h3>
+                  <p className="text-xs text-mut leading-relaxed">
+                    Monitor day-wise bidding multiples, QIB institutional interest, and Retail/HNI quota subscription rates in real time.
+                  </p>
+                </div>
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-accent group-hover:underline pt-2">
+                  View Subscription Figures <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </Link>
+
               <Link
                 href="/allotment"
-                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold bg-accent text-accent-foreground hover:bg-accent/90 transition-all shadow-xs"
+                className="group p-5 rounded-2xl bg-card2/40 border border-line hover:border-accent/40 transition-all flex flex-col justify-between space-y-3"
               >
-                Check Allotment
-                <ShieldCheck className="w-3.5 h-3.5" />
-              </Link>
-              <Link
-                href="/faq"
-                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold bg-card border border-line text-tx hover:border-accent hover:text-accent transition-all"
-              >
-                Read FAQs
-                <ArrowRight className="w-3.5 h-3.5" />
+                <div className="space-y-1.5">
+                  <div className="flex items-center gap-2 text-accent">
+                    <FileCheck2 className="w-5 h-5" />
+                    <span className="text-xs uppercase font-bold tracking-wider">Registrar Search</span>
+                  </div>
+                  <h3 className="font-heading font-bold text-base text-tx group-hover:text-accent transition-colors">
+                    IPO Allotment Status Check by PAN
+                  </h3>
+                  <p className="text-xs text-mut leading-relaxed">
+                    Verify your share allotment directly across Link Intime, KFintech, Bigshare, and Skyline with instant PAN card lookup.
+                  </p>
+                </div>
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-accent group-hover:underline pt-2">
+                  Check Allotment Status <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </span>
               </Link>
             </div>
           </div>

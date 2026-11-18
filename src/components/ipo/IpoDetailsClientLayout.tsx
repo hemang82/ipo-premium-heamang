@@ -21,6 +21,9 @@ import {
   MessageSquareQuote,
   Sparkles,
   Building2,
+  ArrowRight,
+  FileCheck2,
+  Calculator,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -178,23 +181,23 @@ export function IpoDetailsClientLayout({
                   <Sparkles className="w-3.5 h-3.5 text-accent" />
                   GMP Today
                 </span>
-                <span className="text-xs font-mono text-accent bg-accent/15 px-2 py-0.5 rounded font-semibold">
+                <span className="text-xs font-heading font-semibold text-accent bg-accent/15 px-2 py-0.5 rounded">
                   Live
                 </span>
               </div>
 
               <div className="flex items-baseline gap-1.5">
-                <span className="text-xl sm:text-2xl font-heading font-extrabold text-up tabular-nums leading-tight">
+                <span className="text-xl sm:text-2xl font-heading font-bold text-up tabular-nums leading-tight">
                   {formatINR(ipo.gmp)}
                 </span>
-                <span className="text-xs font-bold text-up tabular-nums">
+                <span className="text-xs font-semibold text-up tabular-nums">
                   ({formatPercent(percent)})
                 </span>
               </div>
 
               <div className="text-xs text-mut mt-0.5">
                 Est. Listing:{" "}
-                <strong className="text-accent font-mono font-semibold">
+                <strong className="text-accent font-heading font-semibold tabular-nums">
                   {formatINR(estListing)}
                 </strong>
               </div>
@@ -251,6 +254,104 @@ export function IpoDetailsClientLayout({
           <Card variant="default" className="p-6 border-line">
             <Faq items={faqItems} title={`${ipo.name} IPO Review & FAQ`} />
           </Card>
+
+          {/* Keyword-Rich Internal Linking Grid */}
+          <div className="bg-card border border-line rounded-3xl p-6 sm:p-8 space-y-4 shadow-xs">
+            <div>
+              <h2 className="font-heading font-black text-xl text-tx">
+                Related IPO Tools &amp; Next Steps for {ipo.name}
+              </h2>
+              <p className="text-xs sm:text-sm text-mut mt-0.5">
+                Check market demand, estimate listing returns, and verify your allotment status.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
+              <Link
+                href="/ipo-gmp"
+                className="group p-4 rounded-2xl bg-card2/40 border border-line hover:border-accent/40 transition-all flex flex-col justify-between space-y-2"
+              >
+                <div className="space-y-1">
+                  <div className="flex items-center gap-1.5 text-accent">
+                    <TrendingUp className="w-4 h-4" />
+                    <span className="text-[11px] uppercase font-bold tracking-wider">Live Premium</span>
+                  </div>
+                  <h3 className="font-heading font-bold text-sm text-tx group-hover:text-accent transition-colors">
+                    IPO GMP Today
+                  </h3>
+                  <p className="text-xs text-mut leading-relaxed">
+                    Track live Grey Market Premium, estimated listing price, and daily GMP trends for {ipo.name} and all current IPOs.
+                  </p>
+                </div>
+                <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent group-hover:underline pt-1">
+                  View Live IPO GMP <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </Link>
+
+              <Link
+                href="/subscription"
+                className="group p-4 rounded-2xl bg-card2/40 border border-line hover:border-accent/40 transition-all flex flex-col justify-between space-y-2"
+              >
+                <div className="space-y-1">
+                  <div className="flex items-center gap-1.5 text-accent">
+                    <BarChart3 className="w-4 h-4" />
+                    <span className="text-[11px] uppercase font-bold tracking-wider">Demand Tracking</span>
+                  </div>
+                  <h3 className="font-heading font-bold text-sm text-tx group-hover:text-accent transition-colors">
+                    Live IPO Subscription Status
+                  </h3>
+                  <p className="text-xs text-mut leading-relaxed">
+                    Check day-wise bidding figures, QIB demand, and retail quota oversubscription multiples updated in real-time.
+                  </p>
+                </div>
+                <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent group-hover:underline pt-1">
+                  Check Subscription Demand <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </Link>
+
+              <Link
+                href="/allotment"
+                className="group p-4 rounded-2xl bg-card2/40 border border-line hover:border-accent/40 transition-all flex flex-col justify-between space-y-2"
+              >
+                <div className="space-y-1">
+                  <div className="flex items-center gap-1.5 text-accent">
+                    <FileCheck2 className="w-4 h-4" />
+                    <span className="text-[11px] uppercase font-bold tracking-wider">Registrar Search</span>
+                  </div>
+                  <h3 className="font-heading font-bold text-sm text-tx group-hover:text-accent transition-colors">
+                    IPO Allotment Status Check by PAN
+                  </h3>
+                  <p className="text-xs text-mut leading-relaxed">
+                    Verify allotment for {ipo.name} across Link Intime, KFintech, Bigshare, and BSE with your PAN card number.
+                  </p>
+                </div>
+                <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent group-hover:underline pt-1">
+                  Check Allotment Status <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </Link>
+
+              <Link
+                href="/tools/lot-calculator"
+                className="group p-4 rounded-2xl bg-card2/40 border border-line hover:border-accent/40 transition-all flex flex-col justify-between space-y-2"
+              >
+                <div className="space-y-1">
+                  <div className="flex items-center gap-1.5 text-accent">
+                    <Calculator className="w-4 h-4" />
+                    <span className="text-[11px] uppercase font-bold tracking-wider">Investment Calculator</span>
+                  </div>
+                  <h3 className="font-heading font-bold text-sm text-tx group-hover:text-accent transition-colors">
+                    IPO Lot Size Calculator
+                  </h3>
+                  <p className="text-xs text-mut leading-relaxed">
+                    Calculate minimum lot investment, sNII / bNII bidding requirements, and expected profit gains per lot.
+                  </p>
+                </div>
+                <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent group-hover:underline pt-1">
+                  Calculate Lot Size &amp; Profit <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </Link>
+            </div>
+          </div>
         </div>
 
         {/* ========================================================
@@ -292,7 +393,7 @@ export function IpoDetailsClientLayout({
 
                     {tab.badge && (
                       <span
-                        className={`px-2 py-0.5 rounded text-xs font-mono ${
+                        className={`px-2 py-0.5 rounded text-xs font-heading font-semibold tabular-nums ${
                           isActive
                             ? "bg-black/20 text-accent-foreground font-bold"
                             : "bg-card2 text-mut border border-line"

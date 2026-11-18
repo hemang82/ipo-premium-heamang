@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { formatINR } from "@/lib/format";
+import { formatINR, formatIpoDate } from "@/lib/format";
 import {
   FileText,
   TrendingUp,
@@ -22,17 +22,7 @@ interface RawApiDataProps {
 // Helpers
 function formatDate(dateStr?: string): string {
   if (!dateStr || dateStr === "-" || dateStr === "TBA") return "-";
-  try {
-    const d = new Date(dateStr);
-    if (isNaN(d.getTime())) return dateStr;
-    return d.toLocaleDateString("en-IN", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-  } catch {
-    return dateStr;
-  }
+  return formatIpoDate(dateStr);
 }
 
 function formatNumber(num: any): string {
@@ -206,7 +196,7 @@ export function IpoDetailsFullSections({ raw, companyName }: RawApiDataProps) {
 
                   {tab.badge && (
                     <span
-                      className={`hidden md:inline-block px-2 py-0.5 rounded text-xs font-mono ${
+                      className={`hidden md:inline-block px-2 py-0.5 rounded text-xs font-heading font-semibold tabular-nums ${
                         isActive
                           ? "bg-black/20 text-accent-foreground font-bold"
                           : "bg-card2 text-mut border border-line"
@@ -281,13 +271,13 @@ export function IpoDetailsFullSections({ raw, companyName }: RawApiDataProps) {
                         return (
                           <tr key={idx} className="hover:bg-card2/50 transition-colors">
                             <td className="py-2.5 px-3 font-semibold text-tx">{appLabel}</td>
-                            <td className="py-2.5 px-3 text-right tabular-nums text-tx font-mono">
+                            <td className="py-2.5 px-3 text-right tabular-nums text-tx font-heading font-semibold">
                               {item["lot(s)"] || item.lots || 1}
                             </td>
-                            <td className="py-2.5 px-3 text-right tabular-nums text-tx font-mono">
+                            <td className="py-2.5 px-3 text-right tabular-nums text-tx font-heading font-semibold">
                               {formatNumber(item.qty || item.shares)}
                             </td>
-                            <td className="py-2.5 px-3 text-right tabular-nums font-bold text-accent">
+                            <td className="py-2.5 px-3 text-right tabular-nums font-semibold text-accent font-heading">
                               {formatINR(Number(item.amount) || 0)}
                             </td>
                           </tr>
@@ -320,10 +310,10 @@ export function IpoDetailsFullSections({ raw, companyName }: RawApiDataProps) {
                           <td className="py-2.5 px-3 font-semibold text-tx">
                             {item.investor_category || item.category || "-"}
                           </td>
-                          <td className="py-2.5 px-3 text-right tabular-nums text-tx font-mono">
+                          <td className="py-2.5 px-3 text-right tabular-nums text-tx font-heading font-semibold">
                             {formatNumber(item.no_of_shares || item.shares)}
                           </td>
-                          <td className="py-2.5 px-3 text-right tabular-nums font-bold text-accent">
+                          <td className="py-2.5 px-3 text-right tabular-nums font-semibold text-accent font-heading">
                             {item.shares_offered
                               ? `${item.shares_offered}%`
                               : item.share_percentage
@@ -363,13 +353,13 @@ export function IpoDetailsFullSections({ raw, companyName }: RawApiDataProps) {
                       {subDetail.map((item: any, idx: number) => (
                         <tr key={idx} className="hover:bg-card2/50 transition-colors">
                           <td className="py-2.5 px-3 font-semibold text-tx">{item.category}</td>
-                          <td className="py-2.5 px-3 text-right tabular-nums text-mut font-mono">
+                          <td className="py-2.5 px-3 text-right tabular-nums text-mut font-heading font-semibold">
                             {formatNumber(item.offered)}
                           </td>
-                          <td className="py-2.5 px-3 text-right tabular-nums text-mut font-mono">
+                          <td className="py-2.5 px-3 text-right tabular-nums text-mut font-heading font-semibold">
                             {formatNumber(item.applied)}
                           </td>
-                          <td className="py-2.5 px-3 text-right tabular-nums font-bold text-accent">
+                          <td className="py-2.5 px-3 text-right tabular-nums font-semibold text-accent font-heading">
                             {item.times !== undefined ? `${Number(item.times).toFixed(2)}x` : "-"}
                           </td>
                         </tr>
@@ -410,22 +400,22 @@ export function IpoDetailsFullSections({ raw, companyName }: RawApiDataProps) {
 
                         return (
                           <tr key={idx} className="hover:bg-card2/50 transition-colors">
-                            <td className="py-2.5 px-3 font-semibold text-tx font-mono">
+                            <td className="py-2.5 px-3 font-semibold text-tx font-heading">
                               Day {idx + 1}
                             </td>
-                            <td className="py-2.5 px-3 text-mut font-medium">
+                            <td className="py-2.5 px-3 text-mut font-medium font-heading">
                               {formatDate(entry.created_at || entry.date)}
                             </td>
-                            <td className="py-2.5 px-3 text-right tabular-nums text-tx font-mono">
+                            <td className="py-2.5 px-3 text-right tabular-nums text-tx font-heading font-semibold">
                               {getCat("QIB")}
                             </td>
-                            <td className="py-2.5 px-3 text-right tabular-nums text-tx font-mono">
+                            <td className="py-2.5 px-3 text-right tabular-nums text-tx font-heading font-semibold">
                               {getCat("NIB")}
                             </td>
-                            <td className="py-2.5 px-3 text-right tabular-nums text-tx font-mono">
+                            <td className="py-2.5 px-3 text-right tabular-nums text-tx font-heading font-semibold">
                               {getCat("RETAIL")}
                             </td>
-                            <td className="py-2.5 px-3 text-right tabular-nums font-bold text-accent font-mono">
+                            <td className="py-2.5 px-3 text-right tabular-nums font-semibold text-accent font-heading">
                               {getCat("TOTAL")}
                             </td>
                           </tr>
@@ -464,21 +454,21 @@ export function IpoDetailsFullSections({ raw, companyName }: RawApiDataProps) {
                       {kpis.slice(1).map((kpiItem: any, idx: number) => (
                         <tr key={idx} className="hover:bg-card2/50 transition-colors">
                           <td className="py-2.5 px-3 font-semibold text-tx">{kpiItem.kpi}</td>
-                          <td className="py-2.5 px-3 text-right tabular-nums text-tx font-mono">
+                          <td className="py-2.5 px-3 text-right tabular-nums text-tx font-heading font-semibold">
                             {kpiItem.eps || "-"}
                           </td>
-                          <td className="py-2.5 px-3 text-right tabular-nums text-tx font-mono">
+                          <td className="py-2.5 px-3 text-right tabular-nums text-tx font-heading font-semibold">
                             {kpiItem.roec ? `${kpiItem.roec}%` : "-"}
                           </td>
-                          <td className="py-2.5 px-3 text-right tabular-nums text-tx font-mono">
+                          <td className="py-2.5 px-3 text-right tabular-nums text-tx font-heading font-semibold">
                             {kpiItem.ronw ? `${kpiItem.ronw}%` : "-"}
                           </td>
-                          <td className="py-2.5 px-3 text-right tabular-nums font-mono text-accent">
+                          <td className="py-2.5 px-3 text-right tabular-nums font-heading font-semibold text-accent">
                             {kpiItem.pre_ipo && kpiItem.pre_ipo !== "0"
                               ? `${kpiItem.pre_ipo}x`
                               : "-"}
                           </td>
-                          <td className="py-2.5 px-3 text-right tabular-nums font-bold text-accent font-mono">
+                          <td className="py-2.5 px-3 text-right tabular-nums font-semibold text-accent font-heading">
                             {kpiItem.post_ipo && kpiItem.post_ipo !== "0"
                               ? `${kpiItem.post_ipo}x`
                               : "-"}
@@ -516,7 +506,7 @@ export function IpoDetailsFullSections({ raw, companyName }: RawApiDataProps) {
                       <tr className="hover:bg-card2/50 transition-colors">
                         <td className="py-2.5 px-3 font-semibold text-tx">Assets</td>
                         {finRows.slice(1).map((c: any, i: number) => (
-                          <td key={i} className="py-2.5 px-3 text-right tabular-nums font-mono text-tx">
+                          <td key={i} className="py-2.5 px-3 text-right tabular-nums font-heading font-semibold text-tx">
                             {c.assets || "-"}
                           </td>
                         ))}
@@ -526,7 +516,7 @@ export function IpoDetailsFullSections({ raw, companyName }: RawApiDataProps) {
                         {finRows.slice(1).map((c: any, i: number) => (
                           <td
                             key={i}
-                            className="py-2.5 px-3 text-right tabular-nums font-bold font-mono text-accent"
+                            className="py-2.5 px-3 text-right tabular-nums font-semibold font-heading text-accent"
                           >
                             {c.revenue || "-"}
                           </td>
@@ -537,7 +527,7 @@ export function IpoDetailsFullSections({ raw, companyName }: RawApiDataProps) {
                         {finRows.slice(1).map((c: any, i: number) => (
                           <td
                             key={i}
-                            className="py-2.5 px-3 text-right tabular-nums font-bold font-mono text-up"
+                            className="py-2.5 px-3 text-right tabular-nums font-semibold font-heading text-up"
                           >
                             {c.profit_after_tax || "-"}
                           </td>
@@ -546,7 +536,7 @@ export function IpoDetailsFullSections({ raw, companyName }: RawApiDataProps) {
                       <tr className="hover:bg-card2/50 transition-colors">
                         <td className="py-2.5 px-3 font-semibold text-tx">Net Worth</td>
                         {finRows.slice(1).map((c: any, i: number) => (
-                          <td key={i} className="py-2.5 px-3 text-right tabular-nums font-mono text-tx">
+                          <td key={i} className="py-2.5 px-3 text-right tabular-nums font-heading font-semibold text-tx">
                             {c.net_worth || "-"}
                           </td>
                         ))}
@@ -554,7 +544,7 @@ export function IpoDetailsFullSections({ raw, companyName }: RawApiDataProps) {
                       <tr className="hover:bg-card2/50 transition-colors">
                         <td className="py-2.5 px-3 font-semibold text-tx">Reserves and Surplus</td>
                         {finRows.slice(1).map((c: any, i: number) => (
-                          <td key={i} className="py-2.5 px-3 text-right tabular-nums font-mono text-tx">
+                          <td key={i} className="py-2.5 px-3 text-right tabular-nums font-heading font-semibold text-tx">
                             {c.reserves_and_surpluse || "-"}
                           </td>
                         ))}
@@ -562,7 +552,7 @@ export function IpoDetailsFullSections({ raw, companyName }: RawApiDataProps) {
                       <tr className="hover:bg-card2/50 transition-colors">
                         <td className="py-2.5 px-3 font-semibold text-tx">Total Borrowing</td>
                         {finRows.slice(1).map((c: any, i: number) => (
-                          <td key={i} className="py-2.5 px-3 text-right tabular-nums font-mono text-dn">
+                          <td key={i} className="py-2.5 px-3 text-right tabular-nums font-heading font-semibold text-dn">
                             {c.total_borrowing || "-"}
                           </td>
                         ))}
@@ -661,7 +651,7 @@ export function IpoDetailsFullSections({ raw, companyName }: RawApiDataProps) {
                     <p className="font-bold text-tx">{regName}</p>
                     {regPhone && (
                       <p className="text-mut">
-                        Phone: <span className="text-tx font-mono">{regPhone}</span>
+                        Phone: <span className="text-tx font-heading font-semibold tabular-nums">{regPhone}</span>
                       </p>
                     )}
                     {regEmail && (
@@ -701,7 +691,7 @@ export function IpoDetailsFullSections({ raw, companyName }: RawApiDataProps) {
                   <div className="space-y-1">
                     {companyAddr.Phone && (
                       <p className="text-mut">
-                        Phone: <span className="text-tx font-mono">{companyAddr.Phone}</span>
+                        Phone: <span className="text-tx font-heading font-semibold tabular-nums">{companyAddr.Phone}</span>
                       </p>
                     )}
                     {companyAddr.Email && (

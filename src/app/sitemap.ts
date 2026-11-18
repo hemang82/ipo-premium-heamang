@@ -4,8 +4,8 @@ import { SITE_URL } from "@/lib/seo";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const currentDate = new Date().toISOString();
 
-  // Exactly 15 Top Priority Pages (Core High-Impression Trackers + Essential E-E-A-T Trust Pages)
-  const top15Routes: MetadataRoute.Sitemap = [
+  // Exactly 16 Top Priority Pages (Core High-Impression Trackers + Essential E-E-A-T Trust Pages)
+  const top16Routes: MetadataRoute.Sitemap = [
     // 1. High-Volume Core IPO Trackers & Tools (9 Pages)
     {
       url: `${SITE_URL}/`,
@@ -67,6 +67,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "daily",
       priority: 0.85,
     },
+    {
+      url: `${SITE_URL}/ipo/listed`,
+      lastModified: currentDate,
+      changeFrequency: "daily",
+      priority: 0.85,
+    },
 
     // 2. Full E-E-A-T Trust, Legal & Transparency Pages (6 Pages)
     {
@@ -108,9 +114,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   /* 
-   * NOTE: Other individual IPO detail pages, individual news, and articles 
-   * are kept hidden from sitemap for now as per current focus strategy.
+   * NOTE: Top 16 high-priority landing pages are prioritized for crawl budget.
+   * Other pages remain discoverable via internal links.
    */
 
-  return top15Routes;
+  return top16Routes;
 }

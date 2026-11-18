@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Ipo } from "@/lib/types";
 import { IpoBadgeHeader } from "@/components/ui/IpoBadgeHeader";
 import { IpoLogo } from "@/components/ipo/IpoLogo";
-import { formatSubscription } from "@/lib/format";
+import { formatSubscription, formatIpoDate, formatIpoDateRange } from "@/lib/format";
 import {
   Search,
   ExternalLink,
@@ -71,17 +71,7 @@ function getRegistrarPortal(registrarName?: string): { name: string; url: string
 
 function formatDate(dateStr?: string): string {
   if (!dateStr || dateStr === "-" || dateStr === "TBA") return "TBA";
-  try {
-    const d = new Date(dateStr);
-    if (isNaN(d.getTime())) return dateStr;
-    return d.toLocaleDateString("en-IN", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-  } catch {
-    return dateStr;
-  }
+  return formatIpoDate(dateStr);
 }
 
 const ITEMS_PER_PAGE = 9;
@@ -212,7 +202,7 @@ export function AllotmentTracker({ ipos }: AllotmentTrackerProps) {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search by company or registrar..."
-                className="w-full bg-card2/80 border border-line rounded-xl pl-9 pr-9 py-2 text-xs sm:text-sm text-tx placeholder:text-mut/70 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+                className="w-full bg-card2/80 border border-line rounded-xl pl-9 pr-9 py-2 text-xs sm:text-sm text-tx placeholder:text-mut/70 outline-none focus:outline-none focus:border-accent focus:shadow-[0_0_0_2px_rgba(217,90,43,0.18)] focus:ring-0 transition-all"
               />
               {search && (
                 <button
@@ -334,7 +324,7 @@ export function AllotmentTracker({ ipos }: AllotmentTrackerProps) {
                       <span className="text-[11px] font-semibold text-mut uppercase tracking-wider block mb-0.5">
                         Allotment Date
                       </span>
-                      <span className="font-heading font-extrabold text-sm text-accent font-mono block">
+                      <span className="font-heading font-extrabold text-sm text-accent block">
                         {allotmentFormatted}
                       </span>
                     </div>

@@ -86,7 +86,7 @@ export default async function ListedIpoPage() {
                   </span>
                 </div>
                 <h1 className="font-heading font-black text-2xl sm:text-3xl lg:text-4xl text-tx tracking-tight">
-                  Listed IPO 2024–25 – Listing Performance & GMP
+                  Listed IPOs – Listing Day Performance &amp; Returns
                 </h1>
                 <p className="text-sm sm:text-base text-mut leading-relaxed">
                   Complete list of recently listed IPOs on BSE and NSE. Track listing day gain, GMP,

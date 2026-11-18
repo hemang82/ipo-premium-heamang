@@ -56,7 +56,7 @@ export function FaqClient() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search questions by keyword (e.g., GMP, Allotment lottery, Taxes, ASBA)..."
-            className="w-full bg-card2/80 border border-line rounded-2xl pl-10 pr-10 py-3 text-xs sm:text-sm text-tx placeholder:text-mut/70 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+            className="w-full bg-card2/80 border border-line rounded-2xl pl-10 pr-10 py-3 text-xs sm:text-sm text-tx placeholder:text-mut/70 outline-none focus:outline-none focus:border-accent focus:shadow-[0_0_0_2px_rgba(217,90,43,0.18)] focus:ring-0 transition-all"
           />
           {search && (
             <button

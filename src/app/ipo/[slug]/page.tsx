@@ -1,4 +1,4 @@
-import { notFound, redirect } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { getIpoBySlug } from "@/lib/ipo-service";
 
 export const revalidate = 10;
@@ -17,6 +17,6 @@ export default async function IpoSlugRedirectPage({ params }: PageProps) {
     notFound();
   }
 
-  // Canonical 308 permanent redirect to /ipo/[slug]/[symbol]/
-  redirect(`/ipo/${ipo.slug}/${ipo.symbol}/`);
+  // Canonical HTTP 308 permanent redirect to /ipo/[slug]/[symbol]/
+  permanentRedirect(`/ipo/${ipo.slug}/${ipo.symbol}/`);
 }

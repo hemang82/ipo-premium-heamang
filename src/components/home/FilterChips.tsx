@@ -45,9 +45,9 @@ export function FilterChips({ currentType = "All", currentStatus = "Open" }: Fil
   };
 
   return (
-    <div className="w-full lg:w-auto flex items-center gap-2 sm:gap-2.5 overflow-x-auto scrollbar-none py-1 -mx-4 px-4 sm:mx-0 sm:px-0">
-      {/* Group 1: Board Type Selection */}
-      <div className="flex items-center gap-1 p-1 rounded-xl bg-card border border-line shadow-xs shrink-0">
+    <div className="w-full lg:w-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-2.5 min-w-0">
+      {/* Group 1: Board Type Selection (All, Mainboard, SME) */}
+      <div className="grid grid-cols-3 sm:flex items-center gap-1 p-1 rounded-xl bg-card border border-line shadow-xs shrink-0">
         {boardTypes.map((t) => {
           const isSelected =
             (t.key === "All" && (!currentType || currentType === "All")) ||
@@ -58,7 +58,7 @@ export function FilterChips({ currentType = "All", currentStatus = "Open" }: Fil
               key={t.key}
               type="button"
               onClick={() => updateFilters(t.key, currentStatus || "Open")}
-              className={`px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap focus-visible:outline-none ${
+              className={`text-center px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap focus-visible:outline-none cursor-pointer ${
                 isSelected
                   ? "bg-accent text-accent-foreground shadow-xs font-bold"
                   : "text-mut hover:text-tx hover:bg-card2"
@@ -70,11 +70,11 @@ export function FilterChips({ currentType = "All", currentStatus = "Open" }: Fil
         })}
       </div>
 
-      {/* Subtle Divider (hidden on tiny screens) */}
-      <div className="h-5 w-[1px] bg-line/80 shrink-0 hidden sm:block" />
+      {/* Subtle Divider (Desktop only) */}
+      <div className="h-5 w-[1px] bg-line/80 shrink-0 hidden lg:block" />
 
-      {/* Group 2: Status Selection */}
-      <div className="flex items-center gap-1 p-1 rounded-xl bg-card border border-line shadow-xs shrink-0">
+      {/* Group 2: Status Selection (Open, Upcoming, Close Today, Listed) */}
+      <div className="flex items-center gap-1 p-1 rounded-xl bg-card border border-line shadow-xs overflow-x-auto scrollbar-none w-full sm:w-auto">
         {statusCategories.map((s) => {
           const isSelected =
             (s.key === "Open" && (!currentStatus || currentStatus === "Open")) ||
@@ -96,7 +96,7 @@ export function FilterChips({ currentType = "All", currentStatus = "Open" }: Fil
               key={s.key}
               type="button"
               onClick={() => updateFilters(currentType || "All", s.key)}
-              className={`px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap focus-visible:outline-none ${
+              className={`flex-1 sm:flex-initial text-center px-2.5 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap focus-visible:outline-none cursor-pointer ${
                 isSelected ? activeStyle : defaultStyle
               }`}
             >

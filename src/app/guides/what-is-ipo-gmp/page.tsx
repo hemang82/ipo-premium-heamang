@@ -25,9 +25,9 @@ export const metadata: Metadata = {
 
 export default function WhatIsGmpPage() {
   return (
-    <div className="max-w-3xl mx-auto px-4 py-12">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
       <article className="prose prose-invert max-w-none space-y-6">
-        <h1 className="font-heading font-extrabold text-3xl sm:text-4xl text-tx tracking-tightest">
+        <h1 className="font-heading font-extrabold text-3xl sm:text-4xl text-tx tracking-tightest mb-3">
           What is IPO Grey Market Premium (GMP)? Complete Gray Market Guide
         </h1>
         <p className="text-sm text-accent font-semibold">

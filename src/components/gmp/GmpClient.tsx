@@ -21,29 +21,14 @@ import {
   ShieldCheck,
   AlertCircle,
   HelpCircle,
+  Users,
+  Calculator,
+  ArrowRight,
 } from "lucide-react";
 import { GmpIpoItem } from "@/lib/gmp-service";
 import { gmpFaqs } from "@/lib/gmp-faqs";
-import { formatINR } from "@/lib/format";
+import { formatINR, formatIpoDate, formatShortDate, formatIpoDateRange } from "@/lib/format";
 import { IpoLogo } from "@/components/ipo/IpoLogo";
-
-// Format date to "02 NOV"
-function formatShortDate(dateStr?: string): string {
-  if (!dateStr || dateStr === "-" || dateStr === "TBA") return "-";
-  try {
-    const d = new Date(dateStr);
-    if (isNaN(d.getTime())) {
-      const parts = dateStr.trim().split(" ");
-      if (parts.length >= 2) return `${parts[0]} ${parts[1].toUpperCase()}`;
-      return dateStr;
-    }
-    const day = String(d.getDate()).padStart(2, "0");
-    const month = d.toLocaleDateString("en-IN", { month: "short" }).toUpperCase();
-    return `${day} ${month}`;
-  } catch {
-    return dateStr;
-  }
-}
 
 interface GmpClientProps {
   initialItems: GmpIpoItem[];
@@ -56,13 +41,6 @@ export function GmpClient({ initialItems, updatedAt }: GmpClientProps) {
   const [statusFilter, setStatusFilter] = useState<"All" | "Live" | "Upcoming">("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState<"table" | "card">("table");
-
-  // On mobile viewports, automatically default to Card View per task specifications
-  useEffect(() => {
-    if (typeof window !== "undefined" && window.innerWidth < 768) {
-      setViewMode("card");
-    }
-  }, []);
 
   // 2. Counts
   const counts = useMemo(() => {
@@ -108,10 +86,205 @@ export function GmpClient({ initialItems, updatedAt }: GmpClientProps) {
 
   // Format date helper
   const formatDateRange = (start?: string, end?: string) => {
-    if (!start && !end) return "TBA";
-    if (start && !end) return start;
-    if (!start && end) return `Closes ${end}`;
-    return `${start} to ${end}`;
+    return formatIpoDateRange(start, end);
+  };
+
+  // Reusable card renderer matching homepage IpoCard style
+  const renderGmpCard = (item: GmpIpoItem) => {
+    const detailUrl = `/ipo/${item.slug}/${item.symbol}`;
+    const isPositive = item.gmp > 0;
+    const isNegative = item.gmp < 0;
+
+    // Badge logic (matches IpoBadgeHeader)
+    const group = String(item.listingAtGroup || "").toUpperCase();
+    let typeLabel = "Mainboard";
+    if (item.isSme) {
+      if (group.includes("NSE") && group.includes("BSE")) typeLabel = "NSE, BSE - SME";
+      else if (group.includes("NSE")) typeLabel = "NSE - SME";
+      else if (group.includes("BSE")) typeLabel = "BSE - SME";
+      else typeLabel = "BSE - SME";
+    }
+
+    const statusLabel = item.categoryType === "live" ? "Open" : "Upcoming";
+    const statusClass = item.categoryType === "live"
+      ? "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/30"
+      : "bg-accent/10 text-accent border-accent/25";
+
+    // Timeline stages
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+    const parseDate = (s?: string) => {
+      if (!s) return null;
+      const d = new Date(s);
+      if (isNaN(d.getTime())) return null;
+      return new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+    };
+    const openTime = parseDate(item.startDate);
+    const closeTime = parseDate(item.endDate);
+    const allotTime = parseDate(item.allotmentDate);
+    const listingTime = parseDate(item.listingDate);
+
+    let currentStageIndex = 0;
+    if (openTime && today < openTime) {
+      currentStageIndex = 0;
+    } else if (listingTime && today >= listingTime) {
+      currentStageIndex = 3;
+    } else if (allotTime && today >= allotTime) {
+      currentStageIndex = 2;
+    } else if (closeTime && today > closeTime) {
+      currentStageIndex = 1;
+    } else {
+      currentStageIndex = 0;
+    }
+
+    const stages = [
+      { label: "Open", date: formatShortDate(item.startDate), icon: Calendar },
+      { label: "Close", date: formatShortDate(item.endDate), icon: Lock },
+      { label: "Allot", date: formatShortDate(item.allotmentDate), icon: ShieldCheck },
+      { label: "Listed", date: formatShortDate(item.listingDate), icon: CheckCircle2 },
+    ];
+
+    // Gain percent display
+    const gainDisplay = item.expectedGainPercent > 0
+      ? `+${item.expectedGainPercent}%`
+      : `${item.expectedGainPercent}%`;
+
+    return (
+      <Link
+        key={`${item.id}-${item.symbol}`}
+        href={detailUrl}
+        className="group flex flex-col justify-between rounded-card bg-card border border-line p-4 sm:p-5 shadow-[0_2px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(217,90,43,0.12)] hover:border-accent hover:-translate-y-[1.5px] transition-all duration-200 focus-visible:outline-none"
+      >
+        <div>
+          {/* 1. Top Header: Avatar + Company Name + Unified Badges */}
+          <div className="flex items-center gap-3.5 mb-3.5">
+            <IpoLogo
+              src={item.image}
+              name={item.name}
+              className="w-12 h-12 rounded-xl group-hover:border-accent/50 group-hover:scale-105 transition-all shadow-inner shrink-0"
+            />
+            <div className="min-w-0 flex-1">
+              <h3 className="font-heading font-bold text-base text-tx group-hover:text-accent transition-colors truncate tracking-tight mb-1">
+                {item.name}
+              </h3>
+              {/* Badges: Solid Dark Accent & In-Sync Status Badge (12px, flex-nowrap) */}
+              <div className="flex items-center gap-1.5 flex-nowrap">
+                <span className="inline-flex items-center justify-center h-[22px] px-2.5 rounded-md text-[12px] font-semibold bg-accent text-accent-foreground shadow-xs leading-none whitespace-nowrap shrink-0 text-center">
+                  {typeLabel}
+                </span>
+                <span className={`inline-flex items-center justify-center h-[22px] px-2.5 rounded-md text-[12px] font-semibold border shadow-xs leading-none whitespace-nowrap shrink-0 text-center ${statusClass}`}>
+                  {statusLabel}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* 2. Spotlight: GMP Today & Est. Listing Price Side-by-Side (Exactly 14px Sync) */}
+          <div className="grid grid-cols-2 gap-3 p-3 rounded-xl bg-card2/50 border border-line">
+            {/* Left: GMP Today */}
+            <div>
+              <span className="text-[14px] font-semibold text-mut uppercase tracking-wider block mb-1">
+                GMP Today
+              </span>
+              <div className="flex items-baseline gap-1.5 font-heading tabular-nums">
+                <span className={`text-[14px] font-heading font-bold leading-none ${
+                  isPositive ? "text-up" : isNegative ? "text-dn" : "text-mut"
+                }`}>
+                  {item.gmp === 0 ? "₹0" : formatINR(item.gmp)}
+                </span>
+                <span className={`text-[14px] font-semibold leading-none ${
+                  isPositive ? "text-up" : isNegative ? "text-dn" : "text-mut"
+                }`}>
+                  ({gainDisplay})
+                </span>
+              </div>
+            </div>
+
+            {/* Right: Est. Listing Price */}
+            <div className="border-l border-line/60 pl-3">
+              <span className="text-[14px] font-semibold text-mut uppercase tracking-wider block mb-1">
+                Est. Price
+              </span>
+              <div className="flex items-baseline gap-1.5 font-heading tabular-nums">
+                <span className="text-[14px] font-heading font-bold text-accent leading-none">
+                  {item.estimatedListingPrice > 0 ? formatINR(item.estimatedListingPrice) : "TBA"}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* 3. Core Info Rows: Clean Key-Value Pairs (Exactly 14px + Top Breathing Space mt-3.5 mb-1) */}
+          <div className="space-y-2.5 text-[14px] mt-3.5 mb-1">
+            {/* Issue Price */}
+            <div className="flex items-center justify-between pb-1.5 border-b border-line/40">
+              <span className="text-mut font-medium">Issue Price</span>
+              <span className="font-semibold text-tx font-heading text-[14px] tabular-nums">
+                {item.priceRange}
+              </span>
+            </div>
+
+            {/* Lot Size */}
+            <div className="flex items-center justify-between pb-1.5 border-b border-line/40">
+              <span className="text-mut font-medium">Lot Size</span>
+              <span className="font-semibold text-tx font-heading text-[14px] tabular-nums">
+                {item.bidLot ? `${item.bidLot.toLocaleString("en-IN")} Shares` : "TBA"}
+              </span>
+            </div>
+
+            {/* Offer Period */}
+            <div className="flex items-center justify-between pb-1.5 border-b border-line/40">
+              <span className="text-mut font-medium">Offer Period</span>
+              <span className="font-semibold text-tx font-heading text-[14px] tabular-nums">
+                {formatDateRange(item.startDate, item.endDate)}
+              </span>
+            </div>
+
+            {/* Allotment Date */}
+            <div className="flex items-center justify-between">
+              <span className="text-mut font-medium">Allotment Date</span>
+              <span className="font-semibold text-tx font-heading text-[14px] tabular-nums">
+                {item.allotmentDate ? formatIpoDate(item.allotmentDate) : "TBA"}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* 4. Bottom Timeline: Open → Close → Allot → Listed (14px & formatShortDate without year) */}
+        <div className="pt-2 mt-2.5 border-t border-line/60">
+          <div className="grid grid-cols-4 gap-1 text-center">
+            {stages.map((stage, idx) => {
+              const Icon = stage.icon;
+              const isCurrent = idx === currentStageIndex;
+              return (
+                <div key={idx} className="flex flex-col items-center justify-center py-0.5">
+                  <div className="mb-1 flex items-center justify-center">
+                    <Icon
+                      className={`w-[14px] h-[14px] ${
+                        isCurrent ? "text-accent" : "text-mut/40"
+                      }`}
+                    />
+                  </div>
+                  <span
+                    className={`text-[13px] sm:text-[14px] capitalize tracking-normal leading-none font-semibold ${
+                      isCurrent ? "text-accent font-bold" : "text-mut"
+                    }`}
+                  >
+                    {stage.label}
+                  </span>
+                  <span
+                    className={`text-[13px] sm:text-[14px] font-heading mt-1 tabular-nums whitespace-nowrap font-medium ${
+                      isCurrent ? "text-accent font-semibold" : "text-tx"
+                    }`}
+                  >
+                    {stage.date}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </Link>
+    );
   };
 
   return (
@@ -127,7 +300,7 @@ export function GmpClient({ initialItems, updatedAt }: GmpClientProps) {
                 <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
                 Live Rates
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono text-mut bg-card2 border border-line">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-heading font-semibold text-mut bg-card2 border border-line">
                 <Clock className="w-3.5 h-3.5 text-mut" />
                 Updated at: <span className="text-tx font-medium">{updatedAt}</span>
               </span>
@@ -142,11 +315,12 @@ export function GmpClient({ initialItems, updatedAt }: GmpClientProps) {
             </p>
           </div>
 
-          {/* View Switcher Toggle */}
-          <div className="flex items-center self-start lg:self-center gap-1 bg-card2/80 p-1.5 rounded-xl border border-line shrink-0">
+          {/* View Switcher Toggle (Desktop md+ only; hidden on mobile where auto-card mode is permanent) */}
+          <div className="hidden md:flex items-center self-start lg:self-center gap-1 bg-card2/80 p-1.5 rounded-xl border border-line shrink-0">
             <button
+              type="button"
               onClick={() => setViewMode("table")}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all ${
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                 viewMode === "table"
                   ? "bg-card text-tx shadow-xs border border-line"
                   : "text-mut hover:text-tx"
@@ -156,8 +330,9 @@ export function GmpClient({ initialItems, updatedAt }: GmpClientProps) {
               Table View
             </button>
             <button
+              type="button"
               onClick={() => setViewMode("card")}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all ${
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                 viewMode === "card"
                   ? "bg-card text-tx shadow-xs border border-line"
                   : "text-mut hover:text-tx"
@@ -235,7 +410,7 @@ export function GmpClient({ initialItems, updatedAt }: GmpClientProps) {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by IPO or Company name..."
-              className="w-full bg-card2/80 border border-line rounded-xl pl-9 pr-4 py-2 text-xs sm:text-sm text-tx placeholder:text-mut/70 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+              className="w-full bg-card2/80 border border-line rounded-xl pl-9 pr-4 py-2 text-xs sm:text-sm text-tx placeholder:text-mut/70 outline-none focus:outline-none focus:border-accent focus:shadow-[0_0_0_2px_rgba(217,90,43,0.18)] focus:ring-0 transition-all"
             />
             {searchQuery && (
               <button
@@ -265,310 +440,140 @@ export function GmpClient({ initialItems, updatedAt }: GmpClientProps) {
               setStatusFilter("All");
               setSearchQuery("");
             }}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-accent text-accent-foreground hover:bg-accent/90 transition-all mt-2"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-accent text-accent-foreground hover:bg-accent/90 transition-all mt-2 cursor-pointer"
           >
             Reset All Filters
           </button>
         </div>
-      ) : viewMode === "table" ? (
-        /* TABLE VIEW (Clean Desktop Layout: IPO Company | Price Band | Live GMP | Est. Gain | Est. Listing Price | Listing Date | Allotment) */
-        <div className="bg-card border border-line rounded-3xl shadow-sm overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="border-b border-line bg-card2/60 text-xs font-semibold text-mut uppercase tracking-wider whitespace-nowrap">
-                  <th className="py-3.5 px-5">IPO Company</th>
-                  <th className="py-3.5 px-3 text-right">Price Band</th>
-                  <th className="py-3.5 px-3 text-right">Live GMP</th>
-                  <th className="py-3.5 px-3 text-center">Est. Gain</th>
-                  <th className="py-3.5 px-3 text-right">Est. Listing Price</th>
-                  <th className="py-3.5 px-3 text-center">Listing Date</th>
-                  <th className="py-3.5 px-3 text-center">Allotment</th>
-                  <th className="py-3.5 px-5 text-right">Action</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-line/60 text-sm">
-                {filteredItems.map((item) => {
-                  const detailUrl = `/ipo/${item.slug}/${item.symbol}`;
-                  const isPositive = item.gmp > 0;
-                  const isNegative = item.gmp < 0;
-
-                  return (
-                    <tr
-                      key={`${item.id}-${item.symbol}`}
-                      className="hover:bg-card2/40 transition-colors group"
-                    >
-                      {/* 1. IPO Company with Subtle Badge After Title */}
-                      <td className="py-3.5 px-5 whitespace-nowrap">
-                        <Link href={detailUrl} className="flex items-center gap-2 group-hover:text-accent transition-colors">
-                          <span className="font-heading font-bold text-tx text-sm sm:text-base">
-                            {item.name}
-                          </span>
-                          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-medium bg-card2 border border-line text-mut shrink-0">
-                            {item.isSme ? `${item.listingAtGroup || "BSE/NSE"} - SME` : "Mainboard"}
-                          </span>
-                        </Link>
-                      </td>
-
-                      {/* 2. Price Band */}
-                      <td className="py-3.5 px-3 text-right whitespace-nowrap font-mono text-tx font-bold text-xs sm:text-sm">
-                        {item.priceRange}
-                      </td>
-
-                      {/* 3. Live GMP */}
-                      <td className="py-3.5 px-3 text-right whitespace-nowrap font-mono font-bold text-sm sm:text-base">
-                        <span className={isPositive ? "text-up" : isNegative ? "text-dn" : "text-mut"}>
-                          {item.gmp === 0 ? "₹0" : formatINR(item.gmp)}
-                        </span>
-                      </td>
-
-                      {/* 4. Est. Gain */}
-                      <td className="py-3.5 px-3 text-center whitespace-nowrap">
-                        <span
-                          className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold font-mono ${
-                            isPositive
-                              ? "bg-[#DCFCE7] text-[#16A34A] dark:bg-emerald-950/60 dark:text-emerald-400"
-                              : isNegative
-                              ? "bg-[#FEE2E2] text-[#DC2626] dark:bg-rose-950/60 dark:text-rose-400"
-                              : "bg-[#F1F5F9] text-[#64748B] dark:bg-slate-800/60 dark:text-slate-400"
-                          }`}
-                        >
-                          {isPositive ? (
-                            <TrendingUp className="w-3.5 h-3.5 shrink-0" />
-                          ) : isNegative ? (
-                            <TrendingDown className="w-3.5 h-3.5 shrink-0" />
-                          ) : (
-                            <Minus className="w-3.5 h-3.5 shrink-0" />
-                          )}
-                          {item.expectedGainPercent > 0 ? `+${item.expectedGainPercent}%` : `${item.expectedGainPercent}%`}
-                        </span>
-                      </td>
-
-                      {/* 5. Est. Listing Price */}
-                      <td className="py-3.5 px-3 text-right whitespace-nowrap font-mono font-bold text-tx text-sm sm:text-base">
-                        {item.estimatedListingPrice > 0 ? formatINR(item.estimatedListingPrice) : "TBA"}
-                      </td>
-
-                      {/* 6. Listing Date */}
-                      <td className="py-3.5 px-3 text-center whitespace-nowrap font-mono text-xs text-tx font-medium">
-                        {item.listingDate || "TBA"}
-                      </td>
-
-                      {/* 7. Allotment */}
-                      <td className="py-3.5 px-3 text-center whitespace-nowrap font-mono text-xs text-accent font-semibold">
-                        {item.allotmentDate || "TBA"}
-                      </td>
-
-                      {/* 8. Action: View Details */}
-                      <td className="py-3.5 px-5 text-right whitespace-nowrap">
-                        <Link
-                          href={detailUrl}
-                          className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-accent text-accent-foreground hover:bg-accent/90 transition-all shadow-xs"
-                        >
-                          View Details
-                          <ArrowUpRight className="w-3.5 h-3.5" />
-                        </Link>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </div>
       ) : (
-        /* CARD VIEW — Home page IpoCard style */
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredItems.map((item) => {
-            const detailUrl = `/ipo/${item.slug}/${item.symbol}`;
-            const isPositive = item.gmp > 0;
-            const isNegative = item.gmp < 0;
-            const firstLetter = item.name.charAt(0).toUpperCase();
+        <>
+          {/* =========================================================================
+              1. MOBILE VIEW (< md): ALWAYS Auto Card Mode
+              - View switcher toggle is completely hidden on mobile per user specification.
+              - Cards are 100% native, full width, and responsive with no horizontal table overflow.
+             ========================================================================= */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 md:hidden">
+            {filteredItems.map(renderGmpCard)}
+          </div>
 
-            // Badge logic (matches IpoBadgeHeader)
-            const group = String(item.listingAtGroup || "").toUpperCase();
-            let typeLabel = "Mainboard";
-            if (item.isSme) {
-              if (group.includes("NSE") && group.includes("BSE")) typeLabel = "NSE, BSE - SME";
-              else if (group.includes("NSE")) typeLabel = "NSE - SME";
-              else if (group.includes("BSE")) typeLabel = "BSE - SME";
-              else typeLabel = "BSE - SME";
-            }
+          {/* =========================================================================
+              2. DESKTOP VIEW (md+): Interactive Mode Toggle (Table View vs Card View)
+             ========================================================================= */}
+          <div className="hidden md:block">
+            {viewMode === "table" ? (
+              /* TABLE VIEW: Clean Desktop Multi-Column Layout */
+              <div className="bg-card border border-line rounded-3xl shadow-sm overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-line bg-card2/60 text-xs font-semibold text-mut uppercase tracking-wider whitespace-nowrap">
+                        <th className="py-3.5 px-5">IPO Company</th>
+                        <th className="py-3.5 px-3 text-right">Price Band</th>
+                        <th className="py-3.5 px-3 text-right">Live GMP</th>
+                        <th className="py-3.5 px-3 text-center">Est. Gain</th>
+                        <th className="py-3.5 px-3 text-right">Est. Listing Price</th>
+                        <th className="py-3.5 px-3 text-center">Listing Date</th>
+                        <th className="py-3.5 px-3 text-center">Allotment</th>
+                        <th className="py-3.5 px-5 text-right">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-line/60 text-sm">
+                      {filteredItems.map((item) => {
+                        const detailUrl = `/ipo/${item.slug}/${item.symbol}`;
+                        const isPositive = item.gmp > 0;
+                        const isNegative = item.gmp < 0;
 
-            const statusLabel = item.categoryType === "live" ? "Open" : "Upcoming";
-            const statusClass = item.categoryType === "live"
-              ? "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/30"
-              : "bg-accent/10 text-accent border-accent/25";
-            const dotClass = item.categoryType === "live" ? "bg-blue-500" : "bg-accent";
+                        return (
+                          <tr
+                            key={`${item.id}-${item.symbol}`}
+                            className="hover:bg-card2/40 transition-colors group"
+                          >
+                            {/* 1. IPO Company with Subtle Badge After Title */}
+                            <td className="py-3.5 px-5 whitespace-nowrap">
+                              <Link href={detailUrl} className="flex items-center gap-2 group-hover:text-accent transition-colors">
+                                <span className="font-heading font-bold text-tx text-sm sm:text-base">
+                                  {item.name}
+                                </span>
+                                <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-medium bg-card2 border border-line text-mut shrink-0">
+                                  {item.isSme ? `${item.listingAtGroup || "BSE/NSE"} - SME` : "Mainboard"}
+                                </span>
+                              </Link>
+                            </td>
 
-            // Timeline stages
-            const now = new Date();
-            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-            const parseDate = (s?: string) => {
-              if (!s) return null;
-              const d = new Date(s);
-              if (isNaN(d.getTime())) return null;
-              return new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
-            };
-            const openTime = parseDate(item.startDate);
-            const closeTime = parseDate(item.endDate);
-            const listingTime = parseDate(item.listingDate);
+                            {/* 2. Price Band */}
+                            <td className="py-3.5 px-3 text-right whitespace-nowrap font-heading text-tx font-semibold text-xs sm:text-sm tabular-nums">
+                              {item.priceRange}
+                            </td>
 
-            let currentStageIndex = 0;
-            if (listingTime && today >= listingTime) currentStageIndex = 3;
-            else if (closeTime && today > closeTime) currentStageIndex = 2;
-            else if (openTime && today >= openTime) currentStageIndex = 1;
+                            {/* 3. Live GMP */}
+                            <td className="py-3.5 px-3 text-right whitespace-nowrap font-heading font-semibold text-sm sm:text-base tabular-nums">
+                              <span className={isPositive ? "text-up" : isNegative ? "text-dn" : "text-mut"}>
+                                {item.gmp === 0 ? "₹0" : formatINR(item.gmp)}
+                              </span>
+                            </td>
 
-            const stages = [
-              { label: "UPCOMING", date: formatShortDate(item.startDate), icon: Calendar },
-              { label: "OPEN", date: formatShortDate(item.startDate), icon: LockOpen },
-              { label: "CLOSE", date: formatShortDate(item.endDate), icon: Lock },
-              { label: "LISTED", date: formatShortDate(item.listingDate), icon: CheckCircle2 },
-            ];
+                            {/* 4. Est. Gain */}
+                            <td className="py-3.5 px-3 text-center whitespace-nowrap">
+                              <span
+                                className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold font-heading tabular-nums ${
+                                  isPositive
+                                    ? "bg-[#DCFCE7] text-[#16A34A] dark:bg-emerald-950/60 dark:text-emerald-400"
+                                    : isNegative
+                                    ? "bg-[#FEE2E2] text-[#DC2626] dark:bg-rose-950/60 dark:text-rose-400"
+                                    : "bg-[#F1F5F9] text-[#64748B] dark:bg-slate-800/60 dark:text-slate-400"
+                                }`}
+                              >
+                                {isPositive ? (
+                                  <TrendingUp className="w-3.5 h-3.5 shrink-0" />
+                                ) : isNegative ? (
+                                  <TrendingDown className="w-3.5 h-3.5 shrink-0" />
+                                ) : (
+                                  <Minus className="w-3.5 h-3.5 shrink-0" />
+                                )}
+                                {item.expectedGainPercent > 0 ? `+${item.expectedGainPercent}%` : `${item.expectedGainPercent}%`}
+                              </span>
+                            </td>
 
-            // Gain percent display
-            const gainDisplay = item.expectedGainPercent > 0
-              ? `+${item.expectedGainPercent}%`
-              : `${item.expectedGainPercent}%`;
+                            {/* 5. Est. Listing Price */}
+                            <td className="py-3.5 px-3 text-right whitespace-nowrap font-heading font-semibold text-tx text-sm sm:text-base tabular-nums">
+                              {item.estimatedListingPrice > 0 ? formatINR(item.estimatedListingPrice) : "TBA"}
+                            </td>
 
-            return (
-              <Link
-                key={`${item.id}-${item.symbol}`}
-                href={detailUrl}
-                className="group flex flex-col justify-between rounded-2xl bg-card border border-line p-4 sm:p-4.5 shadow-[0_2px_12px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_36px_rgba(217,90,43,0.14)] hover:border-accent hover:-translate-y-[2px] transition-all duration-200 focus-visible:outline-none"
-              >
-                <div className="space-y-3">
+                            {/* 6. Listing Date */}
+                            <td className="py-3.5 px-3 text-center whitespace-nowrap font-heading text-xs text-tx font-semibold tabular-nums">
+                              {formatShortDate(item.listingDate) || "TBA"}
+                            </td>
 
-                  {/* 1. Top Header: Avatar + Company Name + Badges */}
-                  <div className="flex items-start gap-3">
-                    <IpoLogo
-                      src={item.image}
-                      name={item.name}
-                      className="w-10 h-10 rounded-xl group-hover:border-accent/40 group-hover:scale-105 transition-all shadow-xs"
-                    />
-                    <div className="min-w-0 flex-1">
-                      <h3 className="font-heading font-bold text-base text-tx group-hover:text-accent transition-colors truncate tracking-tight mb-1">
-                        {item.name}
-                      </h3>
-                      {/* Badges: Solid Dark Accent & In-Sync Status Badge */}
-                      <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className="inline-flex items-center justify-center h-[21px] px-2.5 rounded-md text-[11px] font-semibold bg-accent text-accent-foreground shadow-xs leading-none whitespace-nowrap shrink-0 text-center">
-                          {typeLabel}
-                        </span>
-                        <span className={`inline-flex items-center justify-center h-[21px] px-2.5 rounded-md text-[11px] font-semibold border shadow-xs leading-none whitespace-nowrap shrink-0 text-center ${statusClass}`}>
-                          {statusLabel}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+                            {/* 7. Allotment */}
+                            <td className="py-3.5 px-3 text-center whitespace-nowrap font-heading text-xs text-accent font-semibold tabular-nums">
+                              {formatShortDate(item.allotmentDate) || "TBA"}
+                            </td>
 
-                  {/* 2. Spotlight: GMP Today & Est. Listing Price side-by-side */}
-                  <div className="grid grid-cols-2 gap-3 p-3 rounded-xl bg-card2/50 border border-line">
-                    {/* Left: GMP Today */}
-                    <div>
-                      <span className="text-xs font-semibold text-mut uppercase tracking-wider block mb-1">
-                        GMP Today
-                      </span>
-                      <div className="flex items-baseline gap-1.5 font-mono tabular-nums">
-                        <span className={`text-xl font-heading font-extrabold leading-none ${
-                          isPositive ? "text-up" : isNegative ? "text-dn" : "text-mut"
-                        }`}>
-                          {item.gmp === 0 ? "₹0" : formatINR(item.gmp)}
-                        </span>
-                        <span className={`text-xs font-bold leading-none ${
-                          isPositive ? "text-up" : isNegative ? "text-dn" : "text-mut"
-                        }`}>
-                          ({gainDisplay})
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Right: Est. Listing Price */}
-                    <div className="border-l border-line/60 pl-3">
-                      <span className="text-xs font-semibold text-mut uppercase tracking-wider block mb-1">
-                        Est. Price
-                      </span>
-                      <div className="flex items-baseline gap-1.5 font-mono tabular-nums">
-                        <span className="text-xl font-heading font-extrabold text-accent leading-none">
-                          {item.estimatedListingPrice > 0 ? formatINR(item.estimatedListingPrice) : "TBA"}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* 3. Core Info Rows */}
-                  <div className="space-y-1.5 text-xs py-0.5">
-                    {/* Issue Price */}
-                    <div className="flex items-center justify-between pb-1.5 border-b border-line/40">
-                      <span className="text-mut font-medium">Issue Price</span>
-                      <span className="font-bold text-tx font-mono text-xs sm:text-sm tabular-nums">{item.priceRange}</span>
-                    </div>
-
-                    {/* Lot Size */}
-                    <div className="flex items-center justify-between pb-1.5 border-b border-line/40">
-                      <span className="text-mut font-medium">Lot Size</span>
-                      <span className="font-bold text-tx font-mono text-xs sm:text-sm tabular-nums">
-                        {item.bidLot ? `${item.bidLot.toLocaleString("en-IN")} Shares` : "TBA"}
-                      </span>
-                    </div>
-
-                    {/* Offer Period */}
-                    <div className="flex items-center justify-between pb-1.5 border-b border-line/40">
-                      <span className="text-mut font-medium">Offer Period</span>
-                      <span className="font-bold text-tx font-mono text-xs sm:text-sm tabular-nums">
-                        {formatDateRange(item.startDate, item.endDate)}
-                      </span>
-                    </div>
-
-                    {/* Allotment */}
-                    <div className="flex items-center justify-between">
-                      <span className="text-mut font-medium">Allotment Date</span>
-                      <span className="font-bold text-accent font-mono text-xs sm:text-sm tabular-nums">
-                        {formatShortDate(item.allotmentDate) || "TBA"}
-                      </span>
-                    </div>
-                  </div>
+                            {/* 8. Action: View Details */}
+                            <td className="py-3.5 px-5 text-right whitespace-nowrap">
+                              <Link
+                                href={detailUrl}
+                                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-accent text-accent-foreground hover:bg-accent/90 transition-all shadow-xs"
+                              >
+                                View Details
+                                <ArrowUpRight className="w-3.5 h-3.5" />
+                              </Link>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
                 </div>
-
-                {/* 4. Bottom Timeline: UPCOMING → OPEN → CLOSE → LISTED */}
-                <div className="pt-2 mt-2.5 border-t border-line/60">
-                  <div className="grid grid-cols-4 gap-1 text-center">
-                    {stages.map((stage, idx) => {
-                      const Icon = stage.icon;
-                      const isCurrent = idx === currentStageIndex;
-                      const isPassed = idx < currentStageIndex;
-                      return (
-                        <div key={idx} className="flex flex-col items-center justify-center py-0.5">
-                          <div className="mb-1 flex items-center justify-center">
-                            <Icon
-                              className={`w-3.5 h-3.5 ${
-                                isCurrent
-                                  ? stage.label === "CLOSE" ? "text-red-600" : "text-accent"
-                                  : isPassed ? "text-mut/80" : "text-mut/40"
-                              }`}
-                            />
-                          </div>
-                          <span className={`text-[12px] uppercase tracking-wider leading-none ${
-                            isCurrent
-                              ? stage.label === "CLOSE" ? "text-red-600 font-extrabold" : "text-accent font-extrabold"
-                              : isPassed ? "text-tx/60 font-medium" : "text-mut/70 font-normal"
-                          }`}>
-                            {stage.label}
-                          </span>
-                          <span className={`text-[12px] font-mono mt-0.5 tabular-nums ${
-                            isCurrent ? "text-tx font-bold" : isPassed ? "text-tx/60 font-normal" : "text-mut/60 font-normal"
-                          }`}>
-                            {stage.date}
-                          </span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
+              </div>
+            ) : (
+              /* CARD VIEW: 2-3 Column Grid for Desktop */
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                {filteredItems.map(renderGmpCard)}
+              </div>
+            )}
+          </div>
+        </>
       )}
 
       {/* =========================================================================
@@ -647,6 +652,80 @@ export function GmpClient({ initialItems, updatedAt }: GmpClientProps) {
             {gmpFaqs.map((faq, index) => (
               <FaqAccordionItem key={index} question={faq.question} answer={faq.answer} />
             ))}
+          </div>
+        </div>
+
+        {/* Keyword-Rich Internal Cross-Linking Navigation */}
+        <div className="bg-card border border-line rounded-3xl p-6 sm:p-8 space-y-4">
+          <div>
+            <h3 className="font-heading font-black text-lg sm:text-xl text-tx">
+              Explore Related IPO Tools &amp; Status Checkers
+            </h3>
+            <p className="text-xs sm:text-sm text-mut mt-0.5">
+              Move beyond Grey Market Premiums to verify real-time investor bidding, lottery allotment results, and lot size calculations:
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
+            <Link
+              href="/subscription"
+              className="p-4 rounded-2xl bg-card2/50 border border-line hover:border-accent hover:bg-card transition-all group flex items-center justify-between"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0">
+                  <Users className="w-4 h-4" />
+                </div>
+                <div>
+                  <span className="font-heading font-bold text-xs sm:text-sm text-tx group-hover:text-accent transition-colors block">
+                    Live IPO Subscription Status
+                  </span>
+                  <span className="text-[11px] text-mut block">
+                    Track live QIB, NII &amp; Retail bidding
+                  </span>
+                </div>
+              </div>
+              <ArrowRight className="w-3.5 h-3.5 text-mut group-hover:text-accent group-hover:translate-x-0.5 transition-all shrink-0 ml-2" />
+            </Link>
+
+            <Link
+              href="/allotment"
+              className="p-4 rounded-2xl bg-card2/50 border border-line hover:border-accent hover:bg-card transition-all group flex items-center justify-between"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500 shrink-0">
+                  <CheckCircle2 className="w-4 h-4" />
+                </div>
+                <div>
+                  <span className="font-heading font-bold text-xs sm:text-sm text-tx group-hover:text-accent transition-colors block">
+                    IPO Allotment Status Check by PAN
+                  </span>
+                  <span className="text-[11px] text-mut block">
+                    Direct registrar verification links
+                  </span>
+                </div>
+              </div>
+              <ArrowRight className="w-3.5 h-3.5 text-mut group-hover:text-accent group-hover:translate-x-0.5 transition-all shrink-0 ml-2" />
+            </Link>
+
+            <Link
+              href="/tools/lot-calculator"
+              className="p-4 rounded-2xl bg-card2/50 border border-line hover:border-accent hover:bg-card transition-all group flex items-center justify-between"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500 shrink-0">
+                  <Calculator className="w-4 h-4" />
+                </div>
+                <div>
+                  <span className="font-heading font-bold text-xs sm:text-sm text-tx group-hover:text-accent transition-colors block">
+                    IPO Lot Size &amp; Profit Calculator
+                  </span>
+                  <span className="text-[11px] text-mut block">
+                    Calculate lot amounts, sHNI &amp; bHNI tiers
+                  </span>
+                </div>
+              </div>
+              <ArrowRight className="w-3.5 h-3.5 text-mut group-hover:text-accent group-hover:translate-x-0.5 transition-all shrink-0 ml-2" />
+            </Link>
           </div>
         </div>
       </div>

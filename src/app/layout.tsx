@@ -1,10 +1,24 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { Header } from "@/components/layout/Header";
+import { QuickKeywordsBar } from "@/components/layout/QuickKeywordsBar";
 import { Footer } from "@/components/layout/Footer";
-import { getBaseMetadata, getOrganizationSchema } from "@/lib/seo";
+import { getBaseMetadata, getOrganizationSchema, getWebSiteSchema } from "@/lib/seo";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-heading",
+  display: "swap",
+});
 
 export const metadata: Metadata = getBaseMetadata();
 export const revalidate = 10;
@@ -22,6 +36,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const orgSchema = getOrganizationSchema();
+  const websiteSchema = getWebSiteSchema();
 
   return (
     <html
@@ -30,6 +45,12 @@ export default function RootLayout({
       data-theme="light"
     >
       <head>
+        {/* Preconnect for Performance Optimization */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://docipo.ipotrending.com" />
+        <link rel="dns-prefetch" href="https://docipo.ipotrending.com" />
+
         {/* Google Tag Manager (GTM) */}
         <Script
           id="gtm-script"
@@ -49,8 +70,14 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
         />
+
+        {/* WebSite SearchAction JSON-LD Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
       </head>
-      <body className="flex flex-col min-h-screen">
+      <body className={`${inter.variable} ${plusJakartaSans.variable} font-sans flex flex-col min-h-screen`}>
         {/* GTM (noscript fallback) */}
         <noscript>
           <iframe
@@ -63,6 +90,7 @@ export default function RootLayout({
 
         <ThemeProvider forcedTheme="light" defaultTheme="light" enableSystem={false}>
           <Header />
+          <QuickKeywordsBar />
           <main className="flex-1">{children}</main>
           <Footer />
         </ThemeProvider>

@@ -53,16 +53,12 @@ export function ToolsSection() {
             </p>
           </div>
           <div className="mt-6">
-            <a
-              href="https://allotmentstatus.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <Link href="/allotment">
               <Button variant="primary" size="sm" className="gap-2">
                 Check Allotment Status
-                <ExternalLink className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4" />
               </Button>
-            </a>
+            </Link>
           </div>
         </Card>
       </div>

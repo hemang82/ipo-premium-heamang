@@ -44,7 +44,7 @@ export function LotCalculator({ issuePrice, lotSize, gmp }: LotCalculatorProps) 
         <div>
           <div className="flex items-center justify-between text-xs text-mut mb-1.5">
             <label htmlFor="lots-input">Number of Lots to Apply</label>
-            <span className="font-mono text-tx font-semibold">{lots} Lot(s)</span>
+            <span className="font-heading text-tx font-semibold tabular-nums">{lots} Lot(s)</span>
           </div>
           <div className="flex items-center gap-2">
             <button
@@ -77,16 +77,16 @@ export function LotCalculator({ issuePrice, lotSize, gmp }: LotCalculatorProps) 
         <div className="pt-2 border-t border-line/60 space-y-2 text-xs">
           <div className="flex items-center justify-between">
             <span className="text-mut">Total Shares Applied:</span>
-            <span className="font-semibold text-tx tabular-nums">{totalShares} shares</span>
+            <span className="font-heading font-semibold text-tx tabular-nums">{totalShares} shares</span>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-mut">Required Investment (At Cap):</span>
-            <span className="font-bold text-tx tabular-nums">{formatINR(investment)}</span>
+            <span className="font-heading font-semibold text-tx tabular-nums">{formatINR(investment)}</span>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-mut">Expected Listing Gain (@ GMP):</span>
             <span
-              className={`font-bold tabular-nums ${
+              className={`font-heading font-semibold tabular-nums ${
                 estimatedGain > 0 ? "text-up" : estimatedGain < 0 ? "text-dn" : "text-tx"
               }`}
             >
@@ -95,7 +95,7 @@ export function LotCalculator({ issuePrice, lotSize, gmp }: LotCalculatorProps) 
           </div>
           <div className="flex items-center justify-between pt-1 border-t border-line/40 font-semibold">
             <span className="text-tx">Estimated Portfolio Value:</span>
-            <span className="text-accent tabular-nums text-sm font-bold">
+            <span className="text-accent font-heading tabular-nums text-sm font-semibold">
               {formatINR(totalReturn)}
             </span>
           </div>

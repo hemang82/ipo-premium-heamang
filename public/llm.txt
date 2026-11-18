@@ -8,16 +8,26 @@ ipo-premium.com provides real-time, verified data on Indian Mainboard and SME In
 
 - [IPO GMP Today](https://ipo-premium.com/ipo-gmp): Live Grey Market Premium (GMP), estimated listing price, and expected listing gain percentages for active Mainboard and SME IPOs.
 - [Live IPO Subscription Status](https://ipo-premium.com/subscription): Real-time subscription tracking across QIB, NII (HNI), and Retail investor quotas with cumulative BSE/NSE bidding metrics.
-- [IPO Allotment Status](https://ipo-premium.com/allotment): Direct registrar lookup links (Link Intime, KFintech, Bigshare, Skyline) and allotment calendar schedules.
+- [IPO Allotment Status Hub](https://ipo-premium.com/allotment): Comprehensive share allocation verification across all RTAs and stock exchanges.
 - [Live Ongoing IPOs](https://ipo-premium.com/ipo/live): List of all currently open public issues accepting bids.
 - [Upcoming IPOs 2026](https://ipo-premium.com/ipo/upcoming): Comprehensive tracker for upcoming IPOs, tentative issue dates, price bands, issue sizes, and SEBI DRHP approvals.
 - [Listed IPO Performance](https://ipo-premium.com/ipo/listed): Historical listing day gains, current trading prices, and post-listing performance.
+
+## Official Registrar Allotment Checkers
+
+- [Link Intime IPO Allotment Status](https://ipo-premium.com/allotment/link-intime): Official Link Intime India (MUFG Intime) direct portal and mirror servers for Mainboard IPOs.
+- [KFintech IPO Allotment Status](https://ipo-premium.com/allotment/kfintech): Direct access to KFin Technologies allotment servers (Server 1 to 5) for high-traffic issues.
+- [Bigshare Services IPO Allotment Status](https://ipo-premium.com/allotment/bigshare): Check BSE SME and NSE Emerge IPO application status by PAN.
+- [BSE India IPO Application Check](https://ipo-premium.com/allotment/bse-india): Centralized official Bombay Stock Exchange allotment verification.
+- [Skyline Financial IPO Allotment Status](https://ipo-premium.com/allotment/skyline): Official Skyline Financial Services allocation portal for SME public issues.
 
 ## Investment Tools & Educational Resources
 
 - [IPO Lot Size & Investment Calculator](https://ipo-premium.com/tools/lot-calculator): Interactive calculator for lot sizes, cutoff prices, retail quotas (up to ₹2 Lakh), and HNI tiers (sHNI and bHNI).
 - [IPO Educational Articles](https://ipo-premium.com/articles): In-depth research articles on Grey Market mechanics, Kostak rates, Subject to Sauda agreements, and allotment probability.
-- [What is IPO GMP Guide](https://ipo-premium.com/guides/what-is-ipo-gmp): Foundational primer on how Grey Market Premiums are derived, dealer networks, and volatility considerations.
+- [What is IPO GMP Guide](https://ipo-premium.com/articles/what-is-ipo-gmp-grey-market-premium): Foundational primer on how Grey Market Premiums are derived, dealer networks, and volatility considerations.
+- [How to Check IPO Allotment Fast](https://ipo-premium.com/articles/how-to-check-ipo-allotment-status-fast): Complete 4-step guide to verify share allocation via PAN, Application number, and bank debit alerts.
+- [Kostak Rate vs Subject to Sauda](https://ipo-premium.com/articles/kostak-rate-vs-subject-to-sauda-differences): Understanding off-market profit structures and application sale agreements.
 - [IPO Market News](https://ipo-premium.com/news): Latest primary market reporting, anchor book allocations, SEBI regulatory updates, and filing news.
 - [Frequently Asked Questions](https://ipo-premium.com/faq): Detailed answers to common questions about UPI mandate approval, ASBA applications, and listing mechanics.
 

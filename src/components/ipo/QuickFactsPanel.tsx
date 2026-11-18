@@ -126,7 +126,7 @@ export function QuickFactsPanel({ ipo, raw = {} }: QuickFactsPanelProps) {
               <Tag className="w-3.5 h-3.5 text-accent shrink-0" />
               Price Band
             </span>
-            <span className="font-bold text-tx font-mono tracking-tight text-sm">
+            <span className="font-semibold text-tx font-heading tracking-tight text-sm">
               {priceBand}
             </span>
           </div>
@@ -137,7 +137,7 @@ export function QuickFactsPanel({ ipo, raw = {} }: QuickFactsPanelProps) {
               <TrendingUp className="w-3.5 h-3.5 text-accent shrink-0" />
               Issue Cap Price
             </span>
-            <span className="font-bold text-tx font-mono tabular-nums text-sm">
+            <span className="font-semibold text-tx font-heading tabular-nums text-sm">
               {capPrice ? `₹${capPrice}` : "-"}
             </span>
           </div>
@@ -148,7 +148,7 @@ export function QuickFactsPanel({ ipo, raw = {} }: QuickFactsPanelProps) {
               <Layers className="w-3.5 h-3.5 text-accent shrink-0" />
               Market Lot Size
             </span>
-            <span className="font-bold text-tx font-mono tabular-nums text-sm">
+            <span className="font-semibold text-tx font-heading tabular-nums text-sm">
               {lotSize ? `${formatNum(lotSize)} Shares` : "-"}
             </span>
           </div>
@@ -159,7 +159,7 @@ export function QuickFactsPanel({ ipo, raw = {} }: QuickFactsPanelProps) {
               <Wallet className="w-3.5 h-3.5 text-accent shrink-0" />
               Min Retail Outlay
             </span>
-            <span className="font-bold text-accent font-mono tabular-nums text-base">
+            <span className="font-semibold text-accent font-heading tabular-nums text-base">
               {minRetail ? formatINR(minRetail) : "-"}
             </span>
           </div>
@@ -170,7 +170,7 @@ export function QuickFactsPanel({ ipo, raw = {} }: QuickFactsPanelProps) {
               <Building className="w-3.5 h-3.5 text-accent shrink-0" />
               Total Issue Size
             </span>
-            <span className="font-bold text-tx font-mono tabular-nums text-sm">
+            <span className="font-semibold text-tx font-heading tabular-nums text-sm">
               {issueSizeText}
             </span>
           </div>
@@ -181,7 +181,7 @@ export function QuickFactsPanel({ ipo, raw = {} }: QuickFactsPanelProps) {
               <Building2 className="w-3.5 h-3.5 text-accent shrink-0" />
               Listing Exchanges
             </span>
-            <span className="font-bold text-tx font-mono text-xs px-2.5 py-1 rounded-md bg-card2 border border-line">
+            <span className="font-semibold text-tx font-heading text-xs px-2.5 py-1 rounded-md bg-card2 border border-line">
               {exchanges}
             </span>
           </div>

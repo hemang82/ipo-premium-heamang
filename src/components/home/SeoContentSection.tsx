@@ -27,8 +27,31 @@ export function SeoContentSection() {
           IPO Grey Market Premium (GMP) & Stock Allotment Guide
         </h2>
         <p className="text-mut text-sm sm:text-base mt-2 max-w-3xl leading-relaxed">
-          Everything you need to know about Initial Public Offerings (IPO), live Grey Market Premium (GMP) rates today, 
-          Kostak rates, Subject to Sauda, subscription metrics across QIB, NII, Retail categories, and allotment status verification on BSE, NSE, Link Intime, and KFintech.
+          Everything you need to know about Initial Public Offerings (IPO), live{" "}
+          <Link href="/ipo-gmp" className="text-accent font-medium hover:underline">
+            Grey Market Premium (GMP) rates today
+          </Link>
+          ,{" "}
+          <Link href="/articles/kostak-rate-vs-subject-to-sauda-differences" className="text-accent font-medium hover:underline">
+            Kostak rates vs Subject to Sauda
+          </Link>
+          , subscription metrics across QIB, NII, Retail categories, and{" "}
+          <Link href="/allotment" className="text-accent font-medium hover:underline">
+            allotment status verification
+          </Link>{" "}
+          on{" "}
+          <Link href="/allotment/bse-india" className="text-accent font-medium hover:underline">
+            BSE
+          </Link>
+          , NSE,{" "}
+          <Link href="/allotment/link-intime" className="text-accent font-medium hover:underline">
+            Link Intime
+          </Link>
+          , and{" "}
+          <Link href="/allotment/kfintech" className="text-accent font-medium hover:underline">
+            KFintech
+          </Link>
+          .
         </p>
       </div>
 
@@ -44,7 +67,11 @@ export function SeoContentSection() {
               What is IPO GMP (Grey Market Premium)?
             </h3>
             <p className="text-xs sm:text-sm text-mut leading-relaxed">
-              Grey Market Premium (GMP) is an unofficial, off-market financial premium at which public issue shares are bid and traded prior to their official listing on BSE or NSE. GMP reflects investor sentiment, secondary market dynamics, and anticipated listing price gain.
+              Grey Market Premium (GMP) is an unofficial, off-market financial premium at which public issue shares are bid and traded prior to their official listing on BSE or NSE. Track live{" "}
+              <Link href="/ipo-gmp" className="text-accent font-semibold hover:underline">
+                IPO GMP Today
+              </Link>{" "}
+              to gauge investor sentiment, secondary market dynamics, and anticipated listing price gain.
             </p>
           </div>
           <div className="mt-4 pt-3 border-t border-line/60">
@@ -62,7 +89,11 @@ export function SeoContentSection() {
               Kostak Rate vs Subject to Sauda
             </h3>
             <p className="text-xs sm:text-sm text-mut leading-relaxed">
-              <strong>Kostak Rate</strong> is the fixed lump-sum profit earned by selling an IPO application before allotment, irrespective of allotment success. <strong>Subject to Sauda (SS)</strong> is an agreement where profit is transferred only if shares are formally allotted to the bidder.
+              <strong>Kostak Rate</strong> is the fixed lump-sum profit earned by selling an IPO application before allotment, irrespective of allotment success. <strong>Subject to Sauda (SS)</strong> is an agreement where profit is transferred only if shares are formally allotted to the bidder. Read our complete guide on{" "}
+              <Link href="/articles/kostak-rate-vs-subject-to-sauda-differences" className="text-accent font-semibold hover:underline">
+                Kostak vs Subject to Sauda differences
+              </Link>
+              .
             </p>
           </div>
           <div className="mt-4 pt-3 border-t border-line/60">
@@ -80,7 +111,11 @@ export function SeoContentSection() {
               IPO Subscription: QIB, NII & Retail
             </h3>
             <p className="text-xs sm:text-sm text-mut leading-relaxed">
-              Tracking subscription multiples shows institutional validation. <strong>QIB</strong> (Qualified Institutional Buyers) bidding picks up on Day 3. <strong>NII/HNI</strong> (Non-Institutional) reflects leveraged bids, while <strong>RII</strong> (Retail Individual Investors) highlights public demand.
+              Tracking subscription multiples shows institutional validation. Check live{" "}
+              <Link href="/subscription" className="text-accent font-semibold hover:underline">
+                IPO subscription status
+              </Link>{" "}
+              where <strong>QIB</strong> bidding picks up on Day 3, <strong>NII/HNI</strong> reflects leveraged bids, and <strong>Retail (RII)</strong> highlights public demand.
             </p>
           </div>
           <div className="mt-4 pt-3 border-t border-line/60">
@@ -106,7 +141,11 @@ export function SeoContentSection() {
               <span className="text-xs font-bold text-accent uppercase tracking-wider block mb-1">Step 01</span>
               <h4 className="font-heading font-bold text-sm text-tx">Bidding Window (T)</h4>
               <p className="text-xs text-mut mt-1 leading-relaxed">
-                IPO opens for subscription (usually 3 working days). Investors place bids via ASBA net banking or UPI mandating.
+                IPO opens for subscription (usually 3 working days). Investors place bids via ASBA net banking or UPI mandating. Use our{" "}
+                <Link href="/tools/lot-calculator" className="text-accent font-semibold hover:underline">
+                  IPO lot size calculator
+                </Link>{" "}
+                to compute exact capital requirements.
               </p>
             </div>
             <div className="p-4 rounded-xl bg-card2/80 border border-line/80">
@@ -142,7 +181,11 @@ export function SeoContentSection() {
             Mainboard IPO vs SME IPO: Key Differences
           </h3>
           <p className="text-sm text-mut leading-relaxed mb-4">
-            India has two major initial public offering segments: Mainboard IPOs (regulated for larger capitalization) and SME IPOs (BSE SME & NSE Emerge platforms designed for emerging enterprises):
+            India has two major initial public offering segments: Mainboard IPOs (regulated for larger capitalization) and SME IPOs (BSE SME & NSE Emerge platforms designed for emerging enterprises). Explore our detailed comparison on{" "}
+            <Link href="/articles/bse-sme-vs-nse-emerge-lot-size-rules" className="text-accent font-semibold hover:underline">
+              BSE SME vs NSE Emerge lot size rules &amp; investment guide
+            </Link>
+            :
           </p>
 
           <div className="overflow-x-auto">
@@ -194,20 +237,44 @@ export function SeoContentSection() {
             How to Check IPO Allotment Status Online
           </h3>
           <p className="text-sm text-mut leading-relaxed mb-4">
-            Investors can check their allocation status across four reliable official channels. You will need your <strong>PAN card number</strong>, <strong>Application Number</strong>, or <strong>DP Client ID</strong>:
+            Investors can check their allocation status across official registrar channels or via our direct{" "}
+            <Link href="/allotment" className="text-accent font-semibold hover:underline">
+              IPO Allotment Status Check by PAN
+            </Link>{" "}
+            portal. You will need your <strong>PAN card number</strong>, <strong>Application Number</strong>, or <strong>DP Client ID</strong>:
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="p-4 rounded-xl bg-card2/60 border border-line">
               <h4 className="font-heading font-bold text-sm text-tx mb-2">1. Registrar Portals (Fastest)</h4>
               <p className="text-xs text-mut leading-relaxed">
-                Registrars like Link Intime India, KFin Technologies (KFintech), Bigshare Services, Skyline, and Cameo Corporate upload the finalized basis of allotment first. Simply pick the company name from the dropdown and submit your PAN.
+                Registrars like{" "}
+                <Link href="/allotment/link-intime" className="text-accent font-semibold hover:underline">
+                  Link Intime India
+                </Link>
+                ,{" "}
+                <Link href="/allotment/kfintech" className="text-accent font-semibold hover:underline">
+                  KFin Technologies (KFintech)
+                </Link>
+                ,{" "}
+                <Link href="/allotment/bigshare" className="text-accent font-semibold hover:underline">
+                  Bigshare Services
+                </Link>
+                ,{" "}
+                <Link href="/allotment/skyline" className="text-accent font-semibold hover:underline">
+                  Skyline Financial
+                </Link>
+                , and Cameo Corporate upload the finalized basis of allotment first. Simply pick the company name from the dropdown and submit your PAN.
               </p>
             </div>
             <div className="p-4 rounded-xl bg-card2/60 border border-line">
               <h4 className="font-heading font-bold text-sm text-tx mb-2">2. Stock Exchanges (BSE & NSE)</h4>
               <p className="text-xs text-mut leading-relaxed">
-                Visit the official BSE India or NSE India IPO Status portal. Select issue type as &apos;Equity&apos;, choose the company name, enter application number and PAN, and verify the allotment confirmation.
+                Visit the official{" "}
+                <Link href="/allotment/bse-india" className="text-accent font-semibold hover:underline">
+                  BSE India IPO allotment portal
+                </Link>{" "}
+                or NSE India IPO Status portal. Select issue type as &apos;Equity&apos;, choose the company name, enter application number and PAN, and verify the allotment confirmation.
               </p>
             </div>
           </div>

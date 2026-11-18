@@ -8,8 +8,18 @@ interface IpoBadgeHeaderProps {
     statusLabel?: string;
     closeDate?: string;
     openDate?: string;
+    allotmentDate?: string;
+    listingDate?: string;
+    dates?: { label: string; date: string; state?: string }[];
   };
   className?: string;
+}
+
+function parseItemDate(dStr?: string): Date | null {
+  if (!dStr || dStr === "-" || dStr === "TBA") return null;
+  const d = new Date(dStr);
+  if (isNaN(d.getTime())) return null;
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
 }
 
 export function IpoBadgeHeader({ ipo, className = "" }: IpoBadgeHeaderProps) {
@@ -38,64 +48,92 @@ export function IpoBadgeHeader({ ipo, className = "" }: IpoBadgeHeaderProps) {
     }
   }
 
-  // 2. Status Label Logic
+  // 2. Extract Dates safely (from root properties or dates array)
+  const dates = ipo.dates || [];
+  const openStr = ipo.openDate || dates.find((d) => d.label?.toLowerCase().includes("open"))?.date;
+  const closeStr = ipo.closeDate || dates.find((d) => d.label?.toLowerCase().includes("close"))?.date;
+  const allotStr = ipo.allotmentDate || dates.find((d) => d.label?.toLowerCase().includes("allot"))?.date;
+  const listStr = ipo.listingDate || dates.find((d) => d.label?.toLowerCase().includes("list"))?.date;
+
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  const openDate = parseItemDate(openStr);
+  const closeDate = parseItemDate(closeStr);
+  const allotDate = parseItemDate(allotStr);
+  const listDate = parseItemDate(listStr);
+
+  // 3. Status Label Logic (Chronologically Strict)
   let statusRaw = ipo.statusLabel || ipo.status || "";
 
-  if (ipo.closeDate) {
-    const today = new Date();
-    const todayStr = today.toISOString().split("T")[0];
-    const closeDateClean = ipo.closeDate.split("T")[0];
-
-    if (closeDateClean === todayStr) {
-      statusRaw = "Closes Today";
+  if (openDate && today.getTime() < openDate.getTime()) {
+    // Stage 1: UPCOMING (Bidding hasn't opened yet)
+    const diffDays = Math.round((openDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+    if (diffDays === 1) {
+      statusRaw = "Opens Tomorrow";
+    } else if (diffDays > 1 && diffDays <= 7) {
+      statusRaw = `Opens in ${diffDays} Days`;
     } else {
-      const closeTime = new Date(ipo.closeDate).getTime();
-      const nowTime = today.getTime();
-      const diffDays = Math.ceil((closeTime - nowTime) / (1000 * 60 * 60 * 24));
-
-      if (diffDays === 1) {
-        statusRaw = "Closes Tomorrow";
-      } else if (diffDays > 1 && diffDays <= 5) {
-        statusRaw = `Closes in ${diffDays} Days`;
-      }
+      statusRaw = "Upcoming";
+    }
+  } else if (closeDate && today.getTime() <= closeDate.getTime()) {
+    // Stage 2: LIVE / OPEN (Bidding is actively ongoing)
+    const diffDays = Math.round((closeDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+    if (diffDays === 0) {
+      statusRaw = "Closes Today";
+    } else if (diffDays === 1) {
+      statusRaw = "Closes Tomorrow";
+    } else if (diffDays > 1 && diffDays <= 5) {
+      statusRaw = `Closes in ${diffDays} Days`;
+    } else {
+      statusRaw = "Live Bidding";
+    }
+  } else if (closeDate && today.getTime() > closeDate.getTime()) {
+    // Stage 3: CLOSED (Bidding has concluded)
+    if (listDate && today.getTime() >= listDate.getTime()) {
+      statusRaw = "Listed";
+    } else if (listDate && today.getTime() === listDate.getTime()) {
+      statusRaw = "Listing Today";
+    } else if (allotDate && today.getTime() === allotDate.getTime()) {
+      statusRaw = "Allotment Today";
+    } else if (allotDate && today.getTime() > allotDate.getTime()) {
+      statusRaw = "Allotment Out";
+    } else {
+      statusRaw = "Closed";
     }
   }
 
-  // Right Side Status Badge: Theme-based Tinted / Outlined with dot
-  // (Left badge is solid filled, so right badge is soft tinted for perfect odd-even balance)
+  // 4. Status Badge Color Styling
   let statusClass = "bg-accent/10 text-accent border-accent/25";
-  let dotClass = "bg-accent";
 
   const lower = statusRaw.toLowerCase();
   if (lower.includes("allotment") || lower.includes("alloted") || lower.includes("allotted")) {
-    // Orange styling for Allotment / Alloted status
-    statusClass = "bg-orange-500/10 text-orange-500 dark:text-orange-400 border-orange-500/30";
-    dotClass = "bg-orange-500 dark:bg-orange-400";
+    statusClass = "bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/30";
   } else if (lower.includes("closes today") || lower.includes("close today")) {
     statusClass = "bg-dn/10 text-dn border-dn/30";
-    dotClass = "bg-dn";
   } else if (lower.includes("closes in") || lower.includes("closes tomorrow")) {
-    statusClass = "bg-amber-500/10 text-amber-500 dark:text-amber-400 border-amber-500/30";
-    dotClass = "bg-amber-500 dark:bg-amber-400";
-  } else if (lower.includes("open") || lower.includes("live")) {
+    statusClass = "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30";
+  } else if (lower.includes("opens in") || lower.includes("opens tomorrow") || lower.includes("upcoming")) {
     statusClass = "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/30";
-    dotClass = "bg-blue-500 dark:bg-blue-400";
-  } else if (lower.includes("listed") || lower.includes("closed")) {
-    statusClass = "bg-up/10 text-up border-up/30";
-    dotClass = "bg-up";
+  } else if (lower.includes("live") || lower.includes("open")) {
+    statusClass = "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30";
+  } else if (lower.includes("listed")) {
+    statusClass = "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/30";
+  } else if (lower.includes("closed")) {
+    statusClass = "bg-card2 text-mut border-line";
   }
 
   return (
-    <div className={`flex items-center gap-1.5 flex-wrap ${className}`}>
-      {/* 1. Type Badge: Solid Dark Accent - Accurately Centered */}
-      <span className="inline-flex items-center justify-center h-[21px] px-2.5 rounded-md text-[11px] font-semibold bg-accent text-accent-foreground shadow-xs leading-none whitespace-nowrap shrink-0 text-center">
+    <div className={`flex items-center gap-1.5 flex-nowrap shrink-0 ${className}`}>
+      {/* 1. Type Badge: Solid Dark Accent - Accurately Centered (12px) */}
+      <span className="inline-flex items-center justify-center h-[22px] px-2.5 rounded-md text-[12px] font-semibold bg-accent text-accent-foreground shadow-xs leading-none whitespace-nowrap shrink-0 text-center">
         {typeLabel}
       </span>
 
-      {/* 2. Status Badge: In Sync with Type Badge - Accurately Centered */}
+      {/* 2. Status Badge: In Sync with Type Badge - Accurately Centered (12px) */}
       {statusRaw && (
         <span
-          className={`inline-flex items-center justify-center h-[21px] px-2.5 rounded-md text-[11px] font-semibold border shadow-xs leading-none whitespace-nowrap shrink-0 text-center ${statusClass}`}
+          className={`inline-flex items-center justify-center h-[22px] px-2.5 rounded-md text-[12px] font-semibold border shadow-xs leading-none whitespace-nowrap shrink-0 text-center ${statusClass}`}
         >
           {statusRaw}
         </span>

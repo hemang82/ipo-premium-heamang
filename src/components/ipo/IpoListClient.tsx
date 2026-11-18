@@ -230,7 +230,7 @@ export function IpoListClient({
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search by company or symbol..."
-                className="w-full bg-card2/80 border border-line rounded-xl pl-9 pr-9 py-2 text-xs sm:text-sm text-tx placeholder:text-mut/70 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"
+                className="w-full bg-card2/80 border border-line rounded-xl pl-9 pr-9 py-2 text-xs sm:text-sm text-tx placeholder:text-mut/70 outline-none focus:outline-none focus:border-accent focus:shadow-[0_0_0_2px_rgba(217,90,43,0.18)] focus:ring-0 transition-all"
               />
               {search && (
                 <button
@@ -244,8 +244,8 @@ export function IpoListClient({
               )}
             </div>
 
-            {/* View Mode Toggle */}
-            <div className="flex items-center p-1 rounded-xl bg-card border border-line shadow-xs shrink-0">
+            {/* View Mode Toggle (Desktop only) */}
+            <div className="hidden md:flex items-center p-1 rounded-xl bg-card border border-line shadow-xs shrink-0">
               <button
                 type="button"
                 onClick={() => setViewMode("list")}
@@ -324,7 +324,7 @@ export function IpoListClient({
         /* Upstream API Error State (e.g. 500 error on listed mainboard) */
         <div className="text-center py-14 px-4 rounded-2xl bg-card border border-line space-y-3.5">
           <AlertTriangle className="w-10 h-10 text-amber-500 mx-auto" />
-          <h3 className="text-base font-bold text-tx">Upstream Data Provider Notice</h3>
+          <h3 className="text-base font-heading font-bold text-tx">Upstream Data Provider Notice</h3>
           <p className="text-xs sm:text-sm text-mut max-w-lg mx-auto leading-relaxed">
             The external data server encountered a temporary format error while querying {ipoType === "mainboard" ? "Mainboard Listed" : "IPO"} records ({apiError}).
             {category === "listed" && " Over 1,100+ SME Listed IPOs are fully available."}
@@ -345,7 +345,7 @@ export function IpoListClient({
           /* Live page with Mainboard filter: currently 0 mainboard live in India */
           <div className="text-center py-14 px-4 rounded-2xl bg-card border border-line space-y-3.5">
             <Building2 className="w-10 h-10 text-mut/60 mx-auto" />
-            <h3 className="text-base font-bold text-tx">No Live Mainboard IPOs Open Today</h3>
+            <h3 className="text-base font-heading font-bold text-tx">No Live Mainboard IPOs Open Today</h3>
             <p className="text-xs sm:text-sm text-mut max-w-md mx-auto leading-relaxed">
               There are currently no Mainboard IPOs open for public bidding on BSE or NSE. Currently, 2 SME IPOs are active in bidding.
             </p>
@@ -370,7 +370,7 @@ export function IpoListClient({
           /* Upcoming page: currently 0 upcoming announced in market */
           <div className="text-center py-14 px-4 rounded-2xl bg-card border border-line space-y-3.5">
             <CalendarClock className="w-10 h-10 text-amber-500 mx-auto" />
-            <h3 className="text-base font-bold text-tx">No Upcoming IPOs Scheduled Right Now</h3>
+            <h3 className="text-base font-heading font-bold text-tx">No Upcoming IPOs Scheduled Right Now</h3>
             <p className="text-xs sm:text-sm text-mut max-w-lg mx-auto leading-relaxed">
               There are currently no upcoming IPOs with declared bidding dates on BSE or NSE. New IPO announcements will automatically appear here once Red Herring Prospectus (RHP) and bid dates are declared with SEBI.
             </p>
@@ -399,7 +399,7 @@ export function IpoListClient({
           /* Search returned 0 results */
           <div className="text-center py-14 px-4 rounded-2xl bg-card border border-line space-y-3.5">
             <Search className="w-10 h-10 text-mut/60 mx-auto" />
-            <h3 className="text-base font-bold text-tx">No IPOs found for "{debouncedSearch}"</h3>
+            <h3 className="text-base font-heading font-bold text-tx">No IPOs found for "{debouncedSearch}"</h3>
             <p className="text-xs sm:text-sm text-mut max-w-md mx-auto leading-relaxed">
               We couldn't find any {ipoType !== "all" ? ipoType.toUpperCase() : ""} IPO matching your search query. Try checking for typos or searching by another keyword.
             </p>
@@ -441,11 +441,21 @@ export function IpoListClient({
           </div>
         )
       ) : viewMode === "list" ? (
-        /* LIST VIEW */
-        <div className="space-y-3">
-          {items.map((ipo) => (
-            <IpoRow key={`${ipo.slug}-${ipo.symbol}`} ipo={ipo} />
-          ))}
+        /* LIST VIEW: Auto-switches to Card View on Mobile/Tablet (<md), Full Row Display on Desktop (md+) */
+        <div>
+          {/* Mobile / Tablet (< md): Native Responsive Card Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 md:hidden">
+            {items.map((ipo) => (
+              <IpoCard key={`card-${ipo.slug}-${ipo.symbol}`} ipo={ipo} />
+            ))}
+          </div>
+
+          {/* Desktop (md+): Multi-Column Row Display */}
+          <div className="hidden md:block space-y-3">
+            {items.map((ipo) => (
+              <IpoRow key={`row-${ipo.slug}-${ipo.symbol}`} ipo={ipo} />
+            ))}
+          </div>
         </div>
       ) : (
         /* CARD VIEW */

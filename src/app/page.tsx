@@ -3,6 +3,7 @@ import { HeroSection } from "@/components/home/HeroSection";
 import { IpoList } from "@/components/home/IpoList";
 import { ToolsSection } from "@/components/home/ToolsSection";
 import { SeoContentSection } from "@/components/home/SeoContentSection";
+import { ArticlesSection } from "@/components/home/ArticlesSection";
 import { Faq } from "@/components/ui/Faq";
 import { getFaqSchema } from "@/lib/seo";
 
@@ -76,6 +77,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           query={query}
         />
         <ToolsSection />
+        <ArticlesSection />
         <SeoContentSection />
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <Faq items={homeFaqs} />

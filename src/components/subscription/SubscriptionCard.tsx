@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { toPng } from "html-to-image";
 import { SubscriptionIpoItem, formatIndianNumber } from "@/lib/subscription-service";
-import { formatINR } from "@/lib/format";
+import { formatINR, formatIpoDate } from "@/lib/format";
 import { IpoLogo } from "@/components/ipo/IpoLogo";
 
 interface SubscriptionCardProps {
@@ -168,7 +168,7 @@ export function SubscriptionCard({ ipo, canRefresh, onRefreshSingle }: Subscript
               Close Date
             </span>
             <span className="text-xs sm:text-sm font-bold font-mono text-tx block truncate">
-              {ipo.endDate || "TBA"}
+              {formatIpoDate(ipo.endDate)}
             </span>
           </div>
         </div>

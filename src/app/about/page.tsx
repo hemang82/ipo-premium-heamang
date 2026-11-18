@@ -76,7 +76,7 @@ export default function AboutPage() {
             <ShieldCheck className="w-3.5 h-3.5" />
             <span>Independent Primary Market Research</span>
           </div>
-          <h1 className="font-heading font-extrabold text-3xl sm:text-4xl lg:text-5xl text-tx tracking-tightest mb-4">
+          <h1 className="font-heading font-extrabold text-3xl sm:text-4xl text-tx tracking-tightest mb-3">
             About ipo-premium.com
           </h1>
           <p className="font-heading text-base sm:text-lg text-accent font-semibold mb-3">

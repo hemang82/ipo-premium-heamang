@@ -101,10 +101,10 @@ export function Hero() {
       <div ref={dropdownRef} className="relative max-w-xl mx-auto">
         <form
           onSubmit={handleFormSubmit}
-          className="flex items-center gap-2 p-1.5 rounded-2xl bg-card border border-line shadow-lg focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/20 transition-all"
+          className="flex items-center gap-1.5 sm:gap-2 p-1.5 rounded-2xl bg-card border border-line shadow-md outline-none focus:outline-none focus-within:outline-none focus-visible:outline-none focus-within:border-accent focus-within:shadow-[0_0_0_3px_rgba(217,90,43,0.18)] focus-within:ring-0 ring-0 transition-all"
         >
-          <div className="pl-3 text-mut">
-            <Search className="w-5 h-5" />
+          <div className="pl-2.5 sm:pl-3 text-mut shrink-0">
+            <Search className="w-4 h-4 sm:w-5 sm:h-5" />
           </div>
           <input
             ref={inputRef}
@@ -115,12 +115,12 @@ export function Hero() {
               setQuery(e.target.value);
               setIsOpen(true);
             }}
-            placeholder="Search Mainboard, SME or Unlisted IPOs..."
-            className="flex-1 bg-transparent px-2 py-2 text-sm text-tx placeholder:text-mut/70 focus:outline-none"
+            placeholder="Search IPOs (Mainboard, SME)..."
+            className="flex-1 min-w-0 bg-transparent px-1.5 sm:px-2 py-1.5 sm:py-2 text-xs sm:text-sm text-tx placeholder:text-mut/70 outline-none focus:outline-none ring-0 focus:ring-0"
           />
 
           {isLoading ? (
-            <div className="pr-2 text-accent animate-spin">
+            <div className="pr-1.5 text-accent animate-spin shrink-0">
               <Loader2 className="w-4 h-4" />
             </div>
           ) : query ? (
@@ -130,29 +130,34 @@ export function Hero() {
                 setQuery("");
                 inputRef.current?.focus();
               }}
-              className="p-1 text-mut hover:text-tx focus:outline-none"
+              className="p-1 text-mut hover:text-tx outline-none focus:outline-none shrink-0"
             >
               <X className="w-4 h-4" />
             </button>
           ) : null}
 
-          <Button type="submit" size="sm" variant="primary">
+          <Button
+            type="submit"
+            size="sm"
+            variant="primary"
+            className="px-3.5 sm:px-5 py-2 text-xs sm:text-sm font-bold shadow-sm shrink-0 rounded-xl"
+          >
             Search
           </Button>
         </form>
 
         {/* Solid Opaque High-Contrast Premium Dropdown */}
         {isOpen && (
-          <div className="absolute left-0 right-0 top-full mt-2.5 rounded-2xl bg-card border-2 border-line/90 shadow-[0_20px_60px_rgba(0,0,0,0.35)] z-50 overflow-hidden text-left max-h-[460px] overflow-y-auto">
+          <div className="absolute left-0 right-0 top-full mt-2 rounded-2xl bg-card border border-line shadow-[0_20px_50px_rgba(0,0,0,0.18)] z-50 overflow-hidden text-left max-h-[340px] sm:max-h-[460px] overflow-y-auto">
             {/* Header label */}
-            <div className="px-4 py-3 bg-card2/80 border-b border-line flex items-center justify-between text-xs font-semibold text-tx">
-              <span className="flex items-center gap-2">
-                <TrendingUp className="w-4 h-4 text-accent" />
-                <span className="text-tx font-bold font-heading">
+            <div className="px-3.5 sm:px-4 py-2.5 sm:py-3 bg-card2/80 border-b border-line flex items-center justify-between text-xs font-semibold text-tx">
+              <span className="flex items-center gap-2 min-w-0 pr-2">
+                <TrendingUp className="w-4 h-4 text-accent shrink-0" />
+                <span className="text-tx font-bold font-heading truncate">
                   {query ? `Search results for "${query}"` : "Trending & Active IPOs"}
                 </span>
               </span>
-              <span className="text-xs text-mut">Click to open IPO</span>
+              <span className="text-xs text-mut shrink-0 hidden sm:inline-block">Click to open IPO</span>
             </div>
 
             {hasAnyResults ? (

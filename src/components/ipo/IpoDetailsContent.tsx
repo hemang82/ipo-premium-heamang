@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { formatINR } from "@/lib/format";
+import { formatINR, formatIpoDate, formatIpoDateRange } from "@/lib/format";
 import {
   Calendar,
   DollarSign,
@@ -44,17 +44,7 @@ interface IpoDetailsContentProps {
 // Helpers
 function formatDate(dateStr?: string): string {
   if (!dateStr || dateStr === "-" || dateStr === "TBA") return "-";
-  try {
-    const d = new Date(dateStr);
-    if (isNaN(d.getTime())) return dateStr;
-    return d.toLocaleDateString("en-IN", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-  } catch {
-    return dateStr;
-  }
+  return formatIpoDate(dateStr);
 }
 
 function formatNumber(num: any): string {
@@ -279,7 +269,7 @@ export function IpoDetailsContent({
           <span className="text-xs font-bold uppercase tracking-wider text-mut block mb-1">
             Price Band
           </span>
-          <span className="text-base sm:text-lg font-heading font-bold text-tx tabular-nums block font-mono">
+          <span className="text-base sm:text-lg font-heading font-bold text-tx tabular-nums block">
             {heroPriceBand}
           </span>
           <span className="text-xs text-mut/80 mt-0.5 block truncate">
@@ -292,7 +282,7 @@ export function IpoDetailsContent({
           <span className="text-xs font-bold uppercase tracking-wider text-mut block mb-1">
             Min Outlay
           </span>
-          <span className="text-base sm:text-lg font-heading font-bold text-accent tabular-nums block font-mono">
+          <span className="text-base sm:text-lg font-heading font-bold text-accent tabular-nums block">
             {heroMinInvestment}
           </span>
           <span className="text-xs text-mut/80 mt-0.5 block truncate">
@@ -318,7 +308,7 @@ export function IpoDetailsContent({
           <span className="text-xs font-bold uppercase tracking-wider text-mut block mb-1">
             Total Demand
           </span>
-          <span className="text-base sm:text-lg font-heading font-bold text-up tabular-nums block font-mono">
+          <span className="text-base sm:text-lg font-heading font-bold text-up tabular-nums block">
             {heroTotalSub}
           </span>
           <span className="text-xs text-mut/80 mt-0.5 block truncate">
@@ -335,7 +325,7 @@ export function IpoDetailsContent({
         <section className="rounded-card bg-card border border-line p-5 md:p-6 shadow-sm">
           <h2 className="text-base md:text-lg font-heading font-semibold text-tx tracking-tight mb-4 pb-3 border-b border-line flex items-center justify-between">
             <span>{companyName} IPO Details</span>
-            <span className="text-xs font-mono font-semibold text-accent bg-accent/10 px-2.5 py-1 rounded-full">
+            <span className="text-xs font-heading font-semibold text-accent bg-accent/10 px-2.5 py-1 rounded-full">
               Core Specs
             </span>
           </h2>
@@ -363,9 +353,9 @@ export function IpoDetailsContent({
                         </div>
                       </td>
                       <td
-                        className={`py-3 px-4 font-mono font-bold tabular-nums text-right sm:text-left ${
+                        className={`py-3 px-4 font-heading font-semibold tabular-nums text-right sm:text-left ${
                           item.isHighlight
-                            ? "text-accent text-sm md:text-base font-extrabold"
+                            ? "text-accent text-sm md:text-base font-bold"
                             : "text-tx"
                         }`}
                       >
@@ -410,13 +400,13 @@ export function IpoDetailsContent({
                         }`}
                       >
                         <td className="py-3 px-4 font-semibold text-tx">{appLabel}</td>
-                        <td className="py-3 px-4 text-right font-mono text-mut">
+                        <td className="py-3 px-4 text-right font-heading font-semibold text-mut tabular-nums">
                           {item["lot(s)"] || item.lots || 1}
                         </td>
-                        <td className="py-3 px-4 text-right font-mono text-tx">
+                        <td className="py-3 px-4 text-right font-heading font-semibold text-tx tabular-nums">
                           {formatNumber(item.qty || item.shares)}
                         </td>
-                        <td className="py-3 px-4 text-right font-mono font-bold text-accent">
+                        <td className="py-3 px-4 text-right font-heading font-semibold text-accent tabular-nums">
                           ₹{formatNumber(item.amount)}
                         </td>
                       </tr>
@@ -465,7 +455,7 @@ export function IpoDetailsContent({
                     <tr className="bg-card2/80 border-b border-line text-tx font-semibold text-xs md:text-sm">
                       <th className="py-3 px-4 text-tx font-semibold w-40">Period Ended</th>
                       {periods.map((p: any, i: number) => (
-                        <th key={i} className="py-3 px-4 text-center font-semibold text-tx font-mono">
+                        <th key={i} className="py-3 px-4 text-center font-semibold text-tx font-heading">
                           {p.period_ended}
                         </th>
                       ))}
@@ -489,7 +479,7 @@ export function IpoDetailsContent({
                             return (
                               <td
                                 key={colIdx}
-                                className="py-3.5 px-4 text-center font-mono font-medium text-tx tabular-nums"
+                                className="py-3.5 px-4 text-center font-heading font-semibold text-tx tabular-nums"
                               >
                                 {val !== null && val !== undefined && val !== "" ? val : "-"}
                               </td>
@@ -549,7 +539,7 @@ export function IpoDetailsContent({
                       <tr className="bg-card2/80 border-b border-line text-tx font-semibold text-xs md:text-sm">
                         <th className="py-3 px-4 text-tx font-semibold w-40">Metric</th>
                         {kpiPeriods.map((p: any, i: number) => (
-                          <th key={i} className="py-3 px-4 text-center font-semibold text-tx font-mono">
+                          <th key={i} className="py-3 px-4 text-center font-semibold text-tx font-heading">
                             {p.kpi}
                           </th>
                         ))}
@@ -573,7 +563,7 @@ export function IpoDetailsContent({
                               return (
                                 <td
                                   key={colIdx}
-                                  className="py-3.5 px-4 text-center font-mono font-medium text-tx tabular-nums"
+                                  className="py-3.5 px-4 text-center font-heading font-semibold text-tx tabular-nums"
                                 >
                                   {val}
                                 </td>
@@ -605,7 +595,7 @@ export function IpoDetailsContent({
                     className="p-3.5 rounded-xl bg-card2/40 border border-line flex flex-col justify-between"
                   >
                     <span className="text-xs text-mut font-medium">{kpi.title || kpi.metric}</span>
-                    <span className="text-base font-mono font-bold text-tx mt-1">
+                    <span className="text-base font-heading font-semibold text-tx mt-1 tabular-nums">
                       {kpi.value}
                     </span>
                   </div>
@@ -697,7 +687,7 @@ export function IpoDetailsContent({
             <span className="text-xs font-bold uppercase tracking-wider text-mut block mb-1">
               Current GMP Today
             </span>
-            <span className="text-2xl font-heading font-bold text-up tabular-nums block font-mono">
+            <span className="text-2xl font-heading font-bold text-up tabular-nums block">
               {currentGmpVal >= 0 ? `+₹${currentGmpVal}` : `-₹${Math.abs(currentGmpVal)}`}
             </span>
             <span className="text-xs text-mut mt-1 block">Live Unofficial Premium</span>
@@ -707,7 +697,7 @@ export function IpoDetailsContent({
             <span className="text-xs font-bold uppercase tracking-wider text-mut block mb-1">
               Estimated Listing Price
             </span>
-            <span className="text-2xl font-heading font-bold text-accent tabular-nums block font-mono">
+            <span className="text-2xl font-heading font-bold text-accent tabular-nums block">
               ₹{estListingPriceVal.toFixed(2)}
             </span>
             <span className="text-xs text-mut mt-1 block">
@@ -719,7 +709,7 @@ export function IpoDetailsContent({
             <span className="text-xs font-bold uppercase tracking-wider text-mut block mb-1">
               Estimated Listing Gain
             </span>
-            <span className="text-2xl font-heading font-bold text-emerald-400 tabular-nums block font-mono">
+            <span className="text-2xl font-heading font-bold text-emerald-400 tabular-nums block">
               +{expGainPct}%
             </span>
             <span className="text-xs text-mut mt-1 block">Expected ROI per Share</span>
@@ -730,7 +720,7 @@ export function IpoDetailsContent({
         <section className="rounded-card bg-card border border-line p-5 md:p-6 shadow-sm">
           <h2 className="text-base md:text-lg font-heading font-semibold text-tx tracking-tight mb-4 pb-3 border-b border-line flex items-center justify-between">
             <span>{companyName} Daily GMP Trend History</span>
-            <span className="text-xs font-mono text-accent bg-accent/10 px-2.5 py-1 rounded-full">
+            <span className="text-xs font-heading font-semibold text-accent bg-accent/10 px-2.5 py-1 rounded-full">
               Live Daily Trend
             </span>
           </h2>
@@ -763,14 +753,14 @@ export function IpoDetailsContent({
                           idx % 2 === 0 ? "bg-card2/35" : "bg-card"
                         }`}
                       >
-                        <td className="py-3 px-4 font-semibold text-tx font-mono">
+                        <td className="py-3 px-4 font-semibold text-tx font-heading tabular-nums">
                           {formatDate(g.gmp_date)}
                         </td>
-                        <td className="py-3 px-4 text-right font-mono text-mut">
+                        <td className="py-3 px-4 text-right font-heading font-semibold text-mut tabular-nums">
                           ₹{ipoPr}
                         </td>
                         <td
-                          className={`py-3 px-4 text-right font-mono font-bold ${
+                          className={`py-3 px-4 text-right font-heading font-semibold tabular-nums ${
                             isZero
                               ? "text-mut"
                               : isPositive
@@ -780,17 +770,17 @@ export function IpoDetailsContent({
                         >
                           {isPositive ? `+₹${gmpNum}` : `₹${gmpNum}`}
                         </td>
-                        <td className="py-3 px-4 text-right font-mono font-bold text-accent">
+                        <td className="py-3 px-4 text-right font-heading font-semibold text-accent tabular-nums">
                           ₹{g.estimated_listing_price || (ipoPr + gmpNum).toFixed(2)}
                         </td>
                         <td
-                          className={`py-3 px-4 text-right font-mono font-bold ${
+                          className={`py-3 px-4 text-right font-heading font-semibold tabular-nums ${
                             isPositive ? "text-emerald-500" : "text-mut"
                           }`}
                         >
                           {isPositive ? `+${gain}%` : `${gain}%`}
                         </td>
-                        <td className="py-3 px-4 text-right font-mono text-mut text-xs">
+                        <td className="py-3 px-4 text-right font-heading font-semibold text-mut text-xs tabular-nums">
                           {g.updated_at
                             ? new Date(g.updated_at).toLocaleTimeString([], {
                                 hour: "2-digit",
@@ -820,7 +810,7 @@ export function IpoDetailsContent({
         <section className="rounded-card bg-card border border-line p-5 md:p-6 shadow-sm">
           <h2 className="text-base md:text-lg font-heading font-semibold text-tx tracking-tight mb-4 pb-3 border-b border-line flex items-center justify-between">
             <span>Subscription Details (No. of Shares)</span>
-            <span className="text-xs font-mono text-accent bg-accent/10 px-2.5 py-1 rounded-full">
+            <span className="text-xs font-heading font-semibold text-accent bg-accent/10 px-2.5 py-1 rounded-full">
               Live Demand Book
             </span>
           </h2>
@@ -851,10 +841,10 @@ export function IpoDetailsContent({
                         <td className="py-3.5 px-4 font-semibold text-tx">
                           {sub.category || "General"}
                         </td>
-                        <td className="py-3.5 px-4 text-right font-mono text-mut">
+                        <td className="py-3.5 px-4 text-right font-heading font-semibold text-mut tabular-nums">
                           {formatNumber(sub.offered || sub.shares_offered)}
                         </td>
-                        <td className="py-3.5 px-4 text-right font-mono text-tx font-medium">
+                        <td className="py-3.5 px-4 text-right font-heading font-semibold text-tx tabular-nums">
                           {formatNumber(sub.applied || sub.shares_applied)}
                         </td>
                         <td className="py-3.5 px-4 text-right">
@@ -865,7 +855,7 @@ export function IpoDetailsContent({
                                 style={{ width: `${fillPercent}%` }}
                               />
                             </div>
-                            <span className="font-mono font-bold text-up min-w-[50px]">
+                            <span className="font-heading font-semibold text-up tabular-nums min-w-[50px]">
                               {timesVal}x
                             </span>
                           </div>
@@ -910,19 +900,19 @@ export function IpoDetailsContent({
                       }`}
                     >
                       <td className="py-3 px-4 font-semibold text-tx">Day {idx + 1}</td>
-                      <td className="py-3 px-4 font-mono text-mut">
+                      <td className="py-3 px-4 font-heading font-semibold text-mut tabular-nums">
                         {formatDate(day.date || day.day_date)}
                       </td>
-                      <td className="py-3 px-4 text-right font-mono text-mut">
+                      <td className="py-3 px-4 text-right font-heading font-semibold text-mut tabular-nums">
                         {day.qib || day.qibs || 0}x
                       </td>
-                      <td className="py-3 px-4 text-right font-mono text-mut">
+                      <td className="py-3 px-4 text-right font-heading font-semibold text-mut tabular-nums">
                         {day.nii || day.hnis || 0}x
                       </td>
-                      <td className="py-3 px-4 text-right font-mono text-mut">
+                      <td className="py-3 px-4 text-right font-heading font-semibold text-mut tabular-nums">
                         {day.retail || 0}x
                       </td>
-                      <td className="py-3 px-4 text-right font-mono font-bold text-up">
+                      <td className="py-3 px-4 text-right font-heading font-semibold text-up tabular-nums">
                         {day.total || 0}x
                       </td>
                     </tr>
@@ -959,10 +949,10 @@ export function IpoDetailsContent({
                       <td className="py-3 px-4 font-semibold text-tx">
                         {res.investor_category || res.category}
                       </td>
-                      <td className="py-3 px-4 text-right font-mono text-mut">
+                      <td className="py-3 px-4 text-right font-heading font-semibold text-mut tabular-nums">
                         {formatNumber(res.no_of_shares || res.shares_offered)}
                       </td>
-                      <td className="py-3 px-4 text-right font-mono font-bold text-accent">
+                      <td className="py-3 px-4 text-right font-heading font-semibold text-accent tabular-nums">
                         {res.shares_offered || res.share_percentage || 0}%
                       </td>
                     </tr>
@@ -1110,19 +1100,19 @@ export function IpoDetailsContent({
                       <td className="py-3 px-4 font-semibold text-tx">
                         {peer.company_name || peer.name || "-"}
                       </td>
-                      <td className="py-3 px-4 text-right font-mono text-tx">
+                      <td className="py-3 px-4 text-right font-heading font-semibold text-tx tabular-nums">
                         {peer.total_income || peer.revenue || "-"}
                       </td>
-                      <td className="py-3 px-4 text-right font-mono font-bold text-accent">
+                      <td className="py-3 px-4 text-right font-heading font-semibold text-accent tabular-nums">
                         {peer.pe_ratio || peer.pe || "-"}
                       </td>
-                      <td className="py-3 px-4 text-right font-mono text-tx">
+                      <td className="py-3 px-4 text-right font-heading font-semibold text-tx tabular-nums">
                         {peer.eps || "-"}
                       </td>
-                      <td className="py-3 px-4 text-right font-mono text-emerald-400 font-bold">
+                      <td className="py-3 px-4 text-right font-heading font-semibold text-emerald-400 tabular-nums">
                         {peer.ronw || "-"}%
                       </td>
-                      <td className="py-3 px-4 text-right font-mono text-tx">
+                      <td className="py-3 px-4 text-right font-heading font-semibold text-tx tabular-nums">
                         {peer.nav || "-"}
                       </td>
                     </tr>
@@ -1142,7 +1132,7 @@ export function IpoDetailsContent({
           <section className="rounded-card bg-card border border-line p-5 md:p-6 shadow-sm">
             <h2 className="text-base md:text-lg font-heading font-semibold text-tx tracking-tight mb-4 pb-3 border-b border-line flex items-center justify-between">
               <span>Broker Reviews & Recommendations</span>
-              <span className="text-xs font-mono text-accent bg-accent/10 px-2.5 py-1 rounded-full">
+              <span className="text-xs font-heading font-semibold text-accent bg-accent/10 px-2.5 py-1 rounded-full">
                 Analyst Consensus
               </span>
             </h2>
@@ -1196,7 +1186,7 @@ export function IpoDetailsContent({
                           </td>
                           <td className="py-3 px-4">
                             <span
-                              className={`px-2.5 py-0.5 rounded-full text-xs font-semibold font-mono ${
+                              className={`px-2.5 py-0.5 rounded-full text-xs font-semibold font-heading ${
                                 isApply
                                   ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
                                   : isMay

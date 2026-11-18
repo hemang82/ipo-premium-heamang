@@ -19,6 +19,8 @@ import {
   Smartphone,
   Check,
   Sparkles,
+  Users,
+  Calculator,
 } from "lucide-react";
 
 export const revalidate = 10; // Refresh data every 2 minutes
@@ -70,6 +72,7 @@ interface Registrar {
   url: string;
   popularIssues: string;
   highlight?: boolean;
+  slug?: string;
 }
 
 const REGISTRARS: Registrar[] = [
@@ -82,6 +85,7 @@ const REGISTRARS: Registrar[] = [
     url: "https://in.mpms.mufg.com/Initial_Offer/public-issues.html",
     popularIssues: "Mainboard & Anchor",
     highlight: true,
+    slug: "link-intime",
   },
   {
     name: "KFin Technologies",
@@ -92,6 +96,7 @@ const REGISTRARS: Registrar[] = [
     url: "https://kosmic.kfintech.com/ipostatus/",
     popularIssues: "Mainboard & SME",
     highlight: true,
+    slug: "kfintech",
   },
   {
     name: "Bigshare Services",
@@ -102,6 +107,7 @@ const REGISTRARS: Registrar[] = [
     url: "https://ipo.bigshareonline.com/IPO_Status.html",
     popularIssues: "BSE SME & Emerge",
     highlight: false,
+    slug: "bigshare",
   },
   {
     name: "BSE India Official",
@@ -112,6 +118,7 @@ const REGISTRARS: Registrar[] = [
     url: "https://www.bseindia.com/investors/appli_check.aspx",
     popularIssues: "All BSE Listed IPOs",
     highlight: true,
+    slug: "bse-india",
   },
   {
     name: "NSE India Portal",
@@ -142,6 +149,7 @@ const REGISTRARS: Registrar[] = [
     url: "https://www.skylinerta.com/ipo.php",
     popularIssues: "SME IPOs",
     highlight: false,
+    slug: "skyline",
   },
   {
     name: "Purva Sharegistry",
@@ -313,19 +321,19 @@ export default async function AllotmentPage() {
                 {/* Quick Trust Stats Bar */}
                 <div className="pt-2 grid grid-cols-2 sm:grid-cols-4 gap-3 border-t border-line/60 text-xs">
                   <div>
-                    <span className="font-heading font-black text-accent text-base block font-mono">8+ RTAs</span>
+                    <span className="font-heading font-black text-accent text-base block">8+ RTAs</span>
                     <span className="text-mut text-[11px]">Direct Portals</span>
                   </div>
                   <div>
-                    <span className="font-heading font-black text-tx text-base block font-mono">Day T+1</span>
+                    <span className="font-heading font-black text-tx text-base block">Day T+1</span>
                     <span className="text-mut text-[11px]">Allotment Basis</span>
                   </div>
                   <div>
-                    <span className="font-heading font-black text-tx text-base block font-mono">Day T+2</span>
+                    <span className="font-heading font-black text-tx text-base block">Day T+2</span>
                     <span className="text-mut text-[11px]">Demat Credit</span>
                   </div>
                   <div>
-                    <span className="font-heading font-black text-emerald-500 text-base block font-mono">100% Free</span>
+                    <span className="font-heading font-black text-emerald-500 text-base block">100% Free</span>
                     <span className="text-mut text-[11px]">Official Links</span>
                   </div>
                 </div>
@@ -426,9 +434,18 @@ export default async function AllotmentPage() {
 
                   {/* Footer Row: Baseline Aligned */}
                   <div className="mt-4 pt-3.5 border-t border-line/60 flex items-center justify-between gap-2 shrink-0">
-                    <span className="text-[11px] text-mut font-medium truncate max-w-[120px]">
-                      {reg.popularIssues}
-                    </span>
+                    {reg.slug ? (
+                      <Link
+                        href={`/allotment/${reg.slug}`}
+                        className="text-[11px] text-accent font-semibold hover:underline truncate"
+                      >
+                        Guide &amp; Servers →
+                      </Link>
+                    ) : (
+                      <span className="text-[11px] text-mut font-medium truncate max-w-[120px]">
+                        {reg.popularIssues}
+                      </span>
+                    )}
                     <a
                       href={reg.url}
                       target="_blank"
@@ -608,30 +625,79 @@ export default async function AllotmentPage() {
             </div>
           </section>
 
-          {/* ── 8. Bottom Navigation CTA Banner ── */}
-          <div className="p-6 sm:p-8 rounded-3xl bg-accent/8 border border-accent/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+          {/* ── 8. Keyword-Rich Cross-Navigation Mesh ── */}
+          <div className="bg-card border border-line rounded-3xl p-6 sm:p-8 space-y-4 shadow-xs">
             <div>
-              <p className="font-heading font-bold text-base sm:text-lg text-tx">
-                Want to check live premiums before you apply?
-              </p>
-              <p className="text-xs text-mut mt-1">
-                Track live Grey Market Premium (GMP) and subscription demand updated real-time across BSE &amp; NSE.
+              <h2 className="font-heading font-black text-xl sm:text-2xl text-tx">
+                Explore Related IPO Tools & Status Trackers
+              </h2>
+              <p className="text-sm text-mut mt-0.5">
+                Access real-time IPO premiums, live subscription figures, and lot size calculators.
               </p>
             </div>
-            <div className="flex items-center gap-3 shrink-0">
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
               <Link
                 href="/ipo-gmp"
-                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold bg-accent text-accent-foreground hover:bg-accent/90 transition-all shadow-xs"
+                className="group p-5 rounded-2xl bg-card2/40 border border-line hover:border-accent/40 transition-all flex flex-col justify-between space-y-3"
               >
-                View Live GMP
-                <TrendingUp className="w-3.5 h-3.5" />
+                <div className="space-y-1.5">
+                  <div className="flex items-center gap-2 text-accent">
+                    <TrendingUp className="w-5 h-5" />
+                    <span className="text-xs uppercase font-bold tracking-wider">Premium Tracker</span>
+                  </div>
+                  <h3 className="font-heading font-bold text-base text-tx group-hover:text-accent transition-colors">
+                    IPO GMP Today
+                  </h3>
+                  <p className="text-xs text-mut leading-relaxed">
+                    Track live Grey Market Premium (GMP), expected listing gains, and Kostak rates for all active and upcoming Mainboard &amp; SME IPOs.
+                  </p>
+                </div>
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-accent group-hover:underline pt-2">
+                  Check Live IPO GMP <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </span>
               </Link>
+
+              <Link
+                href="/subscription"
+                className="group p-5 rounded-2xl bg-card2/40 border border-line hover:border-accent/40 transition-all flex flex-col justify-between space-y-3"
+              >
+                <div className="space-y-1.5">
+                  <div className="flex items-center gap-2 text-accent">
+                    <Users className="w-5 h-5" />
+                    <span className="text-xs uppercase font-bold tracking-wider">Bidding Demand</span>
+                  </div>
+                  <h3 className="font-heading font-bold text-base text-tx group-hover:text-accent transition-colors">
+                    Live IPO Subscription Status
+                  </h3>
+                  <p className="text-xs text-mut leading-relaxed">
+                    Monitor day-wise bidding multiples, QIB institutional interest, and Retail/HNI quota subscription rates in real time.
+                  </p>
+                </div>
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-accent group-hover:underline pt-2">
+                  View Subscription Figures <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </Link>
+
               <Link
                 href="/tools/lot-calculator"
-                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold bg-card border border-line text-tx hover:border-accent hover:text-accent transition-all"
+                className="group p-5 rounded-2xl bg-card2/40 border border-line hover:border-accent/40 transition-all flex flex-col justify-between space-y-3"
               >
-                Lot Calculator
-                <ArrowRight className="w-3.5 h-3.5" />
+                <div className="space-y-1.5">
+                  <div className="flex items-center gap-2 text-accent">
+                    <Calculator className="w-5 h-5" />
+                    <span className="text-xs uppercase font-bold tracking-wider">Financial Calculator</span>
+                  </div>
+                  <h3 className="font-heading font-bold text-base text-tx group-hover:text-accent transition-colors">
+                    IPO Lot Size Calculator
+                  </h3>
+                  <p className="text-xs text-mut leading-relaxed">
+                    Calculate total investment cost, bid amounts for Retail vs HNI (sNII / bNII), and estimated profit margins based on live GMP.
+                  </p>
+                </div>
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-accent group-hover:underline pt-2">
+                  Calculate Lot Size &amp; Profit <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </span>
               </Link>
             </div>
           </div>

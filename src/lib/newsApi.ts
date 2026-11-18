@@ -46,22 +46,15 @@ export function slugify(text: string): string {
     .replace(/^-+|-+$/g, ""); // trim leading & trailing hyphens
 }
 
+import { formatIpoDate } from "@/lib/format";
+
 /**
- * Format date string to Indian locale (en-IN, e.g. "27 Oct 2024")
+ * Format date string to Indian stock market format (e.g. "19 NOV, 2026")
  */
 export function formatNewsDate(dateStr?: string): string {
   if (!dateStr) return "Recent Update";
-  try {
-    const d = new Date(dateStr);
-    if (isNaN(d.getTime())) return dateStr;
-    return d.toLocaleDateString("en-IN", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-  } catch {
-    return dateStr;
-  }
+  const formatted = formatIpoDate(dateStr);
+  return formatted === "-" ? "Recent Update" : formatted;
 }
 
 /**

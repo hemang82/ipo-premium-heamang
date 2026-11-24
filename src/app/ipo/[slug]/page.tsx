@@ -17,6 +17,6 @@ export default async function IpoSlugRedirectPage({ params }: PageProps) {
     notFound();
   }
 
-  // Canonical HTTP 308 permanent redirect to /ipo/[slug]/[symbol]/
-  permanentRedirect(`/ipo/${ipo.slug}/${ipo.symbol}/`);
+  // Canonical HTTP 308 permanent redirect to /ipo/[slug]/[symbol]
+  permanentRedirect(`/ipo/${ipo.slug}/${ipo.symbol}`);
 }

@@ -37,9 +37,9 @@ interface IpoListClientProps {
 const PAGE_SIZE = 15;
 
 const categoryTabs = [
-  { key: "live", label: "Live Bidding", href: "/ipo/live", dotClass: "bg-emerald-500 animate-pulse" },
+  { key: "live", label: "Live IPOs", href: "/ipo/live", dotClass: "bg-emerald-500 animate-pulse" },
   { key: "upcoming", label: "Upcoming IPOs", href: "/ipo/upcoming", dotClass: "bg-amber-500" },
-  { key: "listed", label: "Recently Listed", href: "/ipo/listed", dotClass: "bg-sky-500" },
+  { key: "listed", label: "Listed IPOs", href: "/ipo/listed", dotClass: "bg-sky-500" },
 ];
 
 export function IpoListClient({
@@ -64,10 +64,17 @@ export function IpoListClient({
   const searchRef = useRef<HTMLInputElement>(null);
   const debounceTimer = useRef<NodeJS.Timeout | null>(null);
 
-  // Auto-switch to card on mobile
+  // Auto-switch to card on mobile & read URL type if present
   useEffect(() => {
-    if (typeof window !== "undefined" && window.innerWidth < 768) {
-      setViewMode("card");
+    if (typeof window !== "undefined") {
+      if (window.innerWidth < 768) {
+        setViewMode("card");
+      }
+      const sp = new URLSearchParams(window.location.search);
+      const urlType = sp.get("type")?.toLowerCase();
+      if (urlType === "mainboard" || urlType === "sme" || urlType === "all") {
+        setIpoType(urlType as IpoTypeFilter);
+      }
     }
   }, []);
 

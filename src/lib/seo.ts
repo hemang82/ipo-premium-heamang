@@ -3,32 +3,33 @@ import { Ipo } from "./types";
 import { formatINR, formatPercent, gmpPercent, estimatedListingPrice, formatSubscription } from "./format";
 
 export const SITE_URL = "https://ipo-premium.com";
-export const SITE_NAME = "ipo-premium";
-export const SITE_TAGLINE = "Live IPO GMP, Subscription & Allotment Tracker";
+export const SITE_NAME = "IPO Premium";
+export const SITE_TAGLINE = "Official Live IPO GMP, Allotment Status & Subscription Desk";
 
 export function getBaseMetadata(): Metadata {
   return {
     metadataBase: new URL(SITE_URL),
     title: {
-      default: `IPO GMP Today, Subscription & Allotment | ${SITE_NAME}`,
+      default: "IPO Premium – Live IPO GMP Today & Allotment Status",
       template: `%s | ${SITE_NAME}`,
     },
     description:
-      "Track live IPO GMP today, real-time BSE & NSE subscription status, allotment dates, and expected listing gains for all Mainboard and SME IPOs in India.",
+      "Official IPO Premium tracker: Live IPO GMP today, real-time BSE & NSE subscription rates, direct registrar allotment status (Link Intime, KFintech), and expected listing gains.",
     keywords: [
-      "IPO GMP",
+      "IPO Premium",
+      "ipopremium",
+      "IPO Premium GMP",
       "IPO GMP Today",
-      "Grey Market Premium",
-      "Gray Market",
-      "IPO Grey Market",
-      "Grey Market IPO",
-      "Live IPO Subscription Status",
       "IPO Allotment Status",
-      "Current IPO GMP",
-      "Mainboard IPO",
+      "IPO Premium Allotment",
+      "Grey Market Premium",
+      "Live IPO Subscription Status",
+      "Link Intime IPO Status",
+      "KFintech IPO Status",
+      "Mainboard IPO GMP",
       "SME IPO GMP",
-      "IPO Listing Gain Calculator",
-      "BSE NSE IPO Tracker",
+      "BSE SME IPO",
+      "NSE Emerge IPO",
     ],
     authors: [{ name: "ipo-premium Team" }],
     creator: "ipo-premium.com",
@@ -76,17 +77,47 @@ export function getBaseMetadata(): Metadata {
 }
 
 /**
+ * Helper to strip redundant legal suffixes from company names for Google SERP titles
+ * e.g., "Shree Siddhivinayak Greentech Industries Limited" -> "Shree Siddhivinayak Greentech"
+ */
+function getConciseCompanyName(name: string): string {
+  if (!name) return "";
+  let clean = name
+    .replace(/\s+Limited\b/gi, "")
+    .replace(/\s+Ltd\.?\b/gi, "")
+    .replace(/\s+Industries\b/gi, "")
+    .replace(/\s+India\b/gi, "")
+    .trim();
+  
+  // If still longer than 32 characters, truncate at word boundary
+  if (clean.length > 32) {
+    const cut = clean.slice(0, 32);
+    clean = cut.slice(0, cut.lastIndexOf(" ")).trim();
+  }
+  return clean || name;
+}
+
+/**
  * High-CTR Dynamic Metadata Generator per IPO
- * Title Strategy: "{Name} IPO GMP ₹{gmp} ({+pct}%), Subscribed {sub}x"
- * Meta Description: Uses Company about summary + issue price + key allotment details
+ * Title Strategy: Guaranteed <= 60 characters for zero Google SERP truncation
+ * Short names: "{Name} IPO GMP Today & Allotment Status"
+ * Long names: "{ConciseName} IPO GMP Today & Allotment"
  */
 export function getIpoMetadata(ipo: Ipo): Metadata {
   const pct = gmpPercent(ipo);
   const subTotal = ipo.subscription?.total || 0;
-  const canonicalUrl = `${SITE_URL}/ipo/${ipo.slug}/${ipo.symbol}/`;
+  const canonicalUrl = `${SITE_URL}/ipo/${ipo.slug}/${ipo.symbol}`;
 
-  // 1. High-CTR Dynamic Page Title
-  const title = `${ipo.name} IPO GMP ₹${ipo.gmp} (${formatPercent(pct)}), Subscribed ${formatSubscription(subTotal)}`;
+  // Smart dynamic title strictly bounded under 60 characters
+  let title = `${ipo.name} IPO GMP Today & Allotment Status`;
+  if (title.length > 60) {
+    const shortName = getConciseCompanyName(ipo.name);
+    title = `${shortName} IPO GMP Today & Allotment`;
+    // Extra safety: if still over 60, concise format
+    if (title.length > 60) {
+      title = `${shortName.slice(0, 32)} IPO GMP & Allotment`;
+    }
+  }
 
   // 2. High-converting Meta Description with Company info
   const aboutSnippet = ipo.description
@@ -147,17 +178,20 @@ export function getOrganizationSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "FinancialService",
-    name: SITE_NAME,
+    name: "IPO Premium",
     alternateName: [
-      "IPO Premium",
+      "IPO Premium Official",
+      "IPO Premium India",
+      "ipopremium.com",
       "ipopremium",
-      "ip premium",
-      "ipopremium.in",
-      "new ipo premium",
+      "ipo premium",
     ],
     url: SITE_URL,
     logo: `${SITE_URL}/icon.svg`,
     description: SITE_TAGLINE,
+    sameAs: [
+      "https://twitter.com/ipopremium",
+    ],
   };
 }
 

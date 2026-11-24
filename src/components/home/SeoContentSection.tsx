@@ -1,32 +1,26 @@
 import Link from "next/link";
 import { 
   TrendingUp, 
-  HelpCircle, 
-  ShieldAlert, 
   Layers, 
   Clock, 
-  FileCheck, 
-  Calculator,
-  Search,
-  BookOpen,
   CheckCircle2,
-  AlertCircle
+  AlertCircle,
+  BookOpen
 } from "lucide-react";
-import { Card } from "@/components/ui/Card";
 
 export function SeoContentSection() {
   return (
-    <section className="my-16 max-w-7xl mx-auto px-4 text-tx" aria-labelledby="ipo-guide-heading">
-      {/* Primary Section Header */}
-      <div className="border-b border-line pb-6 mb-10">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 text-xs font-semibold text-accent mb-3">
+    <section className="my-12 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 text-tx" aria-labelledby="ipo-guide-heading">
+      {/* Primary Section Header - Perfectly Synced */}
+      <div className="border-b border-line pb-4 mb-8">
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-accent/10 border border-accent/20 text-xs font-semibold text-accent mb-2.5">
           <BookOpen className="w-3.5 h-3.5" />
-          <span>Complete IPO & Grey Market Guide</span>
+          <span>Complete IPO &amp; Grey Market Knowledge Desk</span>
         </div>
-        <h2 id="ipo-guide-heading" className="text-2xl sm:text-3xl md:text-4xl font-heading font-extrabold tracking-tightest">
-          IPO Grey Market Premium (GMP) & Stock Allotment Guide
+        <h2 id="ipo-guide-heading" className="text-2xl sm:text-3xl font-heading font-extrabold tracking-tightest">
+          IPO Grey Market Premium (GMP) &amp; Stock Allotment Guide
         </h2>
-        <p className="text-mut text-sm sm:text-base mt-2 max-w-3xl leading-relaxed">
+        <p className="text-mut text-xs sm:text-sm mt-1.5 max-w-3xl leading-relaxed">
           Everything you need to know about Initial Public Offerings (IPO), live{" "}
           <Link href="/ipo-gmp" className="text-accent font-medium hover:underline">
             Grey Market Premium (GMP) rates today
@@ -35,35 +29,19 @@ export function SeoContentSection() {
           <Link href="/articles/kostak-rate-vs-subject-to-sauda-differences" className="text-accent font-medium hover:underline">
             Kostak rates vs Subject to Sauda
           </Link>
-          , subscription metrics across QIB, NII, Retail categories, and{" "}
-          <Link href="/allotment" className="text-accent font-medium hover:underline">
-            allotment status verification
-          </Link>{" "}
-          on{" "}
-          <Link href="/allotment/bse-india" className="text-accent font-medium hover:underline">
-            BSE
-          </Link>
-          , NSE,{" "}
-          <Link href="/allotment/link-intime" className="text-accent font-medium hover:underline">
-            Link Intime
-          </Link>
-          , and{" "}
-          <Link href="/allotment/kfintech" className="text-accent font-medium hover:underline">
-            KFintech
-          </Link>
-          .
+          , and subscription demand across QIB, NII, and Retail investor categories.
         </p>
       </div>
 
-      {/* Grid: Concept Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+      {/* Grid: 3 Concept Cards - Matching Tools & Articles Synced Style */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
         {/* Card 1: What is IPO GMP */}
-        <Card className="p-6 flex flex-col justify-between hover:border-accent/40 transition-colors">
+        <div className="rounded-3xl bg-card border border-line p-5 sm:p-6 shadow-2xs hover:shadow-md hover:border-accent/40 transition-all duration-200 flex flex-col justify-between">
           <div>
-            <div className="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent mb-4">
+            <div className="w-11 h-11 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent mb-4">
               <TrendingUp className="w-5 h-5" />
             </div>
-            <h3 className="text-lg font-heading font-bold mb-2 text-tx">
+            <h3 className="text-base sm:text-lg font-heading font-bold mb-2 text-tx leading-snug">
               What is IPO GMP (Grey Market Premium)?
             </h3>
             <p className="text-xs sm:text-sm text-mut leading-relaxed">
@@ -71,227 +49,136 @@ export function SeoContentSection() {
               <Link href="/ipo-gmp" className="text-accent font-semibold hover:underline">
                 IPO GMP Today
               </Link>{" "}
-              to gauge investor sentiment, secondary market dynamics, and anticipated listing price gain.
+              to gauge secondary market sentiment and anticipated listing day gains.
             </p>
           </div>
-          <div className="mt-4 pt-3 border-t border-line/60">
-            <span className="text-xs font-mono text-accent">Formula: Expected Price = Cap Price + GMP</span>
+          <div className="mt-5 pt-3.5 border-t border-line/60">
+            <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-card2 border border-line text-[11px] font-semibold text-accent">
+              Formula: Expected Price = Cap Price + GMP
+            </span>
           </div>
-        </Card>
+        </div>
 
         {/* Card 2: Kostak & Subject to Sauda */}
-        <Card className="p-6 flex flex-col justify-between hover:border-accent/40 transition-colors">
+        <div className="rounded-3xl bg-card border border-line p-5 sm:p-6 shadow-2xs hover:shadow-md hover:border-accent/40 transition-all duration-200 flex flex-col justify-between">
           <div>
-            <div className="w-10 h-10 rounded-xl bg-up/10 border border-up/20 flex items-center justify-center text-up mb-4">
+            <div className="w-11 h-11 rounded-2xl bg-up/10 border border-up/20 flex items-center justify-center text-up mb-4">
               <Layers className="w-5 h-5" />
             </div>
-            <h3 className="text-lg font-heading font-bold mb-2 text-tx">
+            <h3 className="text-base sm:text-lg font-heading font-bold mb-2 text-tx leading-snug">
               Kostak Rate vs Subject to Sauda
             </h3>
             <p className="text-xs sm:text-sm text-mut leading-relaxed">
-              <strong>Kostak Rate</strong> is the fixed lump-sum profit earned by selling an IPO application before allotment, irrespective of allotment success. <strong>Subject to Sauda (SS)</strong> is an agreement where profit is transferred only if shares are formally allotted to the bidder. Read our complete guide on{" "}
+              <strong>Kostak Rate</strong> is the fixed lump-sum profit earned by selling an IPO application before allotment, irrespective of allotment outcome. <strong>Subject to Sauda (SS)</strong> is an agreement where profit is transferred only if shares are formally allotted to the bidder. Read our{" "}
               <Link href="/articles/kostak-rate-vs-subject-to-sauda-differences" className="text-accent font-semibold hover:underline">
-                Kostak vs Subject to Sauda differences
+                Kostak vs Subject to Sauda guide
               </Link>
               .
             </p>
           </div>
-          <div className="mt-4 pt-3 border-t border-line/60">
-            <span className="text-xs font-mono text-up">Guaranteed profit vs allotment-conditional</span>
+          <div className="mt-5 pt-3.5 border-t border-line/60">
+            <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-card2 border border-line text-[11px] font-semibold text-up">
+              Guaranteed profit vs Allotment-conditional
+            </span>
           </div>
-        </Card>
+        </div>
 
         {/* Card 3: Subscription Status Breakdown */}
-        <Card className="p-6 flex flex-col justify-between hover:border-accent/40 transition-colors">
+        <div className="rounded-3xl bg-card border border-line p-5 sm:p-6 shadow-2xs hover:shadow-md hover:border-accent/40 transition-all duration-200 flex flex-col justify-between">
           <div>
-            <div className="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent mb-4">
+            <div className="w-11 h-11 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent mb-4">
               <CheckCircle2 className="w-5 h-5" />
             </div>
-            <h3 className="text-lg font-heading font-bold mb-2 text-tx">
-              IPO Subscription: QIB, NII & Retail
+            <h3 className="text-base sm:text-lg font-heading font-bold mb-2 text-tx leading-snug">
+              IPO Subscription: QIB, NII &amp; Retail
             </h3>
             <p className="text-xs sm:text-sm text-mut leading-relaxed">
               Tracking subscription multiples shows institutional validation. Check live{" "}
               <Link href="/subscription" className="text-accent font-semibold hover:underline">
                 IPO subscription status
               </Link>{" "}
-              where <strong>QIB</strong> bidding picks up on Day 3, <strong>NII/HNI</strong> reflects leveraged bids, and <strong>Retail (RII)</strong> highlights public demand.
+              where <strong>QIB</strong> bidding picks up on Day 3, <strong>NII/HNI</strong> reflects leveraged bids, and <strong>Retail (RII)</strong> highlights overall public demand.
             </p>
           </div>
-          <div className="mt-4 pt-3 border-t border-line/60">
-            <span className="text-xs font-mono text-accent">Track real-time times-subscribed (x)</span>
+          <div className="mt-5 pt-3.5 border-t border-line/60">
+            <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-card2 border border-line text-[11px] font-semibold text-accent">
+              Real-time times-subscribed (x) tracking
+            </span>
           </div>
-        </Card>
+        </div>
       </div>
 
-      {/* In-depth Informational Section */}
-      <div className="space-y-8 bg-card/60 border border-line rounded-2xl p-6 sm:p-8">
-        {/* Step by step IPO Process */}
+      {/* Timeline & Lifecycle Container - Open, Modern & Perfectly Synced */}
+      <div className="space-y-6 pt-4 border-t border-line">
         <div>
-          <h3 className="text-xl sm:text-2xl font-heading font-bold mb-4 text-tx flex items-center gap-2">
-            <Clock className="w-5 h-5 text-accent" />
-            The Complete IPO Timeline & Allotment Lifecycle
-          </h3>
-          <p className="text-sm text-mut leading-relaxed mb-4">
-            Investing in initial public offerings requires understanding key regulatory milestones set under SEBI guidelines (T+3 listing timeline):
-          </p>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
-            <div className="p-4 rounded-xl bg-card2/80 border border-line/80">
-              <span className="text-xs font-bold text-accent uppercase tracking-wider block mb-1">Step 01</span>
-              <h4 className="font-heading font-bold text-sm text-tx">Bidding Window (T)</h4>
-              <p className="text-xs text-mut mt-1 leading-relaxed">
-                IPO opens for subscription (usually 3 working days). Investors place bids via ASBA net banking or UPI mandating. Use our{" "}
-                <Link href="/tools/lot-calculator" className="text-accent font-semibold hover:underline">
-                  IPO lot size calculator
-                </Link>{" "}
-                to compute exact capital requirements.
-              </p>
-            </div>
-            <div className="p-4 rounded-xl bg-card2/80 border border-line/80">
-              <span className="text-xs font-bold text-accent uppercase tracking-wider block mb-1">Step 02</span>
-              <h4 className="font-heading font-bold text-sm text-tx">Basis of Allotment (T+1)</h4>
-              <p className="text-xs text-mut mt-1 leading-relaxed">
-                The designated registrar finalizes the share allocation lottery basis. Successful applicants receive debit alerts.
-              </p>
-            </div>
-            <div className="p-4 rounded-xl bg-card2/80 border border-line/80">
-              <span className="text-xs font-bold text-accent uppercase tracking-wider block mb-1">Step 03</span>
-              <h4 className="font-heading font-bold text-sm text-tx">Refunds & Demat Credit (T+2)</h4>
-              <p className="text-xs text-mut mt-1 leading-relaxed">
-                Bank mandate liens are unblocked for unsuccessful bids. Allotted shares are credited directly to your CDSL/NSDL demat account.
-              </p>
-            </div>
-            <div className="p-4 rounded-xl bg-card2/80 border border-line/80">
-              <span className="text-xs font-bold text-accent uppercase tracking-wider block mb-1">Step 04</span>
-              <h4 className="font-heading font-bold text-sm text-tx">Exchange Listing (T+3)</h4>
-              <p className="text-xs text-mut mt-1 leading-relaxed">
-                Shares ring the opening bell on BSE & NSE with pre-market discovery session from 9:00 AM to 9:45 AM.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <hr className="border-line/70" />
-
-        {/* Mainboard vs SME IPOs */}
-        <div>
-          <h3 className="text-xl sm:text-2xl font-heading font-bold mb-3 text-tx flex items-center gap-2">
-            <Layers className="w-5 h-5 text-accent" />
-            Mainboard IPO vs SME IPO: Key Differences
-          </h3>
-          <p className="text-sm text-mut leading-relaxed mb-4">
-            India has two major initial public offering segments: Mainboard IPOs (regulated for larger capitalization) and SME IPOs (BSE SME & NSE Emerge platforms designed for emerging enterprises). Explore our detailed comparison on{" "}
-            <Link href="/articles/bse-sme-vs-nse-emerge-lot-size-rules" className="text-accent font-semibold hover:underline">
-              BSE SME vs NSE Emerge lot size rules &amp; investment guide
-            </Link>
-            :
-          </p>
-
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs sm:text-sm border-collapse">
-              <thead>
-                <tr className="border-b border-line bg-card2/50 text-mut uppercase font-mono tracking-wider">
-                  <th className="py-3 px-4">Feature</th>
-                  <th className="py-3 px-4">Mainboard IPO</th>
-                  <th className="py-3 px-4">SME IPO (NSE Emerge / BSE SME)</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-line/60">
-                <tr>
-                  <td className="py-3 px-4 font-semibold text-tx">Minimum Investment</td>
-                  <td className="py-3 px-4 text-mut">~₹14,000 to ₹15,000 (1 Lot)</td>
-                  <td className="py-3 px-4 text-mut">₹1,00,000 to ₹1,40,000+ (Fixed Lot Size)</td>
-                </tr>
-                <tr>
-                  <td className="py-3 px-4 font-semibold text-tx">Trading Lot Post-Listing</td>
-                  <td className="py-3 px-4 text-mut">1 share (Liquid on BSE/NSE)</td>
-                  <td className="py-3 px-4 text-mut">Traded only in predetermined lots (e.g. 1000, 2000 shares)</td>
-                </tr>
-                <tr>
-                  <td className="py-3 px-4 font-semibold text-tx">Underwriting Requirement</td>
-                  <td className="py-3 px-4 text-mut">Mandatory partial / opt-in</td>
-                  <td className="py-3 px-4 text-mut">100% underwritten issue (Merchant Banker ensures 15%)</td>
-                </tr>
-                <tr>
-                  <td className="py-3 px-4 font-semibold text-tx">Reporting & Track Record</td>
-                  <td className="py-3 px-4 text-mut">Strict SEBI profitability & track record</td>
-                  <td className="py-3 px-4 text-mut">Relaxed compliance for MSMEs and fast-growth companies</td>
-                </tr>
-                <tr>
-                  <td className="py-3 px-4 font-semibold text-tx">Liquidity & Volatility</td>
-                  <td className="py-3 px-4 text-mut">High liquidity, broad institutional participation</td>
-                  <td className="py-3 px-4 text-mut">Higher volatility, circuit limits, lower daily volumes</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <hr className="border-line/70" />
-
-        {/* How to Check IPO Allotment Status */}
-        <div>
-          <h3 className="text-xl sm:text-2xl font-heading font-bold mb-3 text-tx flex items-center gap-2">
-            <FileCheck className="w-5 h-5 text-accent" />
-            How to Check IPO Allotment Status Online
-          </h3>
-          <p className="text-sm text-mut leading-relaxed mb-4">
-            Investors can check their allocation status across official registrar channels or via our direct{" "}
-            <Link href="/allotment" className="text-accent font-semibold hover:underline">
-              IPO Allotment Status Check by PAN
-            </Link>{" "}
-            portal. You will need your <strong>PAN card number</strong>, <strong>Application Number</strong>, or <strong>DP Client ID</strong>:
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 rounded-xl bg-card2/60 border border-line">
-              <h4 className="font-heading font-bold text-sm text-tx mb-2">1. Registrar Portals (Fastest)</h4>
-              <p className="text-xs text-mut leading-relaxed">
-                Registrars like{" "}
-                <Link href="/allotment/link-intime" className="text-accent font-semibold hover:underline">
-                  Link Intime India
-                </Link>
-                ,{" "}
-                <Link href="/allotment/kfintech" className="text-accent font-semibold hover:underline">
-                  KFin Technologies (KFintech)
-                </Link>
-                ,{" "}
-                <Link href="/allotment/bigshare" className="text-accent font-semibold hover:underline">
-                  Bigshare Services
-                </Link>
-                ,{" "}
-                <Link href="/allotment/skyline" className="text-accent font-semibold hover:underline">
-                  Skyline Financial
-                </Link>
-                , and Cameo Corporate upload the finalized basis of allotment first. Simply pick the company name from the dropdown and submit your PAN.
-              </p>
-            </div>
-            <div className="p-4 rounded-xl bg-card2/60 border border-line">
-              <h4 className="font-heading font-bold text-sm text-tx mb-2">2. Stock Exchanges (BSE & NSE)</h4>
-              <p className="text-xs text-mut leading-relaxed">
-                Visit the official{" "}
-                <Link href="/allotment/bse-india" className="text-accent font-semibold hover:underline">
-                  BSE India IPO allotment portal
-                </Link>{" "}
-                or NSE India IPO Status portal. Select issue type as &apos;Equity&apos;, choose the company name, enter application number and PAN, and verify the allotment confirmation.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <hr className="border-line/70" />
-
-        {/* Risk Disclaimer */}
-        <div className="p-4 rounded-xl bg-down/10 border border-down/20 text-tx">
-          <div className="flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-down shrink-0 mt-0.5" />
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-4">
             <div>
-              <h4 className="font-heading font-bold text-sm text-down">
-                Important Grey Market Disclaimer & Risk Advisory
+              <h3 className="text-xl sm:text-2xl font-heading font-extrabold text-tx flex items-center gap-2">
+                <Clock className="w-5 h-5 text-accent" />
+                <span>The SEBI T+3 IPO Timeline &amp; Allotment Lifecycle</span>
+              </h3>
+              <p className="text-xs sm:text-sm text-mut mt-1">
+                Under official SEBI regulations, all Indian public issues follow this strict 4-stage T+3 settlement framework:
+              </p>
+            </div>
+            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-card2 border border-line text-tx shrink-0 self-start sm:self-auto">
+              SEBI Compliant Flow
+            </span>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="p-4 rounded-3xl bg-card border border-line shadow-2xs hover:border-accent/40 transition-colors">
+              <span className="text-[11px] font-bold text-accent px-2 py-0.5 rounded-md bg-accent/10 border border-accent/20 inline-block mb-2">
+                STAGE 1
+              </span>
+              <h4 className="font-heading font-bold text-sm sm:text-base text-tx mb-1">Issue Open &amp; Bidding</h4>
+              <p className="text-xs text-mut leading-relaxed">
+                3-day bidding window. Retail investors block funds via ASBA / UPI mandate.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-3xl bg-card border border-line shadow-2xs hover:border-accent/40 transition-colors">
+              <span className="text-[11px] font-bold text-accent px-2 py-0.5 rounded-md bg-accent/10 border border-accent/20 inline-block mb-2">
+                STAGE 2 (T+1)
+              </span>
+              <h4 className="font-heading font-bold text-sm sm:text-base text-tx mb-1">Allotment Finalization</h4>
+              <p className="text-xs text-mut leading-relaxed">
+                Designated registrar (Link Intime, KFintech) finalizes share allocation basis.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-3xl bg-card border border-line shadow-2xs hover:border-accent/40 transition-colors">
+              <span className="text-[11px] font-bold text-accent px-2 py-0.5 rounded-md bg-accent/10 border border-accent/20 inline-block mb-2">
+                STAGE 3 (T+2)
+              </span>
+              <h4 className="font-heading font-bold text-sm sm:text-base text-tx mb-1">Refunds &amp; Demat Credit</h4>
+              <p className="text-xs text-mut leading-relaxed">
+                UPI unblocking for non-allottees and credit of equity shares into Demat accounts.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-3xl bg-card border border-line shadow-2xs hover:border-accent/40 transition-colors">
+              <span className="text-[11px] font-bold text-accent px-2 py-0.5 rounded-md bg-accent/10 border border-accent/20 inline-block mb-2">
+                STAGE 4 (T+3)
+              </span>
+              <h4 className="font-heading font-bold text-sm sm:text-base text-tx mb-1">Exchange Listing</h4>
+              <p className="text-xs text-mut leading-relaxed">
+                Trading begins on BSE &amp; NSE at 10:00 AM after the 9:00 AM pre-open session.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Risk Advisory Banner */}
+        <div className="p-4 rounded-2xl bg-card border border-line shadow-2xs text-tx">
+          <div className="flex items-start gap-3">
+            <AlertCircle className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+            <div>
+              <h4 className="font-heading font-bold text-xs sm:text-sm text-tx">
+                Important Market Risk Advisory
               </h4>
-              <p className="text-xs text-mut mt-1 leading-relaxed">
-                Grey Market Premium (GMP) is an unregulated, unofficial OTC estimate based on dealer quotes across local financial hubs. It does not guarantee listing gains and fluctuates wildly with overall market conditions, geopolitical news, and speculative pressure. Never make an IPO investment decision solely on the basis of GMP. Always evaluate company fundamentals, DRHP financial reports, valuation multiples (P/E ratio), promoter integrity, and anchor investor participation before applying.
+              <p className="text-xs text-mut mt-0.5 leading-relaxed">
+                Grey Market Premium (GMP) is an unregulated, unofficial OTC estimate based on dealer quotes across local financial hubs. It does not guarantee listing gains and fluctuates with secondary market sentiment. Never make an IPO investment decision solely on GMP; always review company fundamentals, DRHP financial reports, and valuation multiples before applying.
               </p>
             </div>
           </div>

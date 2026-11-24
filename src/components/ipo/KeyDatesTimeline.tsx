@@ -1,7 +1,7 @@
 import React from "react";
 import { IpoDate } from "@/lib/types";
 import { formatShortDate } from "@/lib/format";
-import { Calendar, Lock, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { Calendar, Lock, ShieldCheck, CheckCircle2, Clock } from "lucide-react";
 
 interface KeyDatesTimelineProps {
   dates: IpoDate[];
@@ -16,7 +16,6 @@ export function KeyDatesTimeline({ dates }: KeyDatesTimelineProps) {
   const listingItem = dates.find((d) => d.label.toLowerCase().includes("list")) || dates[3] || dates[dates.length - 1];
 
   const now = new Date();
-  // Strip time for clean day comparison
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
 
   const parseItemDate = (dStr?: string) => {
@@ -31,24 +30,23 @@ export function KeyDatesTimeline({ dates }: KeyDatesTimelineProps) {
   const allotTime = parseItemDate(allotmentItem?.date);
   const listingTime = parseItemDate(listingItem?.date);
 
-  // Chronologically Strict Stage Index
+  // Chronologically Strict Stage Index (0: Open, 1: Close, 2: Allot, 3: Listed)
   let currentStageIndex = 0;
   let isUpcoming = false;
 
   if (openTime && today < openTime) {
     isUpcoming = true;
-    currentStageIndex = 0; // Upcoming: Next milestone is OPEN
+    currentStageIndex = 0;
   } else if (listingTime && today >= listingTime) {
-    currentStageIndex = 3; // LISTED is active
+    currentStageIndex = 3;
   } else if (allotTime && today >= allotTime) {
-    currentStageIndex = 2; // ALLOTMENT is active
+    currentStageIndex = 2;
   } else if (closeTime && today > closeTime) {
-    currentStageIndex = 1; // CLOSE is active (Bidding closed, pending allotment)
+    currentStageIndex = 1;
   } else {
-    currentStageIndex = 0; // OPEN is active (Bidding live)
+    currentStageIndex = 0;
   }
 
-  // Map 4 true milestones: Open, Close, Allot, Listed
   const stages = [
     {
       key: "OPEN",
@@ -77,55 +75,86 @@ export function KeyDatesTimeline({ dates }: KeyDatesTimelineProps) {
   ];
 
   return (
-    <div className="w-full p-2 bg-card rounded-2xl border border-line shadow-sm">
-      <div className="grid grid-cols-4 gap-2 text-center">
-        {stages.map((stage, idx) => {
-          const Icon = stage.icon;
-          const isCurrent = idx === currentStageIndex;
-          const isPassed = !isUpcoming && idx < currentStageIndex;
+    <div className="w-full bg-card rounded-3xl border border-line p-5 shadow-xs">
+      {/* Header */}
+      <div className="flex items-center justify-between pb-3.5 border-b border-line mb-5">
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center text-accent">
+            <Clock className="w-3.5 h-3.5" />
+          </div>
+          <span className="font-heading font-extrabold text-sm text-tx tracking-tight">
+            Key IPO Lifecycle &amp; Dates
+          </span>
+        </div>
+        <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-card2 border border-line text-mut flex items-center gap-1">
+          <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+          T+3 Framework
+        </span>
+      </div>
 
-          return (
-            <div
-              key={idx}
-              className={`flex flex-col items-center justify-center px-1.5 py-2.5 rounded-xl transition-all ${
-                isCurrent
-                  ? "bg-accent/[0.08] border-1.5 border-accent shadow-xs"
-                  : isPassed
-                  ? "bg-card2/50 border border-transparent"
-                  : "bg-card2/25 border border-transparent"
-              }`}
-            >
-              {/* Icon Container */}
-              <div
-                className={`w-7 h-7 rounded-lg flex items-center justify-center mb-1.5 shrink-0 transition-all ${
-                  isCurrent
-                    ? "bg-accent text-accent-foreground shadow-xs"
-                    : "bg-card border border-line/60 text-mut/70"
-                }`}
-              >
-                <Icon className="w-3.5 h-3.5" />
+      {/* Stepper with Pixel-Perfect Central Connecting Line */}
+      <div className="relative pt-1 pb-1">
+        {/* Progress Track Line passing exactly through the center of 36px (h-9) circles (18px) */}
+        <div className="absolute top-[19px] left-[12%] right-[12%] h-[2px] bg-line/80 z-0">
+          <div
+            className="h-full bg-accent transition-all duration-500 rounded-full"
+            style={{
+              width: `${(currentStageIndex / 3) * 100}%`,
+            }}
+          />
+        </div>
+
+        {/* 4 Nodes */}
+        <div className="grid grid-cols-4 gap-1 relative z-10 text-center">
+          {stages.map((stage, idx) => {
+            const Icon = stage.icon;
+            const isCurrent = idx === currentStageIndex;
+            const isPassed = !isUpcoming && idx < currentStageIndex;
+
+            return (
+              <div key={idx} className="flex flex-col items-center">
+                {/* Node Circle: Exactly 36x36px */}
+                <div
+                  className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 border-2 ${
+                    isCurrent
+                      ? "bg-accent text-accent-foreground border-accent ring-4 ring-accent/20 shadow-xs"
+                      : isPassed
+                      ? "bg-up text-white border-up shadow-2xs"
+                      : "bg-card text-mut border-line"
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                </div>
+
+                {/* Milestone Label */}
+                <span
+                  className={`text-xs font-bold mt-2.5 leading-none block truncate max-w-full ${
+                    isCurrent
+                      ? "text-accent"
+                      : isPassed
+                      ? "text-tx font-semibold"
+                      : "text-mut"
+                  }`}
+                >
+                  {stage.label}
+                </span>
+
+                {/* Milestone Date */}
+                <span
+                  className={`text-[11px] font-heading mt-1 tabular-nums whitespace-nowrap block ${
+                    isCurrent
+                      ? "text-accent font-bold"
+                      : isPassed
+                      ? "text-tx font-medium"
+                      : "text-mut/70"
+                  }`}
+                >
+                  {stage.date}
+                </span>
               </div>
-
-              {/* Label */}
-              <span
-                className={`text-[11px] tracking-wide capitalize leading-none font-semibold ${
-                  isCurrent ? "text-accent" : "text-mut"
-                }`}
-              >
-                {stage.label}
-              </span>
-
-              {/* Date */}
-              <span
-                className={`text-xs font-heading font-semibold mt-1 tabular-nums whitespace-nowrap ${
-                  isCurrent ? "text-accent" : "text-tx"
-                }`}
-              >
-                {stage.date}
-              </span>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
   );

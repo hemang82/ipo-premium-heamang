@@ -322,10 +322,10 @@ export function IpoDetailsContent({
           ======================================================== */}
       <div id="section-overview" className="scroll-mt-24 space-y-6">
         {/* Core Issue Details */}
-        <section className="rounded-card bg-card border border-line p-5 md:p-6 shadow-sm">
-          <h2 className="text-base md:text-lg font-heading font-semibold text-tx tracking-tight mb-4 pb-3 border-b border-line flex items-center justify-between">
-            <span>{companyName} IPO Details</span>
-            <span className="text-xs font-heading font-semibold text-accent bg-accent/10 px-2.5 py-1 rounded-full">
+        <section className="rounded-3xl bg-card border border-line p-5 md:p-6 shadow-xs">
+          <h2 className="text-base md:text-lg font-heading font-extrabold text-tx tracking-tight mb-4 pb-3 border-b border-line flex items-center justify-between">
+            <span>{companyName} IPO Details &amp; Price Band</span>
+            <span className="text-xs font-heading font-semibold text-accent bg-accent/10 px-2.5 py-1 rounded-full border border-accent/20">
               Core Specs
             </span>
           </h2>
@@ -717,10 +717,10 @@ export function IpoDetailsContent({
         </div>
 
         {/* Daily GMP Trend History Table */}
-        <section className="rounded-card bg-card border border-line p-5 md:p-6 shadow-sm">
-          <h2 className="text-base md:text-lg font-heading font-semibold text-tx tracking-tight mb-4 pb-3 border-b border-line flex items-center justify-between">
-            <span>{companyName} Daily GMP Trend History</span>
-            <span className="text-xs font-heading font-semibold text-accent bg-accent/10 px-2.5 py-1 rounded-full">
+        <section className="rounded-3xl bg-card border border-line p-5 md:p-6 shadow-xs">
+          <h2 className="text-base md:text-lg font-heading font-extrabold text-tx tracking-tight mb-4 pb-3 border-b border-line flex items-center justify-between">
+            <span>{companyName} Live GMP Today &amp; Kostak Rates History</span>
+            <span className="text-xs font-heading font-semibold text-accent bg-accent/10 px-2.5 py-1 rounded-full border border-accent/20">
               Live Daily Trend
             </span>
           </h2>
@@ -807,10 +807,10 @@ export function IpoDetailsContent({
           ======================================================== */}
       <div id="section-subscription" className="scroll-mt-24 space-y-6">
         {/* Real-Time Category Demand Table */}
-        <section className="rounded-card bg-card border border-line p-5 md:p-6 shadow-sm">
-          <h2 className="text-base md:text-lg font-heading font-semibold text-tx tracking-tight mb-4 pb-3 border-b border-line flex items-center justify-between">
-            <span>Subscription Details (No. of Shares)</span>
-            <span className="text-xs font-heading font-semibold text-accent bg-accent/10 px-2.5 py-1 rounded-full">
+        <section className="rounded-3xl bg-card border border-line p-5 md:p-6 shadow-xs">
+          <h2 className="text-base md:text-lg font-heading font-extrabold text-tx tracking-tight mb-4 pb-3 border-b border-line flex items-center justify-between">
+            <span>{companyName} IPO Subscription Status (QIB, NII &amp; Retail)</span>
+            <span className="text-xs font-heading font-semibold text-accent bg-accent/10 px-2.5 py-1 rounded-full border border-accent/20">
               Live Demand Book
             </span>
           </h2>

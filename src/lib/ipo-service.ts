@@ -182,11 +182,20 @@ export const getIpoReview = async (ipoId: number | string) => {
 };
 
 /**
- * Helper to slugify company name
+ * Helper to slugify company name cleanly for SEO & human readability
+ * Strips redundant filler words like "Limited", "Ltd", "(India)"
+ * e.g., "Shree Siddhivinayak Greentech Industries Limited" -> "shree-siddhivinayak-greentech-industries-ipo"
+ * e.g., "Watrana Rentals Limited" -> "watrana-rentals-ipo"
  */
 export function slugifyCompanyName(name: string): string {
   if (!name) return "ipo";
-  let slug = name
+  let clean = name
+    .replace(/\s+Limited\b/gi, "")
+    .replace(/\s+Ltd\.?\b/gi, "")
+    .replace(/\s*\(India\)\s*/gi, "")
+    .trim();
+
+  let slug = clean
     .toLowerCase()
     .replace(/[^a-z0-9\s-]/g, "")
     .trim()
@@ -402,12 +411,24 @@ export function transformApiIpo(raw: any, category: string = "live"): Ipo {
 }
 
 /**
+ * In-memory 15-second cache for instant zero-latency responses
+ */
+let cachedAllIpos: Ipo[] | null = null;
+let lastCacheTime = 0;
+const CACHE_TTL_MS = 15 * 1000; // 15 seconds
+
+/**
  * -------------------------------------------------------------
  * 3. SINGLE SOURCE OF TRUTH: getAllIpos()
  * -------------------------------------------------------------
- * Combines live, upcoming, and listed IPOs from real API
+ * Combines live, upcoming, and listed IPOs from real API (Cached for 15s)
  */
 export async function getAllIpos(): Promise<Ipo[]> {
+  const now = Date.now();
+  if (cachedAllIpos && now - lastCacheTime < CACHE_TTL_MS) {
+    return cachedAllIpos;
+  }
+
   try {
     const [liveRes, upcomingRes, listedRes] = await Promise.all([
       getHomePageIpoList({ category: "live", pageSize: 30 }),
@@ -443,10 +464,13 @@ export async function getAllIpos(): Promise<Ipo[]> {
       }
     }
 
+    cachedAllIpos = transformed;
+    lastCacheTime = Date.now();
+
     return transformed;
   } catch (err) {
     console.error("Error in getAllIpos():", err);
-    return [];
+    return cachedAllIpos || [];
   }
 }
 
@@ -525,8 +549,16 @@ export interface IpoStats {
   openCount: number;
   highestGmp: {
     ipoName: string;
+    slug: string;
+    symbol: string;
     gmpPercent: number;
     gmpInr: number;
+  };
+  mostSubscribed: {
+    ipoName: string;
+    slug: string;
+    symbol: string;
+    total: number;
   };
   avgSubscription: number;
   totalTracked: number;
@@ -535,21 +567,43 @@ export interface IpoStats {
 export async function getStats(): Promise<IpoStats> {
   const ipos = await getAllIpos();
 
-  const openIpos = ipos.filter((i) => i.status === "Open");
-  const openCount = openIpos.length;
+  // 1. Check for LIVE / OPEN IPOs
+  const liveIpos = ipos.filter((i) => i.status === "Open" || i.status === "SME");
+  const upcomingIpos = ipos.filter((i) => i.status === "Upcoming");
+  const openCount = liveIpos.length;
 
-  let highestIpo = ipos[0];
+  // Primary preference: Live IPOs. If no Live IPOs active, smoothly fallback to Upcoming IPOs
+  const pool = liveIpos.length > 0 ? liveIpos : upcomingIpos.length > 0 ? upcomingIpos : ipos;
+
+  let highestIpo = pool[0];
   let maxPercent = -1;
 
-  for (const ipo of ipos) {
+  let mostSubIpo = pool[0];
+  let maxSub = -1;
+
+  for (const ipo of pool) {
     const pct = gmpPercent(ipo);
     if (pct > maxPercent) {
       maxPercent = pct;
       highestIpo = ipo;
     }
+    const sub = ipo.subscription?.total || 0;
+    if (sub > maxSub) {
+      maxSub = sub;
+      mostSubIpo = ipo;
+    }
   }
 
-  const subscribedIpos = ipos.filter((i) => i.subscription && i.subscription.total > 0);
+  // If live IPOs don't have subscription yet, check pool or upcoming
+  if (maxSub <= 0) {
+    const subscribedCandidate = ipos.find((i) => i.subscription && i.subscription.total > 0);
+    if (subscribedCandidate) {
+      mostSubIpo = subscribedCandidate;
+      maxSub = subscribedCandidate.subscription.total;
+    }
+  }
+
+  const subscribedIpos = pool.filter((i) => i.subscription && i.subscription.total > 0);
   const avgSubscription = subscribedIpos.length
     ? Number((subscribedIpos.reduce((acc, curr) => acc + curr.subscription.total, 0) / subscribedIpos.length).toFixed(1))
     : 0;
@@ -558,8 +612,16 @@ export async function getStats(): Promise<IpoStats> {
     openCount,
     highestGmp: {
       ipoName: highestIpo ? highestIpo.name : "N/A",
+      slug: highestIpo?.slug || "",
+      symbol: highestIpo?.symbol || "",
       gmpPercent: maxPercent > 0 ? maxPercent : 0,
       gmpInr: highestIpo ? highestIpo.gmp : 0,
+    },
+    mostSubscribed: {
+      ipoName: mostSubIpo ? mostSubIpo.name : "N/A",
+      slug: mostSubIpo?.slug || "",
+      symbol: mostSubIpo?.symbol || "",
+      total: maxSub > 0 ? maxSub : 0,
     },
     avgSubscription,
     totalTracked: ipos.length,

@@ -7,31 +7,32 @@ import { getBreadcrumbSchema } from "@/lib/seo";
 export const revalidate = 10;
 
 export const metadata: Metadata = {
-  title: "Live IPO Today – Open for Bidding",
+  title: "Live IPOs Today – Open IPO Bidding & Live Subscription",
   description:
-    "View all currently open IPOs available for bidding on BSE and NSE. Check live subscription status, price bands, lot sizes, and closing dates.",
+    "Track all live IPOs today open for bidding on BSE and NSE. Real-time live subscription status, GMP rates, lot sizes, price bands, and closing schedules.",
   alternates: { canonical: `${SITE_URL}/ipo/live` },
   keywords: [
-    "Live IPO Today",
-    "Open IPO for Bidding",
+    "Live IPOs",
+    "Live IPOs Today",
+    "Open IPOs",
     "Current IPO Bidding Status",
-    "Mainboard Live IPO",
-    "SME IPO Open Now",
+    "Mainboard Live IPOs",
+    "SME IPOs Open Now",
   ],
   openGraph: {
-    title: "Live IPO Today – Open Public Issues for Bidding",
+    title: "Live IPOs Today – Open Public Issues for Bidding",
     description:
-      "View all currently open IPOs available for bidding on BSE and NSE. Check live subscription status, price bands, lot sizes, and closing dates.",
+      "Track all live IPOs today open for bidding on BSE and NSE. Real-time live subscription status, GMP rates, lot sizes, price bands, and closing schedules.",
     url: `${SITE_URL}/ipo/live`,
     type: "website",
     locale: "en_IN",
-    siteName: "ipo-premium",
+    siteName: "IPO Premium",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Live IPO 2024–25 – Open IPOs with GMP & Subscription Status",
+    title: "Live IPOs Today – Open IPOs with GMP & Subscription",
     description:
-      "Track all currently open IPOs with live GMP, subscription status and estimated listing gain.",
+      "Track all live IPOs currently open for bidding with live GMP, subscription demand and estimated listing gains.",
   },
 };
 

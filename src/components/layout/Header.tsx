@@ -23,7 +23,7 @@ import {
 // ─── IPO dropdown sub-links ───────────────────────────────────────────────────
 const ipoSubLinks = [
   {
-    label: "Live IPO",
+    label: "Live IPOs",
     href: "/ipo/live",
     icon: Zap,
     desc: "Currently open for bidding",
@@ -32,7 +32,7 @@ const ipoSubLinks = [
     dotClass: "bg-emerald-500 animate-pulse",
   },
   {
-    label: "Upcoming IPO",
+    label: "Upcoming IPOs",
     href: "/ipo/upcoming",
     icon: Clock,
     desc: "Opening soon – mark your dates",
@@ -41,7 +41,7 @@ const ipoSubLinks = [
     dotClass: "",
   },
   {
-    label: "Listed IPO",
+    label: "Listed IPOs",
     href: "/ipo/listed",
     icon: CheckCircle2,
     desc: "Recent listings & performance",

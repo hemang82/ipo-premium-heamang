@@ -58,25 +58,30 @@ export function formatNewsDate(dateStr?: string): string {
 }
 
 /**
- * Fetch paginated list of news articles
- * Caches using Next.js ISR with 3600 seconds (1 hour) revalidation
+ * Fetch paginated list of news articles optionally filtered by stock symbol
+ * Caches using Next.js ISR with 10 seconds revalidation
  */
-export async function getNewsList(page = 1, limit = 9): Promise<NewsResponse> {
+export async function getNewsList(page = 1, limit = 9, symbol?: string): Promise<NewsResponse> {
   const pageNum = Math.max(1, Number(page) || 1);
   const limitNum = Math.max(1, Number(limit) || 9);
 
   try {
-    // 1. Try querying with configured domain
+    const payload: any = {
+      page: pageNum,
+      limit: limitNum,
+      web: DEFAULT_DOMAIN,
+    };
+    if (symbol) {
+      payload.symbol = symbol.trim().toUpperCase();
+    }
+
+    // 1. Try querying with configured domain & symbol
     let res = await fetch(NEWS_API_ENDPOINT, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        page: pageNum,
-        limit: limitNum,
-        web: DEFAULT_DOMAIN,
-      }),
+      body: JSON.stringify(payload),
       next: { revalidate: 10 },
     });
 
@@ -89,19 +94,41 @@ export async function getNewsList(page = 1, limit = 9): Promise<NewsResponse> {
       totalPages: 0,
     };
 
-    // 2. If specific domain has no rows yet, gracefully fallback to active IPO database pool
+    // 2. If specific domain/symbol has no rows yet, gracefully fallback
     if (!items || items.length === 0) {
-      const fallbackRes = await fetch(NEWS_API_ENDPOINT, {
+      const fallbackPayload: any = {
+        page: pageNum,
+        limit: limitNum,
+        web: FALLBACK_DOMAIN,
+      };
+      // Try with symbol on fallback domain first
+      if (symbol) {
+        fallbackPayload.symbol = symbol.trim().toUpperCase();
+      }
+
+      let fallbackRes = await fetch(NEWS_API_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          page: pageNum,
-          limit: limitNum,
-          web: FALLBACK_DOMAIN,
-        }),
+        body: JSON.stringify(fallbackPayload),
         next: { revalidate: 10 },
       });
-      const fallbackJson = await fallbackRes.json().catch(() => null);
+      let fallbackJson = await fallbackRes.json().catch(() => null);
+      
+      // If symbol-specific news is empty on fallback domain too, fetch top active IPO market news so page is never empty
+      if (!fallbackJson?.data?.data || fallbackJson.data.data.length === 0) {
+        fallbackRes = await fetch(NEWS_API_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            page: pageNum,
+            limit: limitNum,
+            web: FALLBACK_DOMAIN,
+          }),
+          next: { revalidate: 10 },
+        });
+        fallbackJson = await fallbackRes.json().catch(() => null);
+      }
+
       if (fallbackJson?.data?.data && fallbackJson.data.data.length > 0) {
         items = fallbackJson.data.data;
         pagination = fallbackJson.data.pagination;

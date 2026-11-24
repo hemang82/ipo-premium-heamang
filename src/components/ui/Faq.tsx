@@ -20,7 +20,8 @@ export function Faq({
   title = "Frequently Asked Questions",
   description = "Everything you need to know about IPO GMP, Kostak, and listing expectations.",
 }: FaqProps) {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  // All FAQs closed by default; user clicks to expand
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggle = (idx: number) => {
     setOpenIndex(openIndex === idx ? null : idx);
@@ -35,7 +36,7 @@ export function Faq({
         {description && <p className="text-sm text-mut mt-2">{description}</p>}
       </div>
 
-      <div className="max-w-3xl mx-auto space-y-3">
+      <div className="max-w-4xl lg:max-w-5xl mx-auto space-y-3">
         {items.map((faq, idx) => {
           const isOpen = openIndex === idx;
           return (

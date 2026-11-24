@@ -7,6 +7,7 @@ import {
   getIpoSubscriptionDetail,
   getIpoReview,
 } from "@/lib/ipo-service";
+import { getNewsList, NewsItem } from "@/lib/newsApi";
 import { getIpoMetadata, getBreadcrumbSchema, getFaqSchema, SITE_URL } from "@/lib/seo";
 import { formatINR, formatPercent, gmpPercent, estimatedListingPrice, formatSubscription } from "@/lib/format";
 import { IpoDetailsClientLayout } from "@/components/ipo/IpoDetailsClientLayout";
@@ -49,29 +50,33 @@ export default async function IpoDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  // Parallel API requests for Specialized Tabs:
+  // Parallel API requests for Specialized Tabs & News:
   // 1. GMP Detail API (/ipo/ipo-gmp-detail/{symbol}/)
   // 2. Subscription Detail API (/ipo/ipo-subscription-detail/{symbol}/)
   // 3. Review API (/ipo/review-retrieve/{id}/)
-  const [gmpRes, subRes, reviewRes] = await Promise.all([
+  // 4. Company News API (/api/v1/common/getNewsList with symbol)
+  const [gmpRes, subRes, reviewRes, newsRes] = await Promise.all([
     getIpoGmpDetail(resolved.symbol),
     getIpoSubscriptionDetail(resolved.symbol),
     ipo.rawApiData?.id ? getIpoReview(ipo.rawApiData.id) : null,
+    getNewsList(1, 4, resolved.symbol).catch(() => ({ data: [] })),
   ]);
 
   const gmpData = gmpRes?.data || null;
   const subData = subRes?.data || null;
   const reviewData = reviewRes || null;
+  const ipoNewsList: NewsItem[] = newsRes?.data || [];
 
   const percent = gmpPercent(ipo);
   const estListing = estimatedListingPrice(ipo);
   const raw = ipo.rawApiData || {};
 
-  // High-ranking Breadcrumbs Schema (Home / [Company Name] ([Board]))
+  // High-ranking Breadcrumbs Schema (Home / Live IPOs / [Company Name])
   const breadcrumbSchema = getBreadcrumbSchema([
     { name: "Home", url: SITE_URL },
-    { name: "IPOs", url: `${SITE_URL}/#all-ipos` },
-    { name: `${ipo.name} (${ipo.board})`, url: `${SITE_URL}/ipo/${ipo.slug}/${ipo.symbol}/` },
+    { name: "Live IPOs", url: `${SITE_URL}/ipo/live` },
+    { name: "Upcoming IPOs", url: `${SITE_URL}/ipo/upcoming` },
+    { name: `${ipo.name} GMP & Allotment`, url: `${SITE_URL}/ipo/${ipo.slug}/${ipo.symbol}` },
   ]);
 
   // Dynamic FAQs for this IPO
@@ -130,10 +135,11 @@ export default async function IpoDetailPage({ params }: PageProps) {
         gmpData={gmpData}
         subData={subData}
         reviewData={reviewData}
+        newsList={ipoNewsList}
       />
 
-      {/* Mobile Sticky CTA Bar */}
-      <MobileStickyBar registrarUrl={ipo.registrarUrl} ipoName={ipo.name} />
+      {/* Mobile Sticky CTA Bar with Live GMP & Internal Allotment Link */}
+      <MobileStickyBar ipo={ipo} registrarName={ipo.registrar} />
     </>
   );
 }

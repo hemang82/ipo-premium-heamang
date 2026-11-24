@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import {
   Search,
   TrendingUp,
@@ -14,10 +15,16 @@ import {
   globalSearch,
   GlobalSearchResult,
   slugifyCompanyName,
+  IpoStats,
 } from "@/lib/ipo-service";
 import { Button } from "@/components/ui/Button";
+import { Flame, BarChart2, Radio } from "lucide-react";
 
-export function HeroSection() {
+interface HeroSectionProps {
+  stats?: IpoStats;
+}
+
+export function HeroSection({ stats }: HeroSectionProps) {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -71,7 +78,7 @@ export function HeroSection() {
     setIsOpen(false);
     const slug = slugifyCompanyName(item.company_name);
     const symbol = (item.symbol || "IPO").toUpperCase();
-    router.push(`/ipo/${slug}/${symbol}/`);
+    router.push(`/ipo/${slug}/${symbol}`);
   };
 
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -85,24 +92,36 @@ export function HeroSection() {
     results.mainboard.length > 0 || results.sme.length > 0 || results.unlisted.length > 0;
 
   return (
-    <section className="relative pt-7 pb-4 text-center max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative pt-6 sm:pt-7 pb-3 text-center max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto flex flex-col items-center">
         {/* Visually hidden for clean UI, fully present in HTML for Google & SEO */}
         <span className="sr-only">ipo-premium.com | Live IPO Tracker</span>
 
-        {/* Main H1 Headline - perfectly centered */}
-        <h1 className="font-heading font-extrabold text-3xl sm:text-4xl md:text-5xl text-tx tracking-tight leading-[1.18] mb-2.5">
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent via-[#FF7A45] to-[#D95A2B]">
-            IPO Premium
-          </span>{" "}
-          – Know the Premium{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent via-[#F3C5B5] to-accent">
+        {/* Simple & SEO-Friendly Direct Pill */}
+        <Link
+          href="/ipo-gmp"
+          className="group inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card2/80 hover:bg-card border border-line hover:border-accent/40 text-xs text-tx transition-all mb-2.5 shadow-2xs"
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+          <span className="font-semibold text-tx group-hover:text-accent transition-colors">IPO GMP &amp; Allotment Tracker</span>
+          <ChevronRight className="w-3 h-3 text-mut group-hover:text-accent group-hover:translate-x-0.5 transition-all" />
+        </Link>
+
+        {/* Refined & Balanced H1 Headline */}
+        <h1 className="font-heading font-extrabold text-xl sm:text-2xl md:text-3xl lg:text-[34px] text-tx tracking-tight leading-[1.24] mb-2.5">
+          <span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent via-[#FF7A45] to-[#D95A2B]">
+              IPO Premium
+            </span>{" "}
+            – Know the Premium
+          </span>
+          <span className="block mt-0.5 sm:mt-1 text-transparent bg-clip-text bg-gradient-to-r from-accent via-[#F3C5B5] to-accent">
             Before You Apply
           </span>
         </h1>
 
         {/* Description */}
-        <p className="text-xs sm:text-sm text-mut leading-relaxed max-w-lg mb-6">
+        <p className="text-xs sm:text-sm text-mut leading-relaxed max-w-lg mb-5">
           Real-time Grey Market Premium (GMP), live QIB/NII/Retail subscription numbers, and reliable allotment status for Mainboard & SME IPOs.
         </p>
 

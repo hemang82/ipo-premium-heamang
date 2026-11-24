@@ -6,33 +6,32 @@ import { SITE_URL, getBreadcrumbSchema } from "@/lib/seo";
 export const revalidate = 10;
 
 export const metadata: Metadata = {
-  title: "Listed IPO 2024–25 – Recently Listed IPOs with Listing Day Gain & GMP",
+  title: "Listed IPOs – Listing Day Gains, Listed Price & Performance",
   description:
-    "Track all recently listed IPOs in India 2024–25 with listing price, listing day gain/loss, GMP, subscription figures, price band, lot size on BSE and NSE.",
+    "Track all recently listed IPOs in India with listing price, listing day gains, GMP performance, subscription figures, and current returns on BSE and NSE.",
   alternates: { canonical: `${SITE_URL}/ipo/listed` },
   keywords: [
-    "Listed IPO 2025",
-    "Recently Listed IPO",
+    "Listed IPOs",
+    "Recently Listed IPOs",
     "IPO Listing Gain",
     "IPO Listed Price",
-    "New Listed IPO Today",
-    "BSE NSE Listed IPO",
-    "IPO Listing Performance",
-    "Mainboard IPO Listed",
-    "SME IPO Listed",
+    "New Listed IPOs Today",
+    "BSE NSE Listed IPOs",
+    "Mainboard Listed IPOs",
+    "SME Listed IPOs",
   ],
   openGraph: {
-    title: "Listed IPO 2024–25 – Listing Day Gain & Performance",
+    title: "Listed IPOs – Listing Day Gains & Performance",
     description:
-      "Complete list of recently listed IPOs in India with listing price, listing gain, GMP, subscription figures and performance on BSE and NSE.",
+      "Complete list of listed IPOs in India with listing price, listing gains, GMP, subscription figures and performance on BSE and NSE.",
     url: `${SITE_URL}/ipo/listed`,
     type: "website",
     locale: "en_IN",
-    siteName: "ipo-premium",
+    siteName: "IPO Premium",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Listed IPO 2024–25 – Listing Day Gain & Performance",
+    title: "Listed IPOs – Listing Day Gains & Performance",
     description:
       "Track recently listed IPOs with listing price, listing gain and GMP on BSE and NSE.",
   },

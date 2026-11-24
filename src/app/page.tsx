@@ -1,13 +1,17 @@
 import { getAllIpos, getStats } from "@/lib/ipo-service";
+import { getNewsList } from "@/lib/newsApi";
 import { HeroSection } from "@/components/home/HeroSection";
 import { IpoList } from "@/components/home/IpoList";
+import { HomeAllotmentSection } from "@/components/home/HomeAllotmentSection";
 import { ToolsSection } from "@/components/home/ToolsSection";
 import { SeoContentSection } from "@/components/home/SeoContentSection";
 import { ArticlesSection } from "@/components/home/ArticlesSection";
+import { HomeNewsSection } from "@/components/home/HomeNewsSection";
+import { TrendingKeywordsDirectory } from "@/components/home/TrendingKeywordsDirectory";
 import { Faq } from "@/components/ui/Faq";
 import { getFaqSchema } from "@/lib/seo";
 
-export const revalidate = 10; // ISR 5 minutes
+export const revalidate = 15; // 15-second ISR cache
 
 interface HomePageProps {
   searchParams: Promise<{
@@ -58,7 +62,11 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   const currentSort = resolvedParams.sort || "default";
   const query = resolvedParams.q || "";
 
-  const allIpos = await getAllIpos();
+  const [allIpos, stats, newsData] = await Promise.all([
+    getAllIpos(),
+    getStats(),
+    getNewsList(1, 3).catch(() => ({ data: [] })),
+  ]);
   const faqSchema = getFaqSchema(homeFaqs);
 
   return (
@@ -75,13 +83,17 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           currentStatus={currentStatus}
           currentSort={currentSort}
           query={query}
+          stats={stats}
         />
+        <HomeAllotmentSection ipos={allIpos} />
         <ToolsSection />
         <ArticlesSection />
+        <HomeNewsSection news={newsData?.data || []} />
         <SeoContentSection />
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <Faq items={homeFaqs} />
         </div>
+        <TrendingKeywordsDirectory ipos={allIpos} />
       </div>
     </>
   );

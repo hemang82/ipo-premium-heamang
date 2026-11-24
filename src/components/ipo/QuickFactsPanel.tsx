@@ -96,27 +96,37 @@ export function QuickFactsPanel({ ipo, raw = {} }: QuickFactsPanelProps) {
     raw.registrar_detail?.website || raw.registrar_detail?.link || raw.registrar_url || ipo.registrarUrl
   );
 
+  // Internal Allotment Link on our own website
+  const getInternalAllotmentLink = (regName?: string) => {
+    const lower = (regName || "").toLowerCase();
+    if (lower.includes("link intime") || lower.includes("linkintime")) return "/allotment/link-intime";
+    if (lower.includes("kfin") || lower.includes("karvy")) return "/allotment/kfintech";
+    if (lower.includes("bigshare")) return "/allotment/bigshare";
+    if (lower.includes("skyline")) return "/allotment/skyline";
+    if (lower.includes("bse")) return "/allotment/bse-india";
+    return "/allotment";
+  };
+
+  const internalAllotmentHref = getInternalAllotmentLink(registrarName);
+
   return (
     <div className="space-y-4">
-      {/* Quick Facts Card */}
-      <Card variant="default" className="p-5 border-line shadow-sm">
+      {/* Quick Facts Card - Standardized to rounded-3xl */}
+      <div className="bg-card rounded-3xl border border-line p-5 sm:p-6 shadow-xs">
         {/* Title Header with Allotment Button beside it */}
-        <div className="flex items-center justify-between gap-2 mb-4 pb-2.5 border-b border-line">
-          <h3 className="font-heading font-semibold text-base text-tx">
+        <div className="flex items-center justify-between gap-2 mb-4 pb-3 border-b border-line">
+          <h3 className="font-heading font-extrabold text-base text-tx">
             Issue Key Information
           </h3>
 
-          <a
-            href="https://ipo-trend.com/ipo-allotment-status"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold bg-accent/10 text-accent hover:bg-accent hover:text-accent-foreground border border-accent/20 transition-all shrink-0"
-            title="Check Allotment Status on ipo-trend.com"
+          <Link
+            href={internalAllotmentHref}
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-accent/10 text-accent hover:bg-accent hover:text-accent-foreground border border-accent/20 transition-all shrink-0 shadow-2xs"
+            title="Check Allotment Status Online"
           >
             <FileCheck2 className="w-3.5 h-3.5" />
             <span>Allotment Status</span>
-            <ExternalLink className="w-3 h-3 opacity-70" />
-          </a>
+          </Link>
         </div>
 
         <div className="space-y-3.5 text-xs">
@@ -205,26 +215,23 @@ export function QuickFactsPanel({ ipo, raw = {} }: QuickFactsPanelProps) {
           </div>
         </div>
 
-        {/* CTA to Check Allotment */}
+        {/* CTA to Check Allotment - Integrated with Internal Allotment System */}
         <div className="mt-5 pt-3 border-t border-line">
-          <a
-            href={directRegistrarUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href={internalAllotmentHref}
             className="w-full block"
           >
             <Button
               variant="primary"
               size="md"
-              className="w-full gap-2 font-heading font-bold shadow-md hover:shadow-accent/20 transition-all text-sm"
+              className="w-full gap-2 font-heading font-bold shadow-md hover:shadow-accent/20 transition-all text-sm rounded-xl"
             >
               <CheckCircle className="w-4 h-4" />
-              Check Allotment Status
-              <ExternalLink className="w-3.5 h-3.5 opacity-80" />
+              Check Allotment Status Online
             </Button>
-          </a>
+          </Link>
         </div>
-      </Card>
+      </div>
 
       {/* Embedded Interactive Lot Calculator */}
       <LotCalculator

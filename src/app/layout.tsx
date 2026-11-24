@@ -21,7 +21,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = getBaseMetadata();
-export const revalidate = 10;
+export const revalidate = 15;
 
 export const viewport: Viewport = {
   themeColor: "#F8F9FA",

@@ -18,7 +18,7 @@ interface FaqProps {
 export function Faq({
   items,
   title = "Frequently Asked Questions",
-  description = "Everything you need to know about IPO GMP, Kostak, and listing expectations.",
+  description = "Everything you need to know about IPO price bands, allotment process, and listing rules.",
 }: FaqProps) {
   // All FAQs closed by default; user clicks to expand
   const [openIndex, setOpenIndex] = useState<number | null>(null);

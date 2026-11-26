@@ -120,7 +120,7 @@ export default async function LotCalculatorPage() {
 
               <p className="text-sm sm:text-base text-mut leading-relaxed">
                 Calculate required application capital, share quantities, retail cutoff limits, and estimated
-                listing returns based on live Grey Market Premium (GMP). Select any active IPO or enter
+                listing returns based on indicative price discovery. Select any active IPO or enter
                 custom issue parameters.
               </p>
             </div>
@@ -162,11 +162,11 @@ export default async function LotCalculatorPage() {
                   Estimated Listing Gain
                 </div>
                 <div className="p-2.5 rounded-xl bg-card border border-line font-mono text-tx font-bold text-xs">
-                  Gain = (Lots × Lot Size) × Live GMP (₹)
+                  Gain = (Lots × Lot Size) × Expected Gain per Share (₹)
                 </div>
                 <p>
-                  Multiplies total allotted shares by the current unofficial Grey Market Premium quote to project
-                  gross listing morning profits.
+                  Multiplies total allotted shares by the projected price appreciation per share to project
+                  gross listing morning returns.
                 </p>
               </div>
 
@@ -176,7 +176,7 @@ export default async function LotCalculatorPage() {
                   Expected Return on Investment
                 </div>
                 <div className="p-2.5 rounded-xl bg-card border border-line font-mono text-tx font-bold text-xs">
-                  ROI (%) = (GMP ÷ Issue Price) × 100
+                  ROI (%) = (Expected Gain ÷ Issue Price) × 100
                 </div>
                 <p>
                   Measures the percentage return on your invested capital, allowing direct comparison with
@@ -272,7 +272,7 @@ export default async function LotCalculatorPage() {
                 Explore Related IPO Tools & Status Trackers
               </h2>
               <p className="text-sm text-mut mt-0.5">
-                Access live grey market premiums, day-wise bidding figures, and allotment verification portals.
+                Access live market indicators, day-wise bidding figures, and allotment verification portals.
               </p>
             </div>
 
@@ -284,17 +284,17 @@ export default async function LotCalculatorPage() {
                 <div className="space-y-1.5">
                   <div className="flex items-center gap-2 text-accent">
                     <TrendingUp className="w-5 h-5" />
-                    <span className="text-xs uppercase font-bold tracking-wider">Premium Tracker</span>
+                    <span className="text-xs uppercase font-bold tracking-wider">Market Tracker</span>
                   </div>
                   <h3 className="font-heading font-bold text-base text-tx group-hover:text-accent transition-colors">
-                    IPO GMP Today
+                    IPO Market Today
                   </h3>
                   <p className="text-xs text-mut leading-relaxed">
-                    Track live Grey Market Premium (GMP), estimated listing gains, and Kostak rates for all active and upcoming Mainboard &amp; SME IPOs.
+                    Track live market indicators, estimated listing gains, and issue schedules for all active and upcoming Mainboard &amp; SME IPOs.
                   </p>
                 </div>
                 <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-accent group-hover:underline pt-2">
-                  Check Live IPO GMP <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  Check Live IPO Market <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </span>
               </Link>
 

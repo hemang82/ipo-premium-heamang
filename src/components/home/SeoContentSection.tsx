@@ -5,7 +5,8 @@ import {
   Clock, 
   CheckCircle2,
   AlertCircle,
-  BookOpen
+  BookOpen,
+  ArrowRight
 } from "lucide-react";
 
 export function SeoContentSection() {
@@ -15,19 +16,19 @@ export function SeoContentSection() {
       <div className="border-b border-line pb-4 mb-8">
         <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-accent/10 border border-accent/20 text-xs font-semibold text-accent mb-2.5">
           <BookOpen className="w-3.5 h-3.5" />
-          <span>Complete IPO &amp; Grey Market Knowledge Desk</span>
+          <span>Complete IPO Knowledge &amp; Allotment Desk</span>
         </div>
         <h2 id="ipo-guide-heading" className="text-2xl sm:text-3xl font-heading font-extrabold tracking-tightest">
-          IPO Grey Market Premium (GMP) &amp; Stock Allotment Guide
+          IPO Bidding, Valuation &amp; Stock Allotment Guide
         </h2>
         <p className="text-mut text-xs sm:text-sm mt-1.5 max-w-3xl leading-relaxed">
           Everything you need to know about Initial Public Offerings (IPO), live{" "}
           <Link href="/ipo-gmp" className="text-accent font-medium hover:underline">
-            Grey Market Premium (GMP) rates today
+            IPO premium indications &amp; price bands
           </Link>
           ,{" "}
           <Link href="/articles/kostak-rate-vs-subject-to-sauda-differences" className="text-accent font-medium hover:underline">
-            Kostak rates vs Subject to Sauda
+            pre-listing valuation metrics
           </Link>
           , and subscription demand across QIB, NII, and Retail investor categories.
         </p>
@@ -35,50 +36,50 @@ export function SeoContentSection() {
 
       {/* Grid: 3 Concept Cards - Matching Tools & Articles Synced Style */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-        {/* Card 1: What is IPO GMP */}
+        {/* Card 1: What is IPO Premium & Pricing */}
         <div className="rounded-3xl bg-card border border-line p-5 sm:p-6 shadow-2xs hover:shadow-md hover:border-accent/40 transition-all duration-200 flex flex-col justify-between">
           <div>
             <div className="w-11 h-11 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent mb-4">
               <TrendingUp className="w-5 h-5" />
             </div>
             <h3 className="text-base sm:text-lg font-heading font-bold mb-2 text-tx leading-snug">
-              What is IPO GMP (Grey Market Premium)?
+              Understanding IPO Price Discovery
             </h3>
             <p className="text-xs sm:text-sm text-mut leading-relaxed">
-              Grey Market Premium (GMP) is an unofficial, off-market financial premium at which public issue shares are bid and traded prior to their official listing on BSE or NSE. Track live{" "}
+              Public issue price bands (Floor Price to Cap Price) are discovered through institutional and retail bidding during the open subscription window. Track live{" "}
               <Link href="/ipo-gmp" className="text-accent font-semibold hover:underline">
-                IPO GMP Today
+                IPO Premium Tracker
               </Link>{" "}
-              to gauge secondary market sentiment and anticipated listing day gains.
+              to gauge pre-listing market interest and projected listing price levels.
             </p>
           </div>
           <div className="mt-5 pt-3.5 border-t border-line/60">
             <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-card2 border border-line text-[11px] font-semibold text-accent">
-              Formula: Expected Price = Cap Price + GMP
+              Formula: Projected Listing = Issue Cap Price + Indicative Premium
             </span>
           </div>
         </div>
 
-        {/* Card 2: Kostak & Subject to Sauda */}
+        {/* Card 2: Mainboard vs SME Valuation */}
         <div className="rounded-3xl bg-card border border-line p-5 sm:p-6 shadow-2xs hover:shadow-md hover:border-accent/40 transition-all duration-200 flex flex-col justify-between">
           <div>
             <div className="w-11 h-11 rounded-2xl bg-up/10 border border-up/20 flex items-center justify-center text-up mb-4">
               <Layers className="w-5 h-5" />
             </div>
             <h3 className="text-base sm:text-lg font-heading font-bold mb-2 text-tx leading-snug">
-              Kostak Rate vs Subject to Sauda
+              Mainboard vs SME Public Issues
             </h3>
             <p className="text-xs sm:text-sm text-mut leading-relaxed">
-              <strong>Kostak Rate</strong> is the fixed lump-sum profit earned by selling an IPO application before allotment, irrespective of allotment outcome. <strong>Subject to Sauda (SS)</strong> is an agreement where profit is transferred only if shares are formally allotted to the bidder. Read our{" "}
-              <Link href="/articles/kostak-rate-vs-subject-to-sauda-differences" className="text-accent font-semibold hover:underline">
-                Kostak vs Subject to Sauda guide
+              <strong>Mainboard IPOs</strong> feature larger capitalization, high liquidity, and individual share trading after listing. <strong>SME IPOs</strong> on BSE SME and NSE Emerge require minimum fixed application lots (worth ₹1 Lakh+), requiring careful due diligence. Read our{" "}
+              <Link href="/articles/bse-sme-vs-nse-emerge-lot-size-rules" className="text-accent font-semibold hover:underline">
+                Mainboard vs SME lot size guide
               </Link>
               .
             </p>
           </div>
           <div className="mt-5 pt-3.5 border-t border-line/60">
             <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-card2 border border-line text-[11px] font-semibold text-up">
-              Guaranteed profit vs Allotment-conditional
+              Retail Limits: Up to ₹2 Lakhs per Application
             </span>
           </div>
         </div>
@@ -173,13 +174,24 @@ export function SeoContentSection() {
         <div className="p-4 rounded-2xl bg-card border border-line shadow-2xs text-tx">
           <div className="flex items-start gap-3">
             <AlertCircle className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-            <div>
+            <div className="space-y-1.5">
               <h4 className="font-heading font-bold text-xs sm:text-sm text-tx">
                 Important Market Risk Advisory
               </h4>
-              <p className="text-xs text-mut mt-0.5 leading-relaxed">
-                Grey Market Premium (GMP) is an unregulated, unofficial OTC estimate based on dealer quotes across local financial hubs. It does not guarantee listing gains and fluctuates with secondary market sentiment. Never make an IPO investment decision solely on GMP; always review company fundamentals, DRHP financial reports, and valuation multiples before applying.
+              <p className="text-xs text-mut leading-relaxed">
+                Indicative forward premiums and dealer quotes are unregulated informal estimates. They carry no legal standing with SEBI, BSE, or NSE and do not guarantee actual listing gains. Never make IPO bidding decisions based on rumors; always review company fundamentals, financial ratios, the Red Herring Prospectus (RHP), and consult a SEBI-registered financial advisor before applying.
               </p>
+              <div className="pt-0.5">
+                <a
+                  href="https://docipo.ipotrending.com/uploads/otherdocument/1795585231037.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-xs font-semibold text-accent hover:underline"
+                >
+                  <span>Read Official SEBI Advisory (PDF)</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </a>
+              </div>
             </div>
           </div>
         </div>

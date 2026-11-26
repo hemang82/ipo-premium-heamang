@@ -19,6 +19,12 @@ export function IpoRow({ ipo }: IpoRowProps) {
   const percent = gmpPercent(ipo);
   const detailUrl = `/ipo/${ipo.slug}/${ipo.symbol}`;
 
+  // Check GMP availability & dynamic heading
+  const rawGmp = ipo.rawApiData?.gmp ?? (ipo.hasGmp !== false ? ipo.gmp : undefined);
+  const rawHeading = (ipo.gmpHeading || ipo.rawApiData?.gmp_heading || "").trim();
+  const hasGmpVal = rawGmp !== undefined && rawGmp !== null && rawGmp !== "" && rawGmp !== "-";
+  const showGmpSection = hasGmpVal || Boolean(rawHeading);
+
   // Extract key dates
   const dates = ipo.dates || [];
   const openItem = dates.find((d) => d.label?.toLowerCase().includes("open")) || dates[0];
@@ -143,28 +149,36 @@ export function IpoRow({ ipo }: IpoRowProps) {
           </span>
         </div>
 
-        {/* 6. GMP Today */}
-        <div className="flex flex-col items-end shrink-0 min-w-[105px] sm:min-w-[125px] justify-center border-l border-line/60 pl-4 xl:pl-6">
-          <span className="text-[11px] font-bold text-mut uppercase tracking-wider mb-1">
-            GMP Today
-          </span>
-          <div
-            className={`flex items-baseline gap-1.5 px-3 py-1 rounded-lg border font-heading tabular-nums ${
-              ipo.gmp > 0
-                ? "bg-up/10 border-up/25 text-up"
-                : ipo.gmp < 0
-                ? "bg-dn/10 border-dn/25 text-dn"
-                : "bg-card2 border-line text-mut"
-            }`}
-          >
-            <span className="text-[14px] font-semibold leading-tight">
-              {formatINR(ipo.gmp)}
-            </span>
-            <span className="text-[13px] font-semibold">
-              ({formatPercent(percent)})
-            </span>
+        {/* 6. Dynamic GMP (Only shown if gmp or gmp_heading exists; otherwise hidden) */}
+        {showGmpSection && (
+          <div className="flex flex-col items-end shrink-0 min-w-[105px] sm:min-w-[125px] justify-center border-l border-line/60 pl-4 xl:pl-6">
+            {rawHeading ? (
+              <span className="text-[11px] font-bold text-mut uppercase tracking-wider mb-1 max-w-[120px] truncate" title={rawHeading}>
+                {rawHeading}
+              </span>
+            ) : null}
+            {hasGmpVal ? (
+              <div
+                className={`flex items-baseline gap-1.5 px-3 py-1 rounded-lg border font-heading tabular-nums ${
+                  ipo.gmp > 0
+                    ? "bg-up/10 border-up/25 text-up"
+                    : ipo.gmp < 0
+                    ? "bg-dn/10 border-dn/25 text-dn"
+                    : "bg-card2 border-line text-mut"
+                }`}
+              >
+                <span className="text-[14px] font-semibold leading-tight">
+                  {formatINR(ipo.gmp)}
+                </span>
+                <span className="text-[13px] font-semibold">
+                  ({formatPercent(percent)})
+                </span>
+              </div>
+            ) : (
+              <span className="text-xs text-mut font-medium">-</span>
+            )}
           </div>
-        </div>
+        )}
 
         {/* Far Right: Arrow */}
         <div className="text-mut/60 group-hover:text-accent group-hover:translate-x-1 transition-all shrink-0 pl-1">

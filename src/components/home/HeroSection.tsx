@@ -103,7 +103,7 @@ export function HeroSection({ stats }: HeroSectionProps) {
           className="group inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card2/80 hover:bg-card border border-line hover:border-accent/40 text-xs text-tx transition-all mb-2.5 shadow-2xs"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-          <span className="font-semibold text-tx group-hover:text-accent transition-colors">IPO GMP &amp; Allotment Tracker</span>
+          <span className="font-semibold text-tx group-hover:text-accent transition-colors">IPO Premium &amp; Allotment Tracker</span>
           <ChevronRight className="w-3 h-3 text-mut group-hover:text-accent group-hover:translate-x-0.5 transition-all" />
         </Link>
 
@@ -113,7 +113,7 @@ export function HeroSection({ stats }: HeroSectionProps) {
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent via-[#FF7A45] to-[#D95A2B]">
               IPO Premium
             </span>{" "}
-            – Know the Premium
+            – Know the Issue Details
           </span>
           <span className="block mt-0.5 sm:mt-1 text-transparent bg-clip-text bg-gradient-to-r from-accent via-[#F3C5B5] to-accent">
             Before You Apply
@@ -122,7 +122,7 @@ export function HeroSection({ stats }: HeroSectionProps) {
 
         {/* Description */}
         <p className="text-xs sm:text-sm text-mut leading-relaxed max-w-lg mb-5">
-          Real-time Grey Market Premium (GMP), live QIB/NII/Retail subscription numbers, and reliable allotment status for Mainboard & SME IPOs.
+          Real-time issue valuation, live QIB/NII/Retail subscription demand, price bands, and reliable allotment status for Mainboard &amp; SME IPOs.
         </p>
 
         {/* Centered Premium Search Input Box with Live Dropdown */}

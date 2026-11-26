@@ -303,9 +303,9 @@ export default async function AllotmentPage() {
                     <ShieldCheck className="w-3.5 h-3.5" />
                     Official Verification Hub
                   </span>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono text-mut bg-card2 border border-line">
+                  {/* <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono text-mut bg-card2 border border-line">
                     SEBI T+3 Framework
-                  </span>
+                  </span> */}
                 </div>
 
                 <h1 className="font-heading font-black text-2xl sm:text-3xl lg:text-4xl text-tx tracking-tightest leading-tight">
@@ -644,17 +644,17 @@ export default async function AllotmentPage() {
                 <div className="space-y-1.5">
                   <div className="flex items-center gap-2 text-accent">
                     <TrendingUp className="w-5 h-5" />
-                    <span className="text-xs uppercase font-bold tracking-wider">Premium Tracker</span>
+                    <span className="text-xs uppercase font-bold tracking-wider">IPO Market</span>
                   </div>
                   <h3 className="font-heading font-bold text-base text-tx group-hover:text-accent transition-colors">
-                    IPO GMP Today
+                    IPO Market 
                   </h3>
                   <p className="text-xs text-mut leading-relaxed">
                     Track live Grey Market Premium (GMP), expected listing gains, and Kostak rates for all active and upcoming Mainboard &amp; SME IPOs.
                   </p>
                 </div>
                 <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-accent group-hover:underline pt-2">
-                  Check Live IPO GMP <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  Check Live IPO Market <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </span>
               </Link>
 

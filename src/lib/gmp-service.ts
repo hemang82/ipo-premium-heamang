@@ -36,8 +36,11 @@ export interface GmpIpoItem {
   priceRange: string;
   cutoffPrice: number;
   gmp: number;
+  gmpHeading?: string;
+  hasGmp?: boolean;
   estimatedListingPrice: number;
   expectedGainPercent: number;
+  subscriptionTotal?: number;
   startDate?: string;
   endDate?: string;
   allotmentDate?: string;
@@ -107,7 +110,10 @@ export async function getIpoGmpList(): Promise<{
 
     const mapItem = (raw: RawGmpIpoItem, category: "live" | "upcoming"): GmpIpoItem => {
       const cutoff = extractCutoffPrice(raw.price_range || raw.price_band, raw.cutoff_price, raw.issue_price);
-      const numGmp = typeof raw.gmp === "number" ? raw.gmp : parseFloat(String(raw.gmp || "0").replace(/[^0-9.-]/g, "")) || 0;
+      const rawGmpStr = raw.gmp !== undefined && raw.gmp !== null ? String(raw.gmp).trim() : "";
+      const hasGmp = rawGmpStr !== "" && rawGmpStr !== "-";
+      const numGmp = typeof raw.gmp === "number" ? raw.gmp : parseFloat(rawGmpStr.replace(/[^0-9.-]/g, "")) || 0;
+      const gmpHeading = typeof raw.gmp_heading === "string" ? raw.gmp_heading.trim() : "";
       
       const estimatedListing = cutoff > 0 ? cutoff + numGmp : numGmp;
       const expectedGain = cutoff > 0 ? Number(((numGmp / cutoff) * 100).toFixed(2)) : 0;
@@ -118,6 +124,17 @@ export async function getIpoGmpList(): Promise<{
         false;
 
       const slug = slugifyCompanyName(raw.company_name);
+
+      // Subscription extraction
+      const subHistory = raw.subscription_history?.[0]?.ipo_subscription_detail || [];
+      let totalSub = parseFloat(raw.subscription) || 0;
+      if (Array.isArray(subHistory) && subHistory.length > 0) {
+        for (const s of subHistory) {
+          const cat = (s.category || "").toUpperCase();
+          const val = parseFloat(s.times) || 0;
+          if (cat.includes("TOTAL")) totalSub = val;
+        }
+      }
 
       return {
         id: raw.id,
@@ -131,8 +148,11 @@ export async function getIpoGmpList(): Promise<{
         priceRange: raw.price_range || raw.price_band || (cutoff ? `₹${cutoff}` : "TBA"),
         cutoffPrice: cutoff,
         gmp: numGmp,
+        gmpHeading,
+        hasGmp: hasGmp || Boolean(gmpHeading),
         estimatedListingPrice: estimatedListing,
         expectedGainPercent: expectedGain,
+        subscriptionTotal: totalSub,
         startDate: raw.start_date,
         endDate: raw.end_date,
         allotmentDate: raw.allotment_date,

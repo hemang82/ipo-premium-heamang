@@ -172,10 +172,10 @@ export function AdvancedLotCalculator({ ipos }: AdvancedLotCalculatorProps) {
               />
             </div>
 
-            {/* Live GMP */}
+            {/* Expected Gain per Share */}
             <div className="p-3.5 rounded-2xl bg-card2/60 border border-line space-y-1.5">
               <span className="text-[11px] font-semibold text-mut uppercase tracking-wider block">
-                Live GMP (₹)
+                Expected Gain (₹)
               </span>
               <input
                 type="number"
@@ -324,7 +324,7 @@ export function AdvancedLotCalculator({ ipos }: AdvancedLotCalculatorProps) {
           {/* Metric 2: Estimated Listing Gain */}
           <div className="p-3.5 rounded-xl bg-card border border-line space-y-1">
             <span className="text-[11px] font-semibold text-mut uppercase tracking-wider block">
-              Expected Listing Gain (@ Live GMP)
+              Expected Listing Gain
             </span>
             <div className="flex items-baseline gap-2 font-mono">
               <span
@@ -362,7 +362,7 @@ export function AdvancedLotCalculator({ ipos }: AdvancedLotCalculatorProps) {
 
           {/* Quick Notice */}
           <p className="text-[11px] text-mut/80 leading-relaxed pt-1">
-            * Listing returns are projections based on unofficial GMP rates. Final profit depends on
+            * Listing returns are projections based on indicative estimates. Final profit depends on
             listing day demand and secondary market conditions.
           </p>
         </div>

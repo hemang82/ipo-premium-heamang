@@ -34,7 +34,7 @@ export function SortSelect({ currentSort }: SortSelectProps) {
         className="appearance-none bg-card border border-line rounded-btn pl-8 pr-8 py-1.5 text-xs font-semibold text-tx focus:outline-none hover:border-mut/40 cursor-pointer"
       >
         <option value="default">Sort by: Default</option>
-        <option value="gmp">Highest GMP %</option>
+        <option value="gmp">Highest Expected Gain %</option>
         <option value="subscription">Most Subscribed</option>
         <option value="name">Company Name (A-Z)</option>
       </select>

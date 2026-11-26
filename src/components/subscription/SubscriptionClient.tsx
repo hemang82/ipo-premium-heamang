@@ -368,14 +368,14 @@ export function SubscriptionClient({
                   <span className="text-xs uppercase font-bold tracking-wider">Premium Tracker</span>
                 </div>
                 <h3 className="font-heading font-bold text-base text-tx group-hover:text-accent transition-colors">
-                  IPO GMP Today
+                  IPO Market
                 </h3>
                 <p className="text-xs text-mut leading-relaxed">
                   Track live Grey Market Premium (GMP), expected listing gains, and Kostak rates for all active and upcoming Mainboard & SME IPOs.
                 </p>
               </div>
               <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-accent group-hover:underline pt-2">
-                Check Live IPO GMP <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                Check Live IPO Market <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
               </span>
             </Link>
 

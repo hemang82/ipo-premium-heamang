@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { MessageCircle, Send, Share2, Check, Copy } from "lucide-react";
+import { Share2, Check, Copy } from "lucide-react";
 import { formatINR, formatPercent } from "@/lib/format";
 
 interface SocialShareButtonsProps {
@@ -19,82 +19,57 @@ export function SocialShareButtons({
 }: SocialShareButtonsProps) {
   const [copied, setCopied] = useState(false);
 
-  const getShareUrl = () => {
-    if (typeof window !== "undefined") {
-      return window.location.href;
+  const handleShare = async () => {
+    const currentUrl = typeof window !== "undefined" ? window.location.href : "https://ipo-premium.com";
+    const title = `${companyName} IPO Live GMP Today & Allotment`;
+    const text = `🚀 ${companyName} IPO Update\n🔥 Live GMP: ${formatINR(gmp)} (${formatPercent(pct)})\n📈 Est. Listing: ${formatINR(estListing)}\nCheck complete details & allotment status:`;
+
+    // 1. If device supports native Web Share API (All mobile phones, tablets, Chrome, Safari, Edge)
+    // Opens native device share sheet: WhatsApp, Telegram, Instagram, Twitter/X, Messages, Gmail, etc.
+    if (typeof navigator !== "undefined" && navigator.share) {
+      try {
+        await navigator.share({
+          title,
+          text,
+          url: currentUrl,
+        });
+        return;
+      } catch (err) {
+        // User cancelled share or share failed
+        if ((err as Error)?.name !== "AbortError") {
+          console.error("Web share failed", err);
+        }
+      }
     }
-    return "https://ipo-premium.com";
-  };
 
-  const shareText = `🚀 *${companyName} IPO Update*\n\n🔥 Live GMP: *${formatINR(gmp)}* (${formatPercent(pct)})\n📈 Est. Listing: *${formatINR(estListing)}*\n\n👉 Check Live GMP, Subscription & Allotment:\n${getShareUrl()}`;
-
-  const shareWhatsApp = () => {
-    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
-    window.open(url, "_blank");
-  };
-
-  const shareTelegram = () => {
-    const url = `https://t.me/share/url?url=${encodeURIComponent(getShareUrl())}&text=${encodeURIComponent(`🚀 ${companyName} IPO Live GMP: ${formatINR(gmp)} (${formatPercent(pct)}) | Est. Listing: ${formatINR(estListing)}`)}`;
-    window.open(url, "_blank");
-  };
-
-  const copyLink = async () => {
+    // 2. Fallback for Desktop browsers without navigator.share: Copy link to clipboard with instant feedback
     try {
-      await navigator.clipboard.writeText(getShareUrl());
+      await navigator.clipboard.writeText(currentUrl);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      setTimeout(() => setCopied(false), 2200);
     } catch {
       // fallback
     }
   };
 
   return (
-    <div className="flex items-center gap-2 flex-wrap">
-      <span className="text-[11px] font-bold text-mut uppercase tracking-wider hidden sm:inline-block">
-        Share:
-      </span>
-
-      {/* WhatsApp Share Button */}
-      <button
-        type="button"
-        onClick={shareWhatsApp}
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500 text-emerald-500 hover:text-white border border-emerald-500/20 text-xs font-bold transition-all shadow-2xs active:scale-95"
-        title="Share to WhatsApp"
-      >
-        <MessageCircle className="w-3.5 h-3.5" />
-        <span>WhatsApp</span>
-      </button>
-
-      {/* Telegram Share Button */}
-      <button
-        type="button"
-        onClick={shareTelegram}
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-sky-500/10 hover:bg-sky-500 text-sky-500 hover:text-white border border-sky-500/20 text-xs font-bold transition-all shadow-2xs active:scale-95"
-        title="Share to Telegram"
-      >
-        <Send className="w-3.5 h-3.5" />
-        <span>Telegram</span>
-      </button>
-
-      {/* Copy Link Button */}
-      <button
-        type="button"
-        onClick={copyLink}
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-card2 hover:bg-card border border-line text-tx text-xs font-medium transition-all shadow-2xs active:scale-95"
-        title="Copy IPO Page Link"
-      >
-        {copied ? (
-          <>
-            <Check className="w-3.5 h-3.5 text-up" />
-            <span className="text-up font-bold">Copied!</span>
-          </>
-        ) : (
-          <>
-            <Copy className="w-3.5 h-3.5 text-mut" />
-            <span>Copy Link</span>
-          </>
-        )}
-      </button>
-    </div>
+    <button
+      type="button"
+      onClick={handleShare}
+      className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-card2 hover:bg-card border border-line hover:border-accent/40 text-tx text-xs font-semibold transition-all shadow-2xs active:scale-95 group focus-visible:outline-none"
+      title="Share this IPO"
+    >
+      {copied ? (
+        <>
+          <Check className="w-3.5 h-3.5 text-up shrink-0" />
+          <span className="text-[11px] text-up font-bold">Copied!</span>
+        </>
+      ) : (
+        <>
+          <Share2 className="w-3.5 h-3.5 text-accent group-hover:scale-110 transition-transform shrink-0" />
+          <span className="text-[11px] text-mut group-hover:text-accent font-medium transition-colors">Share</span>
+        </>
+      )}
+    </button>
   );
 }

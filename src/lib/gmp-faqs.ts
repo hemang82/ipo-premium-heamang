@@ -1,62 +1,42 @@
 export const gmpFaqs = [
   {
-    question: "What is IPO Grey Market Premium (GMP)?",
+    question: "What is an IPO Price Band and Cut-off Price?",
     answer:
-      "Grey Market Premium (GMP) is the unofficial extra price at which unlisted IPO shares are traded in the off-market gray market circles before their official listing on BSE/NSE. It gives an early indication of investor demand and anticipated listing day price.",
+      "The Price Band is the price range set by the issuing company and merchant bankers (e.g., ₹150 to ₹158). The lower price is the Floor Price, and the highest limit is the Cut-off Price (Cap Price). Retail investors typically bid at the Cut-off Price to ensure eligibility for allocation.",
   },
   {
-    question: "How is the estimated listing price calculated from GMP?",
+    question: "How is the estimated listing price projected?",
     answer:
-      "The estimated listing price is calculated by adding the live GMP to the upper issue price cap (Cutoff Price). For instance, if an IPO's upper price band is ₹158 and its GMP is ₹25, the expected listing price equals ₹183 (a +15.82% expected gain).",
+      "The projected listing price is calculated by adding indicative pre-listing market premium to the upper cap price: Estimated Price = Cap Price + Indicative Premium. For example, if the cap price is ₹158 and the indicative premium is ₹25, the expected listing level is approximately ₹183 (+15.82%).",
   },
   {
-    question: "Is IPO GMP a 100% guarantee of listing profit?",
+    question: "Do pre-listing premium indications guarantee listing gains?",
     answer:
-      "No. Grey Market Premium is completely unregulated, highly volatile, and not backed by SEBI, BSE, or NSE. Final listing prices depend on overall secondary market trends, institutional anchor bidding, and macroeconomic conditions on the listing day morning.",
+      "No. Indicative pre-listing premiums are informal, unregulated market estimates that carry no official recognition from SEBI, BSE, or NSE. Final listing prices depend on prevailing equity market conditions, global macro sentiment, institutional anchor bidding, and the opening order book on listing day morning.",
   },
   {
-    question: "What is the Kostak Rate in an IPO?",
+    question: "What is the difference between Mainboard and SME IPOs?",
     answer:
-      "The Kostak rate is the fixed cash amount an investor earns by selling their entire IPO application to an off-market buyer before allotment, regardless of whether shares are ultimately allotted or not.",
+      "Mainboard IPOs feature larger capital issue sizes, stringent listing norms, high institutional liquidity, and allow trading in single shares post-listing. SME IPOs (listed on BSE SME and NSE Emerge) trade in fixed minimum lot sizes (typically ₹1 Lakh+) with comparatively lower liquidity and higher price volatility.",
   },
   {
-    question: "What does 'Subject to Sauda' (SS) mean?",
+    question: "How should an investor evaluate an IPO before bidding?",
     answer:
-      "'Subject to Sauda' (SS) is an agreement where the profit or premium is paid only if shares are actually allotted to the applicant. If no shares are allotted, the deal is null and void.",
+      "Investors should review the company's Red Herring Prospectus (RHP) filed with SEBI, understand its financial performance (Revenue, EBITDA, PAT margins), debt obligations, peer valuation multiples (P/E, P/B), management track record, and specific industry risks before committing funds.",
   },
   {
-    question: "Why do Mainboard and SME IPO GMPs differ drastically?",
+    question: "Where can I verify my official IPO allotment status?",
     answer:
-      "Mainboard IPOs have larger issue sizes and single-share trading flexibility, which attracts major institutional participation (DIIs/FIIs). SME IPOs trade in mandatory fixed lots worth ₹1 Lakh+ with thinner liquidity, making their grey market quotes much more volatile.",
+      "Official allotment status can be verified directly on designated registrar portals such as Link Intime, KFin Technologies (KFintech), Bigshare Services, Skyline, or via the BSE India and NSE India IPO allocation verification portals using your PAN card number or Application number.",
   },
   {
-    question: "How frequently is the IPO GMP updated on this page?",
+    question: "How frequently are price estimates updated on this tracker?",
     answer:
-      "Our system continuously tracks live dealer bids, gray market networks, and authenticated trading quotes to refresh GMP rates throughout trading hours with explicit timestamp badges.",
+      "Market quotes, bidding statistics, price bands, and key milestone dates are refreshed continuously throughout market trading hours to provide timely and accurate data for investors.",
   },
   {
-    question: "Can an IPO list lower than its issue price even with a positive GMP?",
+    question: "What is the minimum application amount for Retail investors?",
     answer:
-      "Yes. If the benchmark stock indices (Nifty, Sensex) crash sharply on the listing date, or if negative sector news emerges, the stock can list at a discount despite having shown positive GMP in previous days.",
-  },
-  {
-    question: "What is the difference between Cutoff Price and Floor Price?",
-    answer:
-      "The Floor Price is the lowest limit of the price band, while the Cutoff Price is the highest limit (Cap Price). Retail investors almost always bid at the Cutoff Price to maximize their allotment probability.",
-  },
-  {
-    question: "Is it spelled Grey Market or Gray Market in India?",
-    answer:
-      "Both 'Grey Market' and 'Gray Market' refer to the exact same unofficial, OTC share trading market in India. 'Grey' is the traditional British and Indian English spelling, whereas 'Gray' is the American English spelling. In financial terminology, IPO grey market, gray market premium, and IPO GMP all describe the same off-market price discovery process.",
-  },
-  {
-    question: "Where can I check the official IPO allotment status?",
-    answer:
-      "You can verify your allocation on official registrar portals (such as Link Intime, KFin Technologies, Bigshare Services, Skyline) or through the BSE and NSE allotment verification portals using your PAN or Application Number.",
-  },
-  {
-    question: "How to check the live GMP of an IPO? (IPO GMP Status)",
-    answer:
-      "To check the live IPO GMP status today: 1) Open ipo-premium.com/ipo-gmp to view the live GMP table. 2) Filter by Mainboard or SME issues or search by company name. 3) Track the live grey market price, cutoff rate, estimated listing price, and listing gain percentage updated throughout market hours.",
+      "Under SEBI regulations, retail individual investors can bid up to a maximum total value of ₹2,00,000 per application. The minimum application requirement equals the issue lot size multiplied by the upper price band (typically ₹14,000 to ₹15,000 for Mainboard IPOs).",
   },
 ];

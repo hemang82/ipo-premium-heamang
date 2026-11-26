@@ -20,7 +20,7 @@ import { ALL_FAQS, CATEGORIES, FaqItem } from "./faqData";
 export function FaqClient() {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState<string>("all");
-  const [openFaqId, setOpenFaqId] = useState<string | null>("gmp-1");
+  const [openFaqId, setOpenFaqId] = useState<string | null>("basic-1");
 
   const filteredFaqs = useMemo(() => {
     return ALL_FAQS.filter((faq) => {
@@ -55,7 +55,7 @@ export function FaqClient() {
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search questions by keyword (e.g., GMP, Allotment lottery, Taxes, ASBA)..."
+            placeholder="Search questions by keyword (e.g., Valuation, Allotment lottery, Taxes, ASBA)..."
             className="w-full bg-card2/80 border border-line rounded-2xl pl-10 pr-10 py-3 text-xs sm:text-sm text-tx placeholder:text-mut/70 outline-none focus:outline-none focus:border-accent focus:shadow-[0_0_0_2px_rgba(217,90,43,0.18)] focus:ring-0 transition-all"
           />
           {search && (
@@ -232,10 +232,10 @@ export function FaqClient() {
               <TrendingUp className="w-4 h-4" />
             </div>
             <h4 className="font-heading font-bold text-sm text-tx group-hover:text-accent transition-colors">
-              Live IPO GMP Tracker
+              Live IPO Market Tracker
             </h4>
             <p className="text-xs text-mut leading-relaxed">
-              Real-time Grey Market Premium rates, Kostak numbers, and expected listing gain percentages.
+              Real-time indicative market rates, subscription demand, and expected listing gain percentages.
             </p>
           </div>
           <span className="inline-flex items-center gap-1 text-xs font-semibold text-accent pt-1">

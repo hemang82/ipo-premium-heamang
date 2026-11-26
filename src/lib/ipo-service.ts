@@ -251,7 +251,12 @@ export function transformApiIpo(raw: any, category: string = "live"): Ipo {
   const priceBand = raw.price_range || (raw.issue_price ? `₹${raw.issue_price}` : "TBA");
   const issuePrice = parseCapPrice(priceBand, raw.issue_price);
   const lotSize = parseInt(raw.bid_lot, 10) || 1;
-  const gmp = parseFloat(raw.gmp) || 0;
+
+  // GMP and Dynamic gmp_heading extraction
+  const gmpHeading = typeof raw.gmp_heading === "string" ? raw.gmp_heading.trim() : "";
+  const hasRawGmp = raw.gmp !== undefined && raw.gmp !== null && raw.gmp !== "" && raw.gmp !== "-";
+  const gmp = hasRawGmp ? (parseFloat(raw.gmp) || 0) : 0;
+  const hasGmp = hasRawGmp || Boolean(gmpHeading);
 
   // Subscription extraction from subscription_history
   const subHistory = raw.subscription_history?.[0]?.ipo_subscription_detail || [];
@@ -381,6 +386,8 @@ export function transformApiIpo(raw: any, category: string = "live"): Ipo {
     issuePrice: issuePrice > 0 ? issuePrice : 100,
     lotSize: lotSize > 0 ? lotSize : 1,
     gmp,
+    gmpHeading,
+    hasGmp,
     gmpHistory,
     subscription,
     kostak: 0,

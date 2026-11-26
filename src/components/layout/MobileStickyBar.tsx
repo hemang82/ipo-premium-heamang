@@ -15,6 +15,12 @@ export function MobileStickyBar({ ipo, registrarName }: MobileStickyBarProps) {
 
   const pct = gmpPercent(ipo);
 
+  // Dynamic GMP visibility & heading
+  const rawGmp = ipo.rawApiData?.gmp ?? (ipo.hasGmp !== false ? ipo.gmp : undefined);
+  const rawHeading = (ipo.gmpHeading || ipo.rawApiData?.gmp_heading || "").trim();
+  const hasGmpVal = rawGmp !== undefined && rawGmp !== null && rawGmp !== "" && rawGmp !== "-";
+  const showGmpSection = hasGmpVal || Boolean(rawHeading);
+
   // Direct internal route for registrar verification
   const getInternalAllotmentLink = (name?: string) => {
     const lower = (name || "").toLowerCase();
@@ -31,21 +37,29 @@ export function MobileStickyBar({ ipo, registrarName }: MobileStickyBarProps) {
   return (
     <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-card/95 backdrop-blur-md border-t border-line p-3 px-4 shadow-[0_-8px_24px_rgba(0,0,0,0.12)]">
       <div className="max-w-md mx-auto flex items-center justify-between gap-3">
-        {/* Left: Compact Live GMP Indicator */}
-        <div className="flex flex-col justify-center min-w-[100px] shrink-0">
-          <div className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-mut">
-            <Sparkles className="w-3 h-3 text-accent" />
-            <span>Live GMP</span>
+        {/* Left: Compact Live GMP Indicator (Only shown if GMP or heading exists; otherwise hidden) */}
+        {showGmpSection && (
+          <div className="flex flex-col justify-center min-w-[100px] shrink-0">
+            {rawHeading ? (
+              <div className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-mut truncate max-w-[110px]" title={rawHeading}>
+                <Sparkles className="w-3 h-3 text-accent shrink-0" />
+                <span className="truncate">{rawHeading}</span>
+              </div>
+            ) : null}
+            {hasGmpVal ? (
+              <div className="flex items-baseline gap-1 mt-0.5">
+                <span className="text-base font-heading font-black text-up tabular-nums leading-none">
+                  {formatINR(ipo.gmp)}
+                </span>
+                <span className="text-[11px] font-bold text-up tabular-nums">
+                  ({formatPercent(pct)})
+                </span>
+              </div>
+            ) : (
+              <span className="text-xs text-mut font-semibold mt-0.5">-</span>
+            )}
           </div>
-          <div className="flex items-baseline gap-1 mt-0.5">
-            <span className="text-base font-heading font-black text-up tabular-nums leading-none">
-              {formatINR(ipo.gmp)}
-            </span>
-            <span className="text-[11px] font-bold text-up tabular-nums">
-              ({formatPercent(pct)})
-            </span>
-          </div>
-        </div>
+        )}
 
         {/* Right: Direct 1-Click Allotment Action Button */}
         <Link

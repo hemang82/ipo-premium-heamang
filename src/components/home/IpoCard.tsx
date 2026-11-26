@@ -36,6 +36,12 @@ export function IpoCard({ ipo }: IpoCardProps) {
     ? `₹${((ipo.lotSize * ipo.issuePrice * 1000) / 10000000).toFixed(1)} Cr`
     : "TBA";
 
+  // Check GMP availability & dynamic heading
+  const rawGmp = ipo.rawApiData?.gmp ?? (ipo.hasGmp !== false ? ipo.gmp : undefined);
+  const rawHeading = (ipo.gmpHeading || ipo.rawApiData?.gmp_heading || "").trim();
+  const hasGmpVal = rawGmp !== undefined && rawGmp !== null && rawGmp !== "" && rawGmp !== "-";
+  const showGmpSection = hasGmpVal || Boolean(rawHeading);
+
   return (
     <Link
       href={detailUrl}
@@ -59,27 +65,49 @@ export function IpoCard({ ipo }: IpoCardProps) {
           </div>
         </div>
 
-        {/* 2. Spotlight: GMP Today & Subscription (Top 2 Highlights) */}
-        <div className="grid grid-cols-2 gap-3 p-3 rounded-xl bg-card2/50 border border-line">
-          {/* GMP Today */}
-          <div>
-            <span className="text-xs font-semibold text-mut uppercase tracking-wider block mb-1">
-              GMP Today
-            </span>
-            <div className="flex items-baseline gap-1.5 font-heading tabular-nums">
-              <span className={`text-[15px] font-heading font-bold leading-none ${ipo.gmp >= 0 ? "text-up" : "text-dn"}`}>
-                {formatINR(ipo.gmp)}
+        {/* 2. Spotlight: Dynamic GMP & Subscription (Hides GMP or entire spotlight cleanly) */}
+        {showGmpSection ? (
+          <div className="grid grid-cols-2 gap-3 p-3 rounded-xl bg-card2/50 border border-line">
+            {/* Dynamic GMP Section */}
+            <div className="flex flex-col justify-center">
+              {rawHeading ? (
+                <span className="text-xs font-semibold text-mut uppercase tracking-wider block mb-1 truncate" title={rawHeading}>
+                  {rawHeading}
+                </span>
+              ) : null}
+              {hasGmpVal ? (
+                <div className="flex items-baseline gap-1.5 font-heading tabular-nums">
+                  <span className={`text-[15px] font-heading font-bold leading-none ${ipo.gmp >= 0 ? "text-up" : "text-dn"}`}>
+                    {formatINR(ipo.gmp)}
+                  </span>
+                  <span className={`text-xs font-semibold leading-none ${ipo.gmp >= 0 ? "text-up" : "text-dn"}`}>
+                    ({formatPercent(percent)})
+                  </span>
+                </div>
+              ) : (
+                <span className="text-xs text-mut font-medium">-</span>
+              )}
+            </div>
+
+            {/* Subscription Demand */}
+            <div className="border-l border-line/60 pl-3">
+              <span className="text-xs font-semibold text-mut uppercase tracking-wider block mb-1">
+                Subscription
               </span>
-              <span className={`text-xs font-semibold leading-none ${ipo.gmp >= 0 ? "text-up" : "text-dn"}`}>
-                ({formatPercent(percent)})
-              </span>
+              <div className="flex items-baseline gap-1.5 font-heading tabular-nums">
+                <span className="text-[15px] font-heading font-bold leading-none text-accent">
+                  {formatSubscription(ipo.subscription?.total || 0)}
+                </span>
+                <span className="text-xs text-mut font-medium leading-none">
+                  Demand
+                </span>
+              </div>
             </div>
           </div>
-
-          {/* Subscription Demand */}
-          <div className="border-l border-line/60 pl-3">
-            <span className="text-xs font-semibold text-mut uppercase tracking-wider block mb-1">
-              Subscription
+        ) : (
+          <div className="p-3 rounded-xl bg-card2/50 border border-line flex items-center justify-between">
+            <span className="text-xs font-semibold text-mut uppercase tracking-wider">
+              Subscription Demand
             </span>
             <div className="flex items-baseline gap-1.5 font-heading tabular-nums">
               <span className="text-[15px] font-heading font-bold leading-none text-accent">
@@ -90,7 +118,7 @@ export function IpoCard({ ipo }: IpoCardProps) {
               </span>
             </div>
           </div>
-        </div>
+        )}
 
         {/* 3. Core 4 Metrics: Open Date, Close Date, Price Band, Issue Size */}
         <div className="space-y-2 text-xs sm:text-sm mt-3.5 mb-1">

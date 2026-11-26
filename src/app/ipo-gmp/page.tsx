@@ -7,51 +7,38 @@ import { SITE_URL } from "@/lib/seo";
 export const revalidate = 10; // Revalidate every 60 seconds for live GMP freshness
 
 export const metadata: Metadata = {
-  title: "IPO GMP Today – Live Grey Market Premium (BSE & NSE)",
+  title: "Live IPO Market & Estimated Listing Tracker – BSE & NSE Mainboard & SME",
   description:
-    "Check live IPO GMP today, grey market premium rates, and estimated listing prices for all Mainboard & SME IPOs on BSE and NSE with expected listing gains.",
+    "Track live IPO market indicators, price bands, issue dates, and estimated listing prices for all Indian Mainboard and SME public issues on BSE and NSE.",
   alternates: {
     canonical: `${SITE_URL}/ipo-gmp`,
   },
   keywords: [
-    "IPO GMP",
-    "IPO GMP Today",
-    "grey market",
-    "gray market",
-    "ipo grey market",
-    "grey market ipo",
-    "grey market premium",
-    "ipo grey market premium today",
-    "gmp today",
-    "live grey market premium",
-    "ipo grey market premium",
-    "current ipo gmp",
-    "latest ipo gmp",
-    "recent ipo gmp",
-    "ipo gmp status",
-    "gmp today live",
-    "ipo gmp rate today",
-    "ipo grey market price",
-    "ipo gmp table",
-    "nse grey market premium",
-    "SME IPO GMP Today",
-    "Kostak Rate Today",
-    "Subject to Sauda Rate",
+    "IPO Market Today",
+    "Live IPO Market",
+    "IPO Listing Estimates",
+    "Expected Listing Price",
+    "Mainboard IPO Market",
+    "SME IPO Market Today",
+    "IPO Estimated Gain Calculator",
+    "BSE NSE IPO Tracker",
+    "Upcoming IPO Market Estimates",
+    "IPO Price Band and Lot Size",
   ],
   openGraph: {
-    title: "IPO GMP Today – Live Grey Market Premium (BSE & NSE)",
+    title: "Live IPO Market – BSE & NSE",
     description:
-      "Check live IPO GMP today, grey market premium rates, and estimated listing prices for all Mainboard & SME IPOs on BSE and NSE with expected listing gains.",
+      "Track live IPO market indicators, price bands, issue dates, and estimated listing prices for all Mainboard & SME IPOs on BSE and NSE.",
     url: `${SITE_URL}/ipo-gmp`,
     type: "website",
     locale: "en_IN",
-    siteName: "ipo-premium",
+    siteName: "IPO Market",
   },
   twitter: {
     card: "summary_large_image",
-    title: "IPO GMP Today – Live Grey Market Premium (BSE & NSE)",
+    title: "Live IPO Market – BSE & NSE",
     description:
-      "Check live IPO GMP today, grey market premium rates, and estimated listing prices for all Mainboard & SME IPOs on BSE and NSE.",
+      "Track live IPO market indicators, price bands, and estimated listing prices for all Mainboard & SME IPOs on BSE and NSE.",
   },
 };
 
@@ -72,7 +59,7 @@ export default async function IpoGmpPage() {
       {
         "@type": "ListItem",
         position: 2,
-        name: "IPO GMP Today",
+        name: "IPO Market Tracker",
         item: `${SITE_URL}/ipo-gmp`,
       },
     ],
@@ -82,12 +69,12 @@ export default async function IpoGmpPage() {
   const itemListSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Live IPO Grey Market Premium (GMP) Rates",
+    name: "Live IPO Market & Price Estimates",
     numberOfItems: Math.min(items.length, 25),
     itemListElement: items.slice(0, 25).map((item, index) => ({
       "@type": "ListItem",
       position: index + 1,
-      name: `${item.name} (${item.symbol}) - GMP: ₹${item.gmp}`,
+      name: `${item.name} (${item.symbol}) - Issue Price: ₹${item.cutoffPrice || 'TBA'}`,
       url: `${SITE_URL}/ipo/${item.slug}/${item.symbol}`,
     })),
   };
@@ -110,14 +97,14 @@ export default async function IpoGmpPage() {
   const webPageSchema = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: "IPO GMP Today – Live Grey Market Premium (BSE & NSE)",
+    name: "Live IPO Market & Estimated Listing Tracker (BSE & NSE)",
     url: `${SITE_URL}/ipo-gmp`,
     description:
-      "Check IPO GMP today for all Mainboard & SME IPOs on BSE and NSE. View live Grey Market Premium, estimated listing price, expected gain %, and current IPO GMP trends on one page.",
+      "Check live IPO market indicators, price bands, cut-off rates, and estimated listing prices for all Mainboard & SME IPOs in India.",
     inLanguage: "en-IN",
     isPartOf: {
       "@type": "WebSite",
-      name: "ipo-premium",
+      name: "IPO Market",
       url: SITE_URL,
     },
     speakable: {

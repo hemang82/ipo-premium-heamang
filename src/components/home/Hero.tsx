@@ -81,7 +81,7 @@ export function Hero() {
       {/* Small badge */}
       {/* <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card2 border border-line text-xs font-medium text-mut mb-6 shadow-sm">
         <Sparkles className="w-3.5 h-3.5 text-accent" />
-        <span>Indian Stock Market Live GMP & Allotment Engine</span>
+        <span>Indian Stock Market Live Premium & Allotment Engine</span>
       </div> */}
 
       {/* Main H1 */}
@@ -94,7 +94,7 @@ export function Hero() {
 
       {/* English Description */}
       <p className="text-sm sm:text-base text-mut max-w-2xl mx-auto mb-8 leading-relaxed">
-        Real-time Grey Market Premium (GMP), live QIB/NII/Retail subscription numbers, and reliable allotment status for Mainboard & SME IPOs.
+        Real-time IPO pricing insights, live QIB/NII/Retail subscription numbers, and reliable allotment status for Mainboard & SME IPOs.
       </p>
 
       {/* Search Input Box with Live Dropdown */}
@@ -199,7 +199,7 @@ export function Hero() {
                             {item.gmp !== undefined && (
                               <div className="text-right">
                                 <span className="text-sm font-heading font-extrabold text-up block">
-                                  {item.gmp > 0 ? `+₹${item.gmp}` : "GMP: ₹0"}
+                                  {item.gmp > 0 ? `+₹${item.gmp}` : "₹0"}
                                 </span>
                                 {item.expected_premium && (
                                   <span className="text-xs text-mut font-semibold">
@@ -254,7 +254,7 @@ export function Hero() {
                             {item.gmp !== undefined && (
                               <div className="text-right">
                                 <span className="text-sm font-heading font-extrabold text-up block">
-                                  {item.gmp > 0 ? `+₹${item.gmp}` : "GMP: ₹0"}
+                                  {item.gmp > 0 ? `+₹${item.gmp}` : "₹0"}
                                 </span>
                                 {item.expected_premium && (
                                   <span className="text-xs text-mut font-semibold">

@@ -22,6 +22,8 @@ import {
   HelpCircle,
   XCircle,
   FileText,
+  Tag,
+  Wallet,
 } from "lucide-react";
 
 export type NavTabId =
@@ -42,6 +44,48 @@ interface IpoDetailsContentProps {
 }
 
 // Helpers
+function parseBulletPoints(htmlStr?: string): { title?: string; body: string }[] {
+  if (!htmlStr || typeof htmlStr !== "string") return [];
+  const trimmed = htmlStr.trim();
+  if (!trimmed) return [];
+
+  // If HTML contains list items
+  const liMatches = trimmed.match(/<li[^>]*>([\s\S]*?)<\/li>/gi);
+  if (liMatches && liMatches.length > 0) {
+    return liMatches.map((li) => {
+      // Clean Quill / internal artifacts
+      const cleanLi = li.replace(/<span[^>]*class=["']ql-ui["'][^>]*>[\s\S]*?<\/span>/gi, "");
+      // Detect strong / b tag as heading/title
+      const strongMatch = cleanLi.match(/<(strong|b)[^>]*>([\s\S]*?)<\/(strong|b)>/i);
+      let title = strongMatch ? strongMatch[2].replace(/<[^>]+>/g, "").replace(/[:\s-]+$/, "").trim() : "";
+      
+      let body = cleanLi.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+      if (title && body.toLowerCase().startsWith(title.toLowerCase())) {
+        body = body.slice(title.length).replace(/^[:\s-]+/, "").trim();
+      }
+      return { title, body };
+    }).filter((p) => p.title || p.body);
+  }
+
+  // If simple text with line breaks or paragraphs
+  const cleanText = trimmed.replace(/<\/p>|<br\s*\/?>/gi, "\n").replace(/<[^>]+>/g, " ");
+  const lines = cleanText.split("\n").map(l => l.trim()).filter(Boolean);
+  if (lines.length > 1) {
+    return lines.map(line => {
+      const parts = line.split(":");
+      if (parts.length > 1 && parts[0].length < 60) {
+        return {
+          title: parts[0].replace(/^[•\-\*\d\.\)]+/, "").trim(),
+          body: parts.slice(1).join(":").trim()
+        };
+      }
+      return { body: line.replace(/^[•\-\*\d\.\)]+/, "").trim() };
+    }).filter(p => p.title || p.body);
+  }
+
+  return [{ body: trimmed.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim() }];
+}
+
 function formatDate(dateStr?: string): string {
   if (!dateStr || dateStr === "-" || dateStr === "TBA") return "-";
   return formatIpoDate(dateStr);
@@ -215,10 +259,15 @@ export function IpoDetailsContent({
   const heroTotalSub = raw.subscription ? `${raw.subscription}x` : "0.00x";
 
   // --------------------------------------------------------------------------
-  // 3. GMP DATA
+  // 3. GMP DATA & DYNAMIC HEADING RULES
   // --------------------------------------------------------------------------
   const gmpList = Array.isArray(gmpData?.ipo_gmp) ? gmpData.ipo_gmp : [];
-  const currentGmpVal = Number(raw.gmp || (gmpList[0]?.gmp ?? 0));
+  const rawGmp = raw?.gmp ?? (gmpList.length > 0 ? gmpList[0]?.gmp : undefined);
+  const rawHeading = (raw?.gmp_heading || gmpData?.gmp_heading || "").trim();
+  const hasGmpVal = rawGmp !== undefined && rawGmp !== null && rawGmp !== "" && rawGmp !== "-";
+  const showGmpSection = hasGmpVal || Boolean(rawHeading);
+
+  const currentGmpVal = Number(hasGmpVal ? rawGmp : 0);
   const upperPriceVal = Number(raw.issue_price || raw.max_investment || 94);
   const estListingPriceVal = upperPriceVal + currentGmpVal;
   const expGainPct = upperPriceVal > 0 ? ((currentGmpVal / upperPriceVal) * 100).toFixed(1) : "0.0";
@@ -261,57 +310,69 @@ export function IpoDetailsContent({
   return (
     <div className="space-y-10">
       {/* ========================================================
-          4 KEY HERO HIGHLIGHT CARDS (Direct Eye-Catchers)
+          4 KEY HERO HIGHLIGHT CARDS (Direct Eye-Catchers - Standardized to rounded-3xl)
           ======================================================== */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
         {/* Card 1: Price Band */}
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-card border border-line shadow-sm hover:border-accent/40 transition-all">
-          <span className="text-xs font-bold uppercase tracking-wider text-mut block mb-1">
-            Price Band
-          </span>
-          <span className="text-base sm:text-lg font-heading font-bold text-tx tabular-nums block">
+        <div className="p-4 sm:p-5 rounded-3xl bg-card border border-line shadow-2xs hover:shadow-md hover:border-accent/40 transition-all">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-mut">
+              Price Band
+            </span>
+            <Tag className="w-3.5 h-3.5 text-accent" />
+          </div>
+          <span className="text-base sm:text-lg font-heading font-black text-tx tabular-nums block">
             {heroPriceBand}
           </span>
-          <span className="text-xs text-mut/80 mt-0.5 block truncate">
-            Lot: {heroLotSize}
+          <span className="text-xs text-mut mt-1 block truncate">
+            Lot: <strong className="text-tx font-medium">{heroLotSize}</strong>
           </span>
         </div>
 
         {/* Card 2: Min Outlay */}
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-card border border-line shadow-sm hover:border-accent/40 transition-all">
-          <span className="text-xs font-bold uppercase tracking-wider text-mut block mb-1">
-            Min Outlay
-          </span>
-          <span className="text-base sm:text-lg font-heading font-bold text-accent tabular-nums block">
+        <div className="p-4 sm:p-5 rounded-3xl bg-card border border-line shadow-2xs hover:shadow-md hover:border-accent/40 transition-all">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-mut">
+              Min Outlay
+            </span>
+            <Wallet className="w-3.5 h-3.5 text-accent" />
+          </div>
+          <span className="text-base sm:text-lg font-heading font-black text-accent tabular-nums block">
             {heroMinInvestment}
           </span>
-          <span className="text-xs text-mut/80 mt-0.5 block truncate">
+          <span className="text-xs text-mut mt-1 block truncate">
             Retail Category
           </span>
         </div>
 
         {/* Card 3: Closes On */}
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-card border border-line shadow-sm hover:border-accent/40 transition-all">
-          <span className="text-xs font-bold uppercase tracking-wider text-mut block mb-1">
-            Closes On
-          </span>
-          <span className="text-base sm:text-lg font-heading font-bold text-dn tabular-nums block">
+        <div className="p-4 sm:p-5 rounded-3xl bg-card border border-line shadow-2xs hover:shadow-md hover:border-accent/40 transition-all">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-mut">
+              Closes On
+            </span>
+            <Clock className="w-3.5 h-3.5 text-dn" />
+          </div>
+          <span className="text-base sm:text-lg font-heading font-black text-dn tabular-nums block">
             {heroCloseDate}
           </span>
-          <span className="text-xs text-mut/80 mt-0.5 block truncate">
+          <span className="text-xs text-mut mt-1 block truncate">
             Bidding Deadline
           </span>
         </div>
 
         {/* Card 4: Total Demand */}
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-card border border-line shadow-sm hover:border-accent/40 transition-all">
-          <span className="text-xs font-bold uppercase tracking-wider text-mut block mb-1">
-            Total Demand
-          </span>
-          <span className="text-base sm:text-lg font-heading font-bold text-up tabular-nums block">
+        <div className="p-4 sm:p-5 rounded-3xl bg-card border border-line shadow-2xs hover:shadow-md hover:border-accent/40 transition-all">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-mut">
+              Total Demand
+            </span>
+            <TrendingUp className="w-3.5 h-3.5 text-up" />
+          </div>
+          <span className="text-base sm:text-lg font-heading font-black text-up tabular-nums block">
             {heroTotalSub}
           </span>
-          <span className="text-xs text-mut/80 mt-0.5 block truncate">
+          <span className="text-xs text-mut mt-1 block truncate">
             Subscription Book
           </span>
         </div>
@@ -371,7 +432,7 @@ export function IpoDetailsContent({
 
         {/* Lot(s) Distribution */}
         {lotDesc.length > 0 && (
-          <section className="rounded-card bg-card border border-line p-5 md:p-6 shadow-sm">
+          <section className="rounded-3xl bg-card border border-line p-5 md:p-6 shadow-xs">
             <h2 className="text-base md:text-lg font-heading font-semibold text-tx tracking-tight mb-4 pb-3 border-b border-line">
               Lot(s) Distribution
             </h2>
@@ -439,7 +500,7 @@ export function IpoDetailsContent({
           ];
 
           return (
-            <section className="rounded-card bg-card border border-line p-5 md:p-6 shadow-sm">
+            <section className="rounded-3xl bg-card border border-line p-5 md:p-6 shadow-xs">
               <div className="flex items-center gap-2.5 mb-4 pb-2 border-b border-line">
                 <div className="w-7 h-7 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-500 shrink-0">
                   <Building2 className="w-4 h-4" />
@@ -523,7 +584,7 @@ export function IpoDetailsContent({
             ];
 
             return (
-              <section className="rounded-card bg-card border border-line p-5 md:p-6 shadow-sm">
+              <section className="rounded-3xl bg-card border border-line p-5 md:p-6 shadow-xs">
                 <div className="flex items-center gap-2.5 mb-4 pb-2 border-b border-line">
                   <div className="w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500 shrink-0">
                     <Award className="w-4 h-4" />
@@ -584,7 +645,7 @@ export function IpoDetailsContent({
           if (filledCards.length === 0) return null;
 
           return (
-            <section className="rounded-card bg-card border border-line p-5 md:p-6 shadow-sm">
+            <section className="rounded-3xl bg-card border border-line p-5 md:p-6 shadow-xs">
               <h2 className="text-base md:text-lg font-heading font-semibold text-tx tracking-tight mb-4 pb-3 border-b border-line">
                 Key Performance Indicators (KPI)
               </h2>
@@ -607,52 +668,109 @@ export function IpoDetailsContent({
 
         {/* About Company */}
         {raw.about_the_company && (
-          <section className="rounded-card bg-card border border-line p-5 md:p-6 shadow-sm">
-            <h2 className="text-base md:text-lg font-heading font-semibold text-tx tracking-tight mb-4 pb-3 border-b border-line">
-              About {companyName}
-            </h2>
+          <section className="rounded-3xl bg-card border border-line p-5 md:p-6 shadow-xs">
+            <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-line">
+              <h2 className="text-base md:text-lg font-heading font-semibold text-tx tracking-tight flex items-center gap-2">
+                <Building2 className="w-5 h-5 text-pri shrink-0" />
+                About {companyName}
+              </h2>
+              <span className="text-xs text-mut font-medium hidden sm:inline-block">
+                Company Profile & Business Overview
+              </span>
+            </div>
             <div
-              className="text-xs sm:text-sm text-tx/85 leading-relaxed prose prose-invert max-w-none space-y-3"
+              className="text-xs sm:text-sm text-tx/85 leading-relaxed prose prose-invert max-w-none space-y-3 font-normal"
               dangerouslySetInnerHTML={{ __html: raw.about_the_company }}
             />
           </section>
         )}
 
         {/* Strengths & Risks */}
-        {(raw.company_strenght || raw.company_weakness) && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {raw.company_strenght && (
-              <section className="rounded-card bg-card border border-line p-5 shadow-sm">
-                <h3 className="font-heading font-semibold text-sm sm:text-base text-up mb-3 flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-up" />
-                  Strengths & Growth Drivers
-                </h3>
-                <div
-                  className="text-xs sm:text-sm text-tx/85 leading-relaxed space-y-2 prose prose-invert max-w-none"
-                  dangerouslySetInnerHTML={{ __html: raw.company_strenght }}
-                />
-              </section>
-            )}
+        {(raw.company_strenght || raw.company_weakness) && (() => {
+          const strengthsList = parseBulletPoints(raw.company_strenght);
+          const risksList = parseBulletPoints(raw.company_weakness);
 
-            {raw.company_weakness && (
-              <section className="rounded-card bg-card border border-line p-5 shadow-sm">
-                <h3 className="font-heading font-semibold text-sm sm:text-base text-dn mb-3 flex items-center gap-2">
-                  <ShieldAlert className="w-4 h-4 text-dn" />
-                  Risk Factors
-                </h3>
-                <div
-                  className="text-xs sm:text-sm text-tx/85 leading-relaxed space-y-2 prose prose-invert max-w-none"
-                  dangerouslySetInnerHTML={{ __html: raw.company_weakness }}
-                />
-              </section>
-            )}
-          </div>
-        )}
+          return (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {/* Strengths Card */}
+              {strengthsList.length > 0 && (
+                <section className="rounded-3xl bg-card border border-line p-5 md:p-6 shadow-xs flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-line">
+                      <h3 className="font-heading font-semibold text-sm sm:text-base text-up flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-up shrink-0" />
+                        Strengths & Growth Drivers
+                      </h3>
+                      <span className="text-[11px] font-semibold text-up bg-up/10 px-2 py-0.5 rounded-full">
+                        {strengthsList.length} Highlights
+                      </span>
+                    </div>
+
+                    <div className="space-y-3.5">
+                      {strengthsList.map((item, idx) => (
+                        <div
+                          key={idx}
+                          className="flex items-start gap-3 p-3 rounded-2xl bg-up/[0.03] border border-up/10 hover:border-up/25 transition-colors"
+                        >
+                          <span className="mt-1 flex h-2 w-2 shrink-0 rounded-full bg-up" />
+                          <div className="text-xs sm:text-sm text-tx/90 leading-relaxed">
+                            {item.title && (
+                              <strong className="text-tx font-semibold block sm:inline mr-1.5">
+                                {item.title}:
+                              </strong>
+                            )}
+                            <span className="text-tx/85">{item.body}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </section>
+              )}
+
+              {/* Risk Factors Card */}
+              {risksList.length > 0 && (
+                <section className="rounded-3xl bg-card border border-line p-5 md:p-6 shadow-xs flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-line">
+                      <h3 className="font-heading font-semibold text-sm sm:text-base text-dn flex items-center gap-2">
+                        <ShieldAlert className="w-4 h-4 text-dn shrink-0" />
+                        Risk Factors & Challenges
+                      </h3>
+                      <span className="text-[11px] font-semibold text-dn bg-dn/10 px-2 py-0.5 rounded-full">
+                        {risksList.length} Risks
+                      </span>
+                    </div>
+
+                    <div className="space-y-3.5">
+                      {risksList.map((item, idx) => (
+                        <div
+                          key={idx}
+                          className="flex items-start gap-3 p-3 rounded-2xl bg-dn/[0.03] border border-dn/10 hover:border-dn/25 transition-colors"
+                        >
+                          <span className="mt-1 flex h-2 w-2 shrink-0 rounded-full bg-dn" />
+                          <div className="text-xs sm:text-sm text-tx/90 leading-relaxed">
+                            {item.title && (
+                              <strong className="text-tx font-semibold block sm:inline mr-1.5">
+                                {item.title}:
+                              </strong>
+                            )}
+                            <span className="text-tx/85">{item.body}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </section>
+              )}
+            </div>
+          );
+        })()}
 
         {/* Promoters & Lead Managers */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {raw.company_promoter && (
-            <section className="rounded-card bg-card border border-line p-5 shadow-sm">
+            <section className="rounded-3xl bg-card border border-line p-5 shadow-xs">
               <h3 className="font-heading font-semibold text-sm sm:text-base text-tx mb-3">
                 Company Promoters
               </h3>
@@ -664,7 +782,7 @@ export function IpoDetailsContent({
           )}
 
           {raw.lead_managers && (
-            <section className="rounded-card bg-card border border-line p-5 shadow-sm">
+            <section className="rounded-3xl bg-card border border-line p-5 shadow-xs">
               <h3 className="font-heading font-semibold text-sm sm:text-base text-tx mb-3">
                 Lead Manager(s)
               </h3>
@@ -678,129 +796,152 @@ export function IpoDetailsContent({
       </div>
 
       {/* ========================================================
-          SECTION 2: GMP TREND
+          SECTION 2: GMP TREND (Dynamic / Conditional)
           ======================================================== */}
-      <div id="section-gmp" className="scroll-mt-24 space-y-6">
-        {/* Top Metric Highlights */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="p-4 rounded-2xl bg-card border border-line shadow-sm">
-            <span className="text-xs font-bold uppercase tracking-wider text-mut block mb-1">
-              Current GMP Today
-            </span>
-            <span className="text-2xl font-heading font-bold text-up tabular-nums block">
-              {currentGmpVal >= 0 ? `+₹${currentGmpVal}` : `-₹${Math.abs(currentGmpVal)}`}
-            </span>
-            <span className="text-xs text-mut mt-1 block">Live Unofficial Premium</span>
+      {showGmpSection && (
+        <div id="section-gmp" className="scroll-mt-24 space-y-6">
+          {/* Top Metric Highlights */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="p-4 rounded-2xl bg-card border border-line shadow-sm flex flex-col justify-center">
+              {rawHeading ? (
+                <span className="text-xs font-bold uppercase tracking-wider text-mut block mb-1 truncate" title={rawHeading}>
+                  {rawHeading}
+                </span>
+              ) : null}
+              {hasGmpVal ? (
+                <>
+                  <span className="text-2xl font-heading font-bold text-up tabular-nums block">
+                    {currentGmpVal >= 0 ? `+₹${currentGmpVal}` : `-₹${Math.abs(currentGmpVal)}`}
+                  </span>
+                  <span className="text-xs text-mut mt-1 block">Live Indication</span>
+                </>
+              ) : (
+                <>
+                  <span className="text-2xl font-heading font-bold text-mut tabular-nums block">
+                    -
+                  </span>
+                  <span className="text-xs text-mut mt-1 block">Rates to be announced</span>
+                </>
+              )}
+            </div>
+
+            {hasGmpVal ? (
+              <>
+                <div className="p-4 rounded-2xl bg-card border border-line shadow-sm">
+                  <span className="text-xs font-bold uppercase tracking-wider text-mut block mb-1">
+                    Estimated Listing Price
+                  </span>
+                  <span className="text-2xl font-heading font-bold text-accent tabular-nums block">
+                    ₹{estListingPriceVal.toFixed(2)}
+                  </span>
+                  <span className="text-xs text-mut mt-1 block">
+                    Cap Price (₹{upperPriceVal}) + Premium (₹{currentGmpVal})
+                  </span>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-card border border-line shadow-sm">
+                  <span className="text-xs font-bold uppercase tracking-wider text-mut block mb-1">
+                    Estimated Listing Gain
+                  </span>
+                  <span className="text-2xl font-heading font-bold text-emerald-400 tabular-nums block">
+                    +{expGainPct}%
+                  </span>
+                  <span className="text-xs text-mut mt-1 block">Expected ROI per Share</span>
+                </div>
+              </>
+            ) : (
+              <div className="p-4 rounded-2xl bg-card border border-line shadow-sm sm:col-span-2 flex items-center">
+                <span className="text-xs text-mut">Estimated listing price and gain % will update once live quotes are reported.</span>
+              </div>
+            )}
           </div>
 
-          <div className="p-4 rounded-2xl bg-card border border-line shadow-sm">
-            <span className="text-xs font-bold uppercase tracking-wider text-mut block mb-1">
-              Estimated Listing Price
-            </span>
-            <span className="text-2xl font-heading font-bold text-accent tabular-nums block">
-              ₹{estListingPriceVal.toFixed(2)}
-            </span>
-            <span className="text-xs text-mut mt-1 block">
-              Cap Price (₹{upperPriceVal}) + GMP (₹{currentGmpVal})
-            </span>
-          </div>
+          {/* Daily GMP Trend History Table */}
+          <section className="rounded-3xl bg-card border border-line p-5 md:p-6 shadow-xs">
+            <h2 className="text-base md:text-lg font-heading font-extrabold text-tx tracking-tight mb-4 pb-3 border-b border-line flex items-center justify-between">
+              <span>{companyName} {rawHeading ? `${rawHeading} & ` : ""}Trend History</span>
+              <span className="text-xs font-heading font-semibold text-accent bg-accent/10 px-2.5 py-1 rounded-full border border-accent/20">
+                Daily Trend
+              </span>
+            </h2>
 
-          <div className="p-4 rounded-2xl bg-card border border-line shadow-sm">
-            <span className="text-xs font-bold uppercase tracking-wider text-mut block mb-1">
-              Estimated Listing Gain
-            </span>
-            <span className="text-2xl font-heading font-bold text-emerald-400 tabular-nums block">
-              +{expGainPct}%
-            </span>
-            <span className="text-xs text-mut mt-1 block">Expected ROI per Share</span>
-          </div>
+            {gmpList.length > 0 ? (
+              <div className="overflow-x-auto rounded-xl border border-line/60">
+                <table className="w-full text-xs md:text-sm text-left whitespace-nowrap">
+                  <thead>
+                    <tr className="border-b border-line text-mut uppercase font-semibold text-xs tracking-wider bg-card2/60">
+                      <th className="py-3 px-4">Date</th>
+                      <th className="py-3 px-4 text-right">IPO Price</th>
+                      <th className="py-3 px-4 text-right">{rawHeading ? `${rawHeading} (₹)` : "Rate (₹)"}</th>
+                      <th className="py-3 px-4 text-right">Est. Listing Price</th>
+                      <th className="py-3 px-4 text-right">Expected Gain (%)</th>
+                      <th className="py-3 px-4 text-right">Last Updated</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-line/40">
+                    {gmpList.map((g: any, idx: number) => {
+                      const gmpNum = Number(g.gmp || 0);
+                      const ipoPr = Number(g.ipo_price || upperPriceVal);
+                      const gain = ipoPr > 0 ? ((gmpNum / ipoPr) * 100).toFixed(1) : "0.0";
+                      const isPositive = gmpNum > 0;
+                      const isZero = gmpNum === 0;
+
+                      return (
+                        <tr
+                          key={idx}
+                          className={`hover:bg-card2/80 transition-colors ${
+                            idx % 2 === 0 ? "bg-card2/35" : "bg-card"
+                          }`}
+                        >
+                          <td className="py-3 px-4 font-semibold text-tx font-heading tabular-nums">
+                            {formatDate(g.gmp_date)}
+                          </td>
+                          <td className="py-3 px-4 text-right font-heading font-semibold text-mut tabular-nums">
+                            ₹{ipoPr}
+                          </td>
+                          <td
+                            className={`py-3 px-4 text-right font-heading font-semibold tabular-nums ${
+                              isZero
+                                ? "text-mut"
+                                : isPositive
+                                ? "text-emerald-500"
+                                : "text-red-500"
+                            }`}
+                          >
+                            {isPositive ? `+₹${gmpNum}` : `₹${gmpNum}`}
+                          </td>
+                          <td className="py-3 px-4 text-right font-heading font-semibold text-accent tabular-nums">
+                            ₹{g.estimated_listing_price || (ipoPr + gmpNum).toFixed(2)}
+                          </td>
+                          <td
+                            className={`py-3 px-4 text-right font-heading font-semibold tabular-nums ${
+                              isPositive ? "text-emerald-500" : "text-mut"
+                            }`}
+                          >
+                            {isPositive ? `+${gain}%` : `${gain}%`}
+                          </td>
+                          <td className="py-3 px-4 text-right font-heading font-semibold text-mut text-xs tabular-nums">
+                            {g.updated_at
+                              ? new Date(g.updated_at).toLocaleTimeString([], {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                })
+                              : "-"}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="p-8 text-center text-mut text-xs sm:text-sm">
+                No historical rate data found for this IPO.
+              </div>
+            )}
+          </section>
         </div>
-
-        {/* Daily GMP Trend History Table */}
-        <section className="rounded-3xl bg-card border border-line p-5 md:p-6 shadow-xs">
-          <h2 className="text-base md:text-lg font-heading font-extrabold text-tx tracking-tight mb-4 pb-3 border-b border-line flex items-center justify-between">
-            <span>{companyName} Live GMP Today &amp; Kostak Rates History</span>
-            <span className="text-xs font-heading font-semibold text-accent bg-accent/10 px-2.5 py-1 rounded-full border border-accent/20">
-              Live Daily Trend
-            </span>
-          </h2>
-
-          {gmpList.length > 0 ? (
-            <div className="overflow-x-auto rounded-xl border border-line/60">
-              <table className="w-full text-xs md:text-sm text-left whitespace-nowrap">
-                <thead>
-                  <tr className="border-b border-line text-mut uppercase font-semibold text-xs tracking-wider bg-card2/60">
-                    <th className="py-3 px-4">GMP Date</th>
-                    <th className="py-3 px-4 text-right">IPO Price</th>
-                    <th className="py-3 px-4 text-right">GMP (₹)</th>
-                    <th className="py-3 px-4 text-right">Est. Listing Price</th>
-                    <th className="py-3 px-4 text-right">Expected Gain (%)</th>
-                    <th className="py-3 px-4 text-right">Last Updated</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-line/40">
-                  {gmpList.map((g: any, idx: number) => {
-                    const gmpNum = Number(g.gmp || 0);
-                    const ipoPr = Number(g.ipo_price || upperPriceVal);
-                    const gain = ipoPr > 0 ? ((gmpNum / ipoPr) * 100).toFixed(1) : "0.0";
-                    const isPositive = gmpNum > 0;
-                    const isZero = gmpNum === 0;
-
-                    return (
-                      <tr
-                        key={idx}
-                        className={`hover:bg-card2/80 transition-colors ${
-                          idx % 2 === 0 ? "bg-card2/35" : "bg-card"
-                        }`}
-                      >
-                        <td className="py-3 px-4 font-semibold text-tx font-heading tabular-nums">
-                          {formatDate(g.gmp_date)}
-                        </td>
-                        <td className="py-3 px-4 text-right font-heading font-semibold text-mut tabular-nums">
-                          ₹{ipoPr}
-                        </td>
-                        <td
-                          className={`py-3 px-4 text-right font-heading font-semibold tabular-nums ${
-                            isZero
-                              ? "text-mut"
-                              : isPositive
-                              ? "text-emerald-500"
-                              : "text-red-500"
-                          }`}
-                        >
-                          {isPositive ? `+₹${gmpNum}` : `₹${gmpNum}`}
-                        </td>
-                        <td className="py-3 px-4 text-right font-heading font-semibold text-accent tabular-nums">
-                          ₹{g.estimated_listing_price || (ipoPr + gmpNum).toFixed(2)}
-                        </td>
-                        <td
-                          className={`py-3 px-4 text-right font-heading font-semibold tabular-nums ${
-                            isPositive ? "text-emerald-500" : "text-mut"
-                          }`}
-                        >
-                          {isPositive ? `+${gain}%` : `${gain}%`}
-                        </td>
-                        <td className="py-3 px-4 text-right font-heading font-semibold text-mut text-xs tabular-nums">
-                          {g.updated_at
-                            ? new Date(g.updated_at).toLocaleTimeString([], {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              })
-                            : "-"}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <div className="p-8 text-center text-mut text-xs sm:text-sm">
-              No historical GMP data found for this IPO.
-            </div>
-          )}
-        </section>
-      </div>
+      )}
 
       {/* ========================================================
           SECTION 3: SUBSCRIPTION
@@ -875,7 +1016,7 @@ export function IpoDetailsContent({
 
         {/* Day-Wise Subscription Bidding Table */}
         {dayWise.length > 0 && (
-          <section className="rounded-card bg-card border border-line p-5 md:p-6 shadow-sm">
+          <section className="rounded-3xl bg-card border border-line p-5 md:p-6 shadow-xs">
             <h2 className="text-base md:text-lg font-heading font-semibold text-tx tracking-tight mb-4 pb-3 border-b border-line">
               Day Wise Subscription Details
             </h2>
@@ -925,7 +1066,7 @@ export function IpoDetailsContent({
 
         {/* Reservation Breakup */}
         {reservation.length > 0 && (
-          <section className="rounded-card bg-card border border-line p-5 md:p-6 shadow-sm">
+          <section className="rounded-3xl bg-card border border-line p-5 md:p-6 shadow-xs">
             <h2 className="text-base md:text-lg font-heading font-semibold text-tx tracking-tight mb-4 pb-3 border-b border-line">
               IPO Reservation Breakup
             </h2>
@@ -968,7 +1109,7 @@ export function IpoDetailsContent({
           SECTION 5: OFFICIAL IPO DOCUMENTS
           ======================================================== */}
       <div id="section-docs" className="scroll-mt-24 space-y-6">
-        <section className="rounded-card bg-card border border-line p-5 md:p-6 shadow-sm">
+        <section className="rounded-3xl bg-card border border-line p-5 md:p-6 shadow-xs">
           <h2 className="text-base md:text-lg font-heading font-semibold text-tx tracking-tight mb-4 pb-3 border-b border-line">
             Official IPO Documents & Filings
           </h2>
@@ -1069,7 +1210,7 @@ export function IpoDetailsContent({
           ======================================================== */}
       {peerList.length > 0 && (
         <div id="section-peers" className="scroll-mt-24 space-y-6">
-          <section className="rounded-card bg-card border border-line p-5 md:p-6 shadow-sm">
+          <section className="rounded-3xl bg-card border border-line p-5 md:p-6 shadow-xs">
             <h2 className="text-base md:text-lg font-heading font-semibold text-tx tracking-tight mb-2">
               {companyName} Peer Comparison
             </h2>
@@ -1129,7 +1270,7 @@ export function IpoDetailsContent({
           ======================================================== */}
       {reviews.length > 0 && (
         <div id="section-review" className="scroll-mt-24 space-y-6">
-          <section className="rounded-card bg-card border border-line p-5 md:p-6 shadow-sm">
+          <section className="rounded-3xl bg-card border border-line p-5 md:p-6 shadow-xs">
             <h2 className="text-base md:text-lg font-heading font-semibold text-tx tracking-tight mb-4 pb-3 border-b border-line flex items-center justify-between">
               <span>Broker Reviews & Recommendations</span>
               <span className="text-xs font-heading font-semibold text-accent bg-accent/10 px-2.5 py-1 rounded-full">

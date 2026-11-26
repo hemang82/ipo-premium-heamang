@@ -5,21 +5,20 @@ import { SITE_URL } from "@/lib/seo";
 export const revalidate = 10;
 
 export const metadata: Metadata = {
-  title: "What is IPO Grey Market Premium (GMP)? Gray Market Guide",
-  description:
-    "Complete guide to the IPO grey market (gray market) in India. Learn what IPO GMP means, how it is calculated, Kostak rates, Subject to Sauda, and key risks.",
+  title: "What is IPO Market ? Market Guide",
+  // description:
+  //   "Complete guide to the IPO grey market (gray market) in India. , how it is calculated, Kostak rates, Subject to Sauda, and key risks.",
   alternates: {
     canonical: `${SITE_URL}/guides/what-is-ipo-gmp/`,
   },
   keywords: [
-    "grey market",
-    "gray market",
-    "ipo grey market",
-    "grey market ipo",
-    "grey market premium",
-    "what is ipo gmp",
-    "kostak rate",
-    "subject to sauda",
+    "ipo market",
+    // "gray market",
+    // "ipo grey market",
+    // "grey market ipo",
+    // "grey market premium",
+    // "kostak rate",
+    // "subject to sauda",
   ],
 };
 

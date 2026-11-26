@@ -392,7 +392,7 @@ export function IpoListClient({
                 href="/ipo-gmp"
                 className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-card2 border border-line text-tx hover:border-accent hover:text-accent transition-all"
               >
-                Check IPO GMP Today
+                Check IPO Market
               </Link>
               <Link
                 href="/ipo/listed"

@@ -2,7 +2,7 @@ export interface Article {
   slug: string;
   title: string;
   excerpt: string;
-  category: "GMP & Trading" | "Allotment & Process" | "Strategy" | "SME Guide";
+  category: "Pricing & Valuation" | "Allotment & Process" | "Strategy" | "SME Guide";
   readTime: string;
   date: string;
   content: {
@@ -15,62 +15,62 @@ export interface Article {
 export const staticArticles: Article[] = [
   {
     slug: "what-is-ipo-gmp-grey-market-premium",
-    title: "What is IPO Grey Market Premium (GMP)? Gray Market Guide",
-    excerpt: "Complete guide to the IPO grey market (gray market) in India. How dealers quote unofficial premiums, Kostak rates, Subject to Sauda, and listing day gains.",
-    category: "GMP & Trading",
+    title: "Understanding IPO Price Bands & Pre-Listing Valuation Discovery",
+    excerpt: "Comprehensive guide to IPO price discovery in India. How price bands are determined, indicative pre-listing demand, and listing day return expectations.",
+    category: "Pricing & Valuation",
     readTime: "6 min read",
     date: "October 2026",
     content: [
       {
-        sectionTitle: "1. The Mechanics of Grey Market (Gray Market) Trading",
+        sectionTitle: "1. The Mechanics of IPO Price Discovery & Valuation",
         paragraphs: [
-          "Grey Market Premium (GMP) — also commonly searched as gray market premium or IPO grey market — is an over-the-counter (OTC) financial premium at which unlisted shares of an upcoming IPO are privately traded before they formally list on BSE or NSE.",
-          "Unlike regulated exchanges, the IPO grey market is an unofficial, dealer-driven network. It acts as an early barometer of supply and demand for every grey market IPO among retail participants, high-net-worth investors (HNIs), and institutional funds.",
+          "Pre-listing valuation discovery reflects market sentiment and OTC expectations regarding an upcoming IPO before shares formally trade on BSE or NSE.",
+          "Unlike regulated stock exchanges, unlisted sentiment is informal and serves as an early barometer of supply and demand for an issue among retail participants, high-net-worth investors (HNIs), and institutional funds.",
         ],
-        keyTakeaway: "Estimated Listing Price = Issue Upper Price Band + Live GMP in Rupees.",
+        keyTakeaway: "Estimated Listing Price = Issue Upper Price Band + Indicative Listing Gain.",
       },
       {
-        sectionTitle: "2. Is GMP 100% Reliable for Listing Day Profits?",
+        sectionTitle: "2. Are Pre-Listing Indications 100% Reliable?",
         paragraphs: [
-          "While a positive GMP indicates robust pre-listing demand, it is fundamentally speculative. Fluctuations in broader equity benchmark indices (Nifty 50, Sensex), sudden geopolitical events, or negative institutional notes can crush premiums overnight.",
-          "Seasoned investors treat GMP as one supplementary indicator alongside company fundamentals, debt-to-equity ratios, P/E valuations, and anchor investor commitments.",
+          "While positive pre-listing indications signal strong demand, they are inherently speculative. Fluctuations in broader equity benchmark indices (Nifty 50, Sensex), sudden macroeconomic shifts, or negative institutional notes can impact listing performance.",
+          "Prudent investors evaluate multiple metrics alongside price indications, including company fundamentals, debt-to-equity ratios, P/E valuations, and anchor investor participation.",
         ],
       },
       {
         sectionTitle: "3. Best Practices Before Applying",
         paragraphs: [
-          "Never base your investment decision entirely on GMP numbers posted on unofficial messaging channels. Always inspect the Draft Red Herring Prospectus (DRHP) submitted to SEBI to verify revenue sustainability and promoter backgrounds.",
+          "Never base your investment decisions solely on informal pre-listing numbers. Always inspect the Draft Red Herring Prospectus (DRHP) submitted to SEBI to verify revenue sustainability, financial health, and promoter credentials.",
         ],
       },
     ],
   },
   {
     slug: "kostak-rate-vs-subject-to-sauda-differences",
-    title: "Kostak Rate vs Subject to Sauda: Key Differences & How They Work",
-    excerpt: "Demystifying Kostak rates and Subject to Sauda agreements in IPO applications. Discover how risk-averse investors lock in guaranteed profits.",
-    category: "GMP & Trading",
+    title: "Pre-Listing Trading Agreements: Key Concepts & Risks Explained",
+    excerpt: "Understanding application lock-in structures and contingent OTC agreements in IPOs. Key risks, SEBI advisory guidelines, and retail investor impact.",
+    category: "Pricing & Valuation",
     readTime: "5 min read",
     date: "October 2026",
     content: [
       {
-        sectionTitle: "1. What is Kostak Rate in IPO Applications?",
+        sectionTitle: "1. What are Informal Pre-Listing Application Transactions?",
         paragraphs: [
-          "Kostak rate refers to the predetermined cash reward an IPO applicant receives by selling their entire application to an off-market buyer before share allotment is announced.",
-          "The biggest advantage of a Kostak transaction for the seller is zero allotment risk: you keep the agreed Kostak profit whether you are allotted 0 shares or a complete lot.",
+          "In unofficial markets, certain participants engage in forward OTC contracts based on expected IPO allotment before official listing.",
+          "SEBI explicitly cautions retail investors against unverified, non-statutory contracts, as they lack regulatory protections, clearing house guarantees, and dispute resolution frameworks.",
         ],
-        keyTakeaway: "Kostak gives guaranteed upfront cash regardless of lottery allotment results.",
+        keyTakeaway: "Informal OTC transactions carry high counterparty risk and have no legal exchange backing.",
       },
       {
-        sectionTitle: "2. What is 'Subject to Sauda' (SS)?",
+        sectionTitle: "2. Conditional vs Unconditional Agreements",
         paragraphs: [
-          "Subject to Sauda (often abbreviated as SS) is a conditional agreement between an applicant and a buyer. Unlike Kostak, the buyer agrees to pay a substantially larger profit margin, but ONLY IF shares are actually allotted to the applicant.",
-          "If the investor receives zero allotment in the lottery, the Subject to Sauda deal becomes null and void, and no money exchanges hands.",
+          "Some informal contracts are conditional (dependent entirely on whether shares are actually allotted to the bidder), while others attempt to trade rights beforehand.",
+          "Investors should note that SEBI regulations strictly prohibit unauthorized secondary trading of application forms or unallotted share rights.",
         ],
       },
       {
-        sectionTitle: "3. Comparison: Which One Should You Choose?",
+        sectionTitle: "3. SEBI Advisory for Retail Participants",
         paragraphs: [
-          "In high-subscription IPOs with severe oversubscription (e.g. 80x+ in Retail), Subject to Sauda rates command a premium, whereas Kostak offers safe peace-of-mind for multi-account retail families seeking fixed application returns.",
+          "Retail investors are advised to adhere strictly to authorized banking channels (ASBA / UPI) and apply based purely on company fundamentals rather than informal secondary market rumors.",
         ],
       },
     ],
@@ -132,7 +132,7 @@ export const staticArticles: Article[] = [
       {
         sectionTitle: "3. How HNI Bidding Influences Breakeven Points",
         paragraphs: [
-          "Because many large HNIs borrow short-term capital via NBFC funding to bid hundreds of lots, they require a minimum GMP just to cover their 5-to-7 day financing interest costs.",
+          "Because many large HNIs borrow short-term capital via NBFC funding to bid hundreds of lots, they require a minimum listing return just to cover their 5-to-7 day financing interest costs.",
         ],
       },
     ],

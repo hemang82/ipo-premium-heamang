@@ -38,6 +38,8 @@ export interface Ipo {
   issuePrice: number; // Cap price
   lotSize: number;
   gmp: number; // in INR ₹
+  gmpHeading?: string; // Dynamic heading from API (e.g. "GMP (Rumors)", "Premium (ELP)")
+  hasGmp?: boolean; // Whether raw API has a valid GMP
   gmpHistory: number[]; // 7 days of GMP history
   subscription: IpoSubscription;
   kostak: number;

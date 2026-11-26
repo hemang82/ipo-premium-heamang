@@ -17,7 +17,7 @@ export function StatTiles({ stats }: StatTilesProps) {
       glowColor: "from-up/10",
     },
     {
-      label: "Highest GMP",
+      label: "Top Gain",
       value: `+${stats.highestGmp.gmpPercent}%`,
       detail: `${stats.highestGmp.ipoName} (${formatINR(stats.highestGmp.gmpInr)})`,
       icon: TrendingUp,

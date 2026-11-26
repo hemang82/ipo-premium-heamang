@@ -91,7 +91,7 @@ export default async function Image() {
               border: "1px solid rgba(74, 222, 128, 0.3)",
             }}
           >
-            ● Live IPO GMP Today
+            ● Live IPO Market
           </div>
           <div
             style={{

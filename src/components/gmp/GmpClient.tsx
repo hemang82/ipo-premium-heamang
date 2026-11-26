@@ -27,7 +27,7 @@ import {
 } from "lucide-react";
 import { GmpIpoItem } from "@/lib/gmp-service";
 import { gmpFaqs } from "@/lib/gmp-faqs";
-import { formatINR, formatIpoDate, formatShortDate, formatIpoDateRange } from "@/lib/format";
+import { formatINR, formatIpoDate, formatShortDate, formatIpoDateRange, formatSubscription } from "@/lib/format";
 import { IpoLogo } from "@/components/ipo/IpoLogo";
 
 interface GmpClientProps {
@@ -94,6 +94,9 @@ export function GmpClient({ initialItems, updatedAt }: GmpClientProps) {
     const detailUrl = `/ipo/${item.slug}/${item.symbol}`;
     const isPositive = item.gmp > 0;
     const isNegative = item.gmp < 0;
+    const rawHeading = (item.gmpHeading || "").trim();
+    const hasGmpVal = item.hasGmp !== false && item.gmp !== undefined && item.gmp !== null;
+    const showGmp = hasGmpVal || Boolean(rawHeading);
 
     // Badge logic (matches IpoBadgeHeader)
     const group = String(item.listingAtGroup || "").toUpperCase();
@@ -179,39 +182,64 @@ export function GmpClient({ initialItems, updatedAt }: GmpClientProps) {
             </div>
           </div>
 
-          {/* 2. Spotlight: GMP Today & Est. Listing Price Side-by-Side (Exactly 14px Sync) */}
-          <div className="grid grid-cols-2 gap-3 p-3 rounded-xl bg-card2/50 border border-line">
-            {/* Left: GMP Today */}
-            <div>
-              <span className="text-[14px] font-semibold text-mut uppercase tracking-wider block mb-1">
-                GMP Today
-              </span>
-              <div className="flex items-baseline gap-1.5 font-heading tabular-nums">
-                <span className={`text-[14px] font-heading font-bold leading-none ${
-                  isPositive ? "text-up" : isNegative ? "text-dn" : "text-mut"
-                }`}>
-                  {item.gmp === 0 ? "₹0" : formatINR(item.gmp)}
+          {/* 2. Spotlight: Dynamic Premium & Subscription */}
+          {showGmp ? (
+            <div className="grid grid-cols-2 gap-3 p-3 rounded-xl bg-card2/50 border border-line">
+              {/* Left: Dynamic Premium */}
+              <div className="flex flex-col justify-center">
+                {rawHeading ? (
+                  <span className="text-[12px] font-semibold text-mut uppercase tracking-wider block mb-1 truncate" title={rawHeading}>
+                    {rawHeading}
+                  </span>
+                ) : null}
+                {hasGmpVal ? (
+                  <div className="flex items-baseline gap-1.5 font-heading tabular-nums">
+                    <span className={`text-[14px] font-heading font-bold leading-none ${
+                      isPositive ? "text-up" : isNegative ? "text-dn" : "text-mut"
+                    }`}>
+                      {item.gmp === 0 ? "₹0" : formatINR(item.gmp)}
+                    </span>
+                    <span className={`text-[12px] font-semibold leading-none ${
+                      isPositive ? "text-up" : isNegative ? "text-dn" : "text-mut"
+                    }`}>
+                      ({gainDisplay})
+                    </span>
+                  </div>
+                ) : (
+                  <span className="text-xs text-mut font-medium">-</span>
+                )}
+              </div>
+
+              {/* Right: Subscription */}
+              <div className="border-l border-line/60 pl-3 flex flex-col justify-center">
+                <span className="text-[12px] font-semibold text-mut uppercase tracking-wider block mb-1">
+                  Subscription
                 </span>
-                <span className={`text-[14px] font-semibold leading-none ${
-                  isPositive ? "text-up" : isNegative ? "text-dn" : "text-mut"
-                }`}>
-                  ({gainDisplay})
-                </span>
+                <div className="flex items-baseline gap-1.5 font-heading tabular-nums">
+                  <span className="text-[14px] font-heading font-bold text-accent leading-none">
+                    {formatSubscription(item.subscriptionTotal || 0)}
+                  </span>
+                  <span className="text-xs text-mut font-medium leading-none">
+                    Demand
+                  </span>
+                </div>
               </div>
             </div>
-
-            {/* Right: Est. Listing Price */}
-            <div className="border-l border-line/60 pl-3">
-              <span className="text-[14px] font-semibold text-mut uppercase tracking-wider block mb-1">
-                Est. Price
+          ) : (
+            <div className="p-3 rounded-xl bg-card2/50 border border-line flex items-center justify-between">
+              <span className="text-xs font-semibold text-mut uppercase tracking-wider">
+                Subscription
               </span>
               <div className="flex items-baseline gap-1.5 font-heading tabular-nums">
                 <span className="text-[14px] font-heading font-bold text-accent leading-none">
-                  {item.estimatedListingPrice > 0 ? formatINR(item.estimatedListingPrice) : "TBA"}
+                  {formatSubscription(item.subscriptionTotal || 0)}
+                </span>
+                <span className="text-xs text-mut font-medium leading-none">
+                  Demand
                 </span>
               </div>
             </div>
-          </div>
+          )}
 
           {/* 3. Core Info Rows: Clean Key-Value Pairs (Exactly 14px + Top Breathing Space mt-3.5 mb-1) */}
           <div className="space-y-2.5 text-[14px] mt-3.5 mb-1">
@@ -307,11 +335,11 @@ export function GmpClient({ initialItems, updatedAt }: GmpClientProps) {
             </div>
 
             <h1 className="font-heading font-black text-2xl sm:text-3xl lg:text-4xl text-tx tracking-tight">
-              IPO GMP Today – Live Grey Market Premium Rates
+              Live IPO Market 
             </h1>
 
             <p className="text-sm sm:text-base text-mut leading-relaxed">
-              Track live <strong>IPO GMP today</strong>, real-time <strong>grey market premium</strong> (gray market) rates, estimated listing prices, and expected listing gain percentages for all Mainboard &amp; SME IPOs on BSE and NSE.
+              Track live <strong>IPO market indicators</strong>, price bands, issue schedules, estimated listing prices, and projected listing gains for all Mainboard &amp; SME public issues on BSE and NSE.
             </p>
           </div>
 
@@ -469,11 +497,9 @@ export function GmpClient({ initialItems, updatedAt }: GmpClientProps) {
                       <tr className="border-b border-line bg-card2/60 text-xs font-semibold text-mut uppercase tracking-wider whitespace-nowrap">
                         <th className="py-3.5 px-5">IPO Company</th>
                         <th className="py-3.5 px-3 text-right">Price Band</th>
-                        <th className="py-3.5 px-3 text-right">Live GMP</th>
-                        <th className="py-3.5 px-3 text-center">Est. Gain</th>
-                        <th className="py-3.5 px-3 text-right">Est. Listing Price</th>
+                        <th className="py-3.5 px-3 text-right">Market</th>
+                       
                         <th className="py-3.5 px-3 text-center">Listing Date</th>
-                        <th className="py-3.5 px-3 text-center">Allotment</th>
                         <th className="py-3.5 px-5 text-right">Action</th>
                       </tr>
                     </thead>
@@ -482,6 +508,14 @@ export function GmpClient({ initialItems, updatedAt }: GmpClientProps) {
                         const detailUrl = `/ipo/${item.slug}/${item.symbol}`;
                         const isPositive = item.gmp > 0;
                         const isNegative = item.gmp < 0;
+
+                        // Check GMP availability & dynamic heading
+                        const rawHeading = (item.gmpHeading || "").trim();
+                        const hasGmpVal = item.hasGmp !== false && item.gmp !== undefined && item.gmp !== null;
+                        const showGmp = hasGmpVal || Boolean(rawHeading);
+                        const gainDisplay = item.expectedGainPercent > 0
+                          ? `+${item.expectedGainPercent}%`
+                          : `${item.expectedGainPercent}%`;
 
                         return (
                           <tr
@@ -505,50 +539,48 @@ export function GmpClient({ initialItems, updatedAt }: GmpClientProps) {
                               {item.priceRange}
                             </td>
 
-                            {/* 3. Live GMP */}
-                            <td className="py-3.5 px-3 text-right whitespace-nowrap font-heading font-semibold text-sm sm:text-base tabular-nums">
-                              <span className={isPositive ? "text-up" : isNegative ? "text-dn" : "text-mut"}>
-                                {item.gmp === 0 ? "₹0" : formatINR(item.gmp)}
-                              </span>
+                            {/* 3. Live Indicator / Pill */}
+                            <td className="py-3.5 px-3 text-right whitespace-nowrap">
+                              {showGmp ? (
+                                <div className="inline-flex flex-col items-end">
+                                  {rawHeading ? (
+                                    <span className="text-[11px] font-bold text-mut uppercase tracking-wider mb-1 max-w-[120px] truncate" title={rawHeading}>
+                                      {rawHeading}
+                                    </span>
+                                  ) : null}
+                                  {hasGmpVal ? (
+                                    <div
+                                      className={`inline-flex items-baseline gap-1.5 px-2.5 py-1 rounded-lg border font-heading tabular-nums ${
+                                        isPositive
+                                          ? "bg-up/10 border-up/25 text-up"
+                                          : isNegative
+                                          ? "bg-dn/10 border-dn/25 text-dn"
+                                          : "bg-card2 border-line text-mut"
+                                      }`}
+                                    >
+                                      <span className="text-[13px] font-bold leading-tight">
+                                        {item.gmp === 0 ? "₹0" : formatINR(item.gmp)}
+                                      </span>
+                                      <span className="text-[12px] font-semibold">
+                                        ({gainDisplay})
+                                      </span>
+                                    </div>
+                                  ) : (
+                                    <span className="text-xs text-mut font-medium">-</span>
+                                  )}
+                                </div>
+                              ) : (
+                                <span className="text-xs text-mut font-medium">-</span>
+                              )}
                             </td>
 
-                            {/* 4. Est. Gain */}
-                            <td className="py-3.5 px-3 text-center whitespace-nowrap">
-                              <span
-                                className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold font-heading tabular-nums ${
-                                  isPositive
-                                    ? "bg-[#DCFCE7] text-[#16A34A] dark:bg-emerald-950/60 dark:text-emerald-400"
-                                    : isNegative
-                                    ? "bg-[#FEE2E2] text-[#DC2626] dark:bg-rose-950/60 dark:text-rose-400"
-                                    : "bg-[#F1F5F9] text-[#64748B] dark:bg-slate-800/60 dark:text-slate-400"
-                                }`}
-                              >
-                                {isPositive ? (
-                                  <TrendingUp className="w-3.5 h-3.5 shrink-0" />
-                                ) : isNegative ? (
-                                  <TrendingDown className="w-3.5 h-3.5 shrink-0" />
-                                ) : (
-                                  <Minus className="w-3.5 h-3.5 shrink-0" />
-                                )}
-                                {item.expectedGainPercent > 0 ? `+${item.expectedGainPercent}%` : `${item.expectedGainPercent}%`}
-                              </span>
-                            </td>
-
-                            {/* 5. Est. Listing Price */}
-                            <td className="py-3.5 px-3 text-right whitespace-nowrap font-heading font-semibold text-tx text-sm sm:text-base tabular-nums">
-                              {item.estimatedListingPrice > 0 ? formatINR(item.estimatedListingPrice) : "TBA"}
-                            </td>
 
                             {/* 6. Listing Date */}
                             <td className="py-3.5 px-3 text-center whitespace-nowrap font-heading text-xs text-tx font-semibold tabular-nums">
                               {formatShortDate(item.listingDate) || "TBA"}
                             </td>
 
-                            {/* 7. Allotment */}
-                            <td className="py-3.5 px-3 text-center whitespace-nowrap font-heading text-xs text-accent font-semibold tabular-nums">
-                              {formatShortDate(item.allotmentDate) || "TBA"}
-                            </td>
-
+                          
                             {/* 8. Action: View Details */}
                             <td className="py-3.5 px-5 text-right whitespace-nowrap">
                               <Link
@@ -584,10 +616,10 @@ export function GmpClient({ initialItems, updatedAt }: GmpClientProps) {
         <div className="bg-card border border-line rounded-3xl p-6 sm:p-8 space-y-6">
           <div className="border-b border-line pb-4">
             <h2 className="font-heading font-black text-xl sm:text-2xl text-tx">
-              Complete Guide to IPO Grey Market Premium (GMP)
+              Understanding IPO Valuations, Issue Pricing &amp; Estimated Returns
             </h2>
             <p className="text-sm text-mut mt-1">
-              Essential knowledge for Indian stock market investors evaluating Mainboard &amp; SME IPO premiums.
+              Essential guide for investors analyzing Mainboard &amp; SME public issues, price discovery, and SEBI safety norms.
             </p>
           </div>
 
@@ -595,10 +627,10 @@ export function GmpClient({ initialItems, updatedAt }: GmpClientProps) {
             <div className="space-y-3 bg-card2/40 p-5 rounded-2xl border border-line">
               <h3 className="font-heading font-bold text-base text-accent flex items-center gap-2">
                 <Sparkles className="w-4 h-4" />
-                What is IPO Grey Market Premium (GMP)?
+                How Are IPO Prices Discovered?
               </h3>
               <p>
-                The <strong>Grey Market Premium (GMP)</strong> is the unofficial cash premium at which shares of an unlisted company are traded in off-market dealer networks prior to the official listing on the <strong>BSE</strong> or <strong>NSE</strong>. It indicates how much extra money buyers are willing to pay over and above the issue price based on institutional demand, anchor investments, and overall market sentiment.
+                Companies issuing public equity announce a <strong>Price Band</strong> (Floor Price to Cap Price) in consultation with Merchant Bankers. Institutional buyers (QIBs), Non-Institutional Bidders (NIIs), and Retail Investors submit bids during the bidding window, establishing market-driven cut-off pricing.
               </p>
             </div>
 
@@ -608,28 +640,39 @@ export function GmpClient({ initialItems, updatedAt }: GmpClientProps) {
                 How is the Estimated Listing Price Calculated?
               </h3>
               <p>
-                The calculation is simple: <strong>Estimated Listing Price = Cutoff Price (Upper Price Band) + Current GMP</strong>. For example, if an IPO has an upper price band of ₹158 and the current GMP is ₹25, the expected listing price is <strong>₹183</strong> (which corresponds to an estimated listing gain of +15.82%).
+                The projected calculation is: <strong>Estimated Listing Price = Cutoff Price (Upper Cap) + Indicative Market Premium</strong>. For instance, if an issue cap price is ₹158 and indicative dealer interest suggests +₹25, the estimated listing projection stands around <strong>₹183</strong> (+15.82%).
               </p>
             </div>
 
             <div className="space-y-3 bg-card2/40 p-5 rounded-2xl border border-line">
               <h3 className="font-heading font-bold text-base text-accent flex items-center gap-2">
                 <Layers className="w-4 h-4" />
-                Why Do SME IPOs Have Higher GMP Volatility?
+                Mainboard vs SME Public Issues
               </h3>
               <p>
-                SME (Small and Medium Enterprises) IPOs trade in fixed lot sizes (often 1,000+ shares per lot worth ₹1,00,000 to ₹1,40,000) on BSE SME and NSE Emerge. Because the issue sizes are smaller and liquidity is thinner compared to Mainboard offerings, Grey Market dealer quotes can fluctuate wildly due to speculative bidding.
+                Mainboard issues have higher liquidity, larger issue sizes, and individual share trading after listing. SME issues on BSE SME and NSE Emerge trade with mandatory minimum lot sizes (₹1 Lakh+), which naturally brings higher price volatility and requires strict due diligence.
               </p>
             </div>
 
             <div className="space-y-3 bg-card2/40 p-5 rounded-2xl border border-line">
               <h3 className="font-heading font-bold text-base text-rose-500 flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4" />
-                SEBI Disclaimer on Grey Market Trading
+                SEBI Investor Advisory &amp; Risk Warning
               </h3>
               <p className="text-xs sm:text-sm text-mut">
-                <strong>Disclaimer:</strong> Grey Market Premium (GMP) is an unofficial, unregulated market indicator. It has no legal standing with or approval from the Securities and Exchange Board of India (SEBI), BSE, or NSE. Investors must not make application decisions solely based on GMP; always review the company’s Red Herring Prospectus (RHP), valuation multiples, financials, and underlying business model.
+                <strong>Important Notice:</strong> Unofficial forward rates or dealer indications have no official recognition from SEBI, BSE, or NSE. Investors are advised to never make investment decisions based on rumors or informal premiums. Always study the Red Herring Prospectus (RHP), company financials, risk factors, and consult a SEBI-registered investment advisor.
               </p>
+              <div className="pt-1">
+                <a
+                  href="https://docipo.ipotrending.com/uploads/otherdocument/1795585231037.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-accent hover:underline bg-accent/10 px-3 py-1.5 rounded-lg border border-accent/20"
+                >
+                  <span>Read Official SEBI Advisory on Unofficial Trading (PDF)</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -640,10 +683,10 @@ export function GmpClient({ initialItems, updatedAt }: GmpClientProps) {
             <HelpCircle className="w-6 h-6 text-accent" />
             <div>
               <h2 className="font-heading font-black text-xl sm:text-2xl text-tx">
-                Frequently Asked Questions (FAQ) on IPO GMP
+                Frequently Asked Questions (FAQ) on IPO Pricing &amp; Bidding
               </h2>
               <p className="text-sm text-mut mt-0.5">
-                Clear answers regarding GMP trading rules, Kostak rates, and allotment formulas.
+                Clear answers regarding issue price bands, lot allocations, and listing calculations.
               </p>
             </div>
           </div>
@@ -662,7 +705,7 @@ export function GmpClient({ initialItems, updatedAt }: GmpClientProps) {
               Explore Related IPO Tools &amp; Status Checkers
             </h3>
             <p className="text-xs sm:text-sm text-mut mt-0.5">
-              Move beyond Grey Market Premiums to verify real-time investor bidding, lottery allotment results, and lot size calculations:
+              Verify real-time investor bidding demand, official registrar allotment results, and lot size calculations:
             </p>
           </div>
 

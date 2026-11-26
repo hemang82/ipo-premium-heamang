@@ -251,7 +251,7 @@ export default async function NewsDetailPage({ params }: NewsDetailProps) {
                     href="/ipo-gmp"
                     className="px-3 py-1.5 rounded-lg font-semibold bg-accent/15 text-accent border border-accent/25 hover:bg-accent hover:text-accent-foreground transition-all"
                   >
-                    IPO GMP
+                    IPO Market 
                   </Link>
                   <Link
                     href="/subscription"

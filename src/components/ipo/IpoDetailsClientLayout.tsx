@@ -63,6 +63,12 @@ export function IpoDetailsClientLayout({
     .replace(/\s*\(India\)\s*/gi, "")
     .trim();
 
+  // Dynamic GMP rules
+  const rawGmp = raw?.gmp ?? (ipo.hasGmp !== false ? ipo.gmp : undefined);
+  const rawHeading = (ipo.gmpHeading || raw?.gmp_heading || "").trim();
+  const hasGmpVal = rawGmp !== undefined && rawGmp !== null && rawGmp !== "" && rawGmp !== "-";
+  const showGmpSection = hasGmpVal || Boolean(rawHeading);
+
   // Check if Peer Comparison data exists
   const hasPeers =
     (Array.isArray(raw?.peer_comparison) && raw.peer_comparison.length > 0) ||
@@ -76,7 +82,7 @@ export function IpoDetailsClientLayout({
 
   const allNavTabs = [
     { id: "overview" as const, label: "IPO Details", icon: FileText, badge: "Specs", show: true },
-    { id: "gmp" as const, label: "GMP Trend", icon: TrendingUp, badge: "Live", show: true },
+    { id: "gmp" as const, label: rawHeading || "Premium Trend", icon: TrendingUp, badge: "Live", show: showGmpSection },
     { id: "subscription" as const, label: "Subscription", icon: BarChart3, badge: "Demand", show: true },
     { id: "docs" as const, label: "IPO Docs", icon: FolderDown, badge: "PDF", show: true },
     { id: "peers" as const, label: "Peer Comparison", icon: Users, badge: null, show: hasPeers },
@@ -178,79 +184,97 @@ export function IpoDetailsClientLayout({
             />
 
             <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-2 flex-wrap mb-2">
-                <IpoBadgeHeader ipo={ipo} />
-                {ipo.sector && (
-                  <span className="text-xs text-mut font-medium inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-card2 border border-line">
-                    <Building2 className="w-3.5 h-3.5 text-accent" />
-                    {ipo.sector}
-                  </span>
-                )}
+              <div className="flex items-center justify-between gap-2 flex-wrap mb-2">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <IpoBadgeHeader ipo={ipo} />
+                  {ipo.sector && ipo.sector.toLowerCase() !== "sme" && (
+                    <span className="text-xs text-mut font-medium inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-card2 border border-line">
+                      <Building2 className="w-3.5 h-3.5 text-accent" />
+                      {ipo.sector}
+                    </span>
+                  )}
+                </div>
+
+                {/* 1-Click Native Social Share Button pushed to the far right end */}
+                <div className="ml-auto">
+                  <SocialShareButtons
+                    companyName={displayCompanyName}
+                    gmp={ipo.gmp}
+                    pct={percent}
+                    estListing={estListing}
+                  />
+                </div>
               </div>
 
               {/* Main H1 Target: Exact Brand & High-Volume Ranking Keyword */}
               <h1 className="font-heading font-extrabold text-xl sm:text-2xl lg:text-3xl text-tx tracking-tightest leading-tight mb-1.5">
-                {displayCompanyName} IPO <span className="text-accent font-black">GMP Today &amp; Allotment</span>
+                {displayCompanyName} IPO <span className="text-accent font-black">{rawHeading ? `${rawHeading} & Allotment` : "Allotment & Details"}</span>
               </h1>
 
-              <p className="text-xs sm:text-sm text-mut leading-relaxed line-clamp-1 mb-3">
-                Real-time Grey Market Premium (GMP), live QIB/NII/Retail subscription demand, price band &amp; registrar allotment status.
+              <p className="text-xs sm:text-sm text-mut leading-relaxed line-clamp-1">
+                {rawHeading
+                  ? `Real-time ${rawHeading}, live QIB/NII/Retail subscription demand, price band & registrar allotment status.`
+                  : "Live QIB/NII/Retail subscription demand, price band, financials & registrar allotment status."}
               </p>
-
-              {/* 1-Click Social Sharing (WhatsApp, Telegram, Copy) */}
-              <SocialShareButtons
-                companyName={displayCompanyName}
-                gmp={ipo.gmp}
-                pct={percent}
-                estListing={estListing}
-              />
             </div>
           </div>
 
-          {/* Right: Modern High-Impact Live GMP Widget */}
-          <div className="flex items-stretch gap-4 sm:gap-5 p-4 sm:p-5 rounded-2xl bg-card2/80 border border-line/80 self-stretch sm:self-start lg:self-auto shrink-0 shadow-inner">
-            <div className="flex flex-col justify-center min-w-[150px]">
-              <div className="flex items-center justify-between gap-2 mb-1">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-mut flex items-center gap-1">
-                  <Sparkles className="w-3.5 h-3.5 text-accent" />
-                  Live GMP Today
-                </span>
-                <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-accent/15 text-accent border border-accent/25 animate-pulse">
-                  Real-time
-                </span>
+          {/* Right: Modern High-Impact Live GMP Widget (Only shown if GMP exists or gmp_heading exists; otherwise hidden) */}
+          {showGmpSection && (
+            <div className="flex items-stretch gap-4 sm:gap-5 p-4 sm:p-5 rounded-2xl bg-card2/80 border border-line/80 self-stretch sm:self-start lg:self-auto shrink-0 shadow-inner">
+              <div className="flex flex-col justify-center min-w-[150px]">
+                {rawHeading ? (
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-mut flex items-center gap-1 truncate max-w-[140px]" title={rawHeading}>
+                      <Sparkles className="w-3.5 h-3.5 text-accent shrink-0" />
+                      {rawHeading}
+                    </span>
+                    <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-accent/15 text-accent border border-accent/25 animate-pulse shrink-0">
+                      Live
+                    </span>
+                  </div>
+                ) : null}
+
+                {hasGmpVal ? (
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-2xl sm:text-3xl font-heading font-black text-up tabular-nums tracking-tight">
+                      {formatINR(ipo.gmp)}
+                    </span>
+                    <span className="text-xs sm:text-sm font-bold text-up tabular-nums px-1.5 py-0.5 rounded bg-up/10 border border-up/20">
+                      {formatPercent(percent)}
+                    </span>
+                  </div>
+                ) : (
+                  <span className="text-sm font-heading font-bold text-mut">-</span>
+                )}
+
+                {hasGmpVal && (
+                  <div className="text-xs text-mut mt-2 pt-2 border-t border-line/60 flex items-center justify-between gap-2">
+                    <span>Est. Listing:</span>
+                    <strong className="text-accent font-heading font-bold tabular-nums text-sm">
+                      {formatINR(estListing)}
+                    </strong>
+                  </div>
+                )}
               </div>
 
-              <div className="flex items-baseline gap-2">
-                <span className="text-2xl sm:text-3xl font-heading font-black text-up tabular-nums tracking-tight">
-                  {formatINR(ipo.gmp)}
-                </span>
-                <span className="text-xs sm:text-sm font-bold text-up tabular-nums px-1.5 py-0.5 rounded bg-up/10 border border-up/20">
-                  {formatPercent(percent)}
-                </span>
-              </div>
-
-              <div className="text-xs text-mut mt-2 pt-2 border-t border-line/60 flex items-center justify-between gap-2">
-                <span>Est. Listing:</span>
-                <strong className="text-accent font-heading font-bold tabular-nums text-sm">
-                  {formatINR(estListing)}
-                </strong>
-              </div>
+              {hasGmpVal && (
+                <div className="hidden sm:flex flex-col justify-between pl-4 border-l border-line/60 min-w-[130px]">
+                  <div>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-mut block mb-1">
+                      7-Day Trend
+                    </span>
+                    <span className="text-[11px] font-medium text-mut">
+                      Daily Volatility
+                    </span>
+                  </div>
+                  <div className="pt-2">
+                    <GmpSparkline data={ipo.gmpHistory} width={130} height={36} />
+                  </div>
+                </div>
+              )}
             </div>
-
-            <div className="hidden sm:flex flex-col justify-between pl-4 border-l border-line/60 min-w-[130px]">
-              <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-mut block mb-1">
-                  7-Day Trend
-                </span>
-                <span className="text-[11px] font-medium text-mut">
-                  Daily Grey Market Volatility
-                </span>
-              </div>
-              <div className="pt-2">
-                <GmpSparkline data={ipo.gmpHistory} width={130} height={36} />
-              </div>
-            </div>
-          </div>
+          )}
         </div>
       </div>
 
@@ -338,7 +362,7 @@ export function IpoDetailsClientLayout({
                     <div>
                       <span className="text-[10px] uppercase font-bold tracking-wider text-accent block">Live Market</span>
                       <h3 className="font-heading font-bold text-base text-tx group-hover:text-accent transition-colors">
-                        Live IPO GMP Today
+                        Live IPO Market
                       </h3>
                     </div>
                   </div>

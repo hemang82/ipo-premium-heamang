@@ -1,6 +1,6 @@
 export interface FaqItem {
   id: string;
-  category: "all" | "gmp" | "allotment" | "bidding" | "calculator" | "regulations";
+  category: "all" | "valuation" | "allotment" | "bidding" | "calculator" | "regulations";
   categoryLabel: string;
   question: string;
   answer: string;
@@ -37,42 +37,42 @@ export const ALL_FAQS: FaqItem[] = [
     tags: ["Allotment Process", "Allotment Meaning", "Allocation"],
   },
 
-  // ── 1. GMP FAQs ──
+  // ── 1. Valuation & Pricing FAQs ──
   {
-    id: "gmp-1",
-    category: "gmp",
-    categoryLabel: "Grey Market Premium",
-    question: "What is IPO Grey Market Premium (GMP) and how is it determined?",
+    id: "val-1",
+    category: "valuation",
+    categoryLabel: "Price Discovery & Valuation",
+    question: "How is an IPO Price Band determined and what is Cut-off Price?",
     answer:
-      "Grey Market Premium (GMP) is the unofficial premium price at which IPO shares trade in the unlisted, over-the-counter gray circles before officially listing on BSE or NSE. It is determined purely by market demand, retail interest, institutional anchor response, and broker sentiment. For example, if an IPO's upper price band is ₹500 and the GMP is ₹100, the estimated listing price is ₹600 (a 20% gain).",
-    tags: ["GMP", "Estimated Listing Price", "Unlisted Market"],
+      "The issuing company and lead merchant bankers set a bidding price band (Floor Price to Cap Price) based on financial metrics, book-building demand, and peer multiples. Retail individual investors usually select the Cut-off Price to qualify for the maximum allowable allotment chance.",
+    tags: ["Price Discovery", "Cut-off Price", "Book Building"],
   },
   {
-    id: "gmp-2",
-    category: "gmp",
-    categoryLabel: "Grey Market Premium",
-    question: "Is IPO GMP legally approved or backed by SEBI, BSE, or NSE?",
+    id: "val-2",
+    category: "valuation",
+    categoryLabel: "Price Discovery & Valuation",
+    question: "Are pre-listing price expectations legally backed or approved by SEBI?",
     answer:
-      "No. Grey Market Premium (GMP) is completely unofficial, unregulated, and has zero backing from SEBI, BSE, or NSE. It operates outside the official stock exchange trading mechanism. While it serves as an early barometer of retail enthusiasm, it is volatile and subject to speculative dealer quotes. Investors should always evaluate company fundamentals and RHP financials before investing.",
-    tags: ["SEBI Disclaimer", "Legality", "Risk Factor"],
+      "No. Pre-listing dealer opinions and forward projections are completely informal and unregulated, with zero official endorsement from SEBI, BSE, or NSE. SEBI strongly advises investors to rely exclusively on the company's Red Herring Prospectus (RHP) and verified financial disclosures.",
+    tags: ["SEBI Advisory", "Official Rules", "Investor Awareness"],
   },
   {
-    id: "gmp-3",
-    category: "gmp",
-    categoryLabel: "Grey Market Premium",
-    question: "What is Kostak Rate and how is it different from Subject to Sauda (SS)?",
+    id: "val-3",
+    category: "valuation",
+    categoryLabel: "Price Discovery & Valuation",
+    question: "What factors primarily decide an IPO's actual listing price?",
     answer:
-      "Kostak Rate is a fixed cash amount an investor receives by selling their entire IPO application to a grey market buyer before allotment, regardless of whether shares are allotted or not. 'Subject to Sauda' (SS), on the other hand, is a conditional deal where the premium is paid only if the applicant is successfully allotted shares. If no shares are allotted, the SS contract becomes void.",
-    tags: ["Kostak", "Subject to Sauda", "Off-Market"],
+      "Actual listing day opening prices are determined by official pre-open call auction equilibrium on BSE and NSE between 9:00 AM and 9:45 AM. Key drivers include institutional anchor demand, overall market liquidity, broader market index momentum, and sector valuations.",
+    tags: ["Listing Auction", "Stock Exchange", "Price Discovery"],
   },
   {
-    id: "gmp-4",
-    category: "gmp",
-    categoryLabel: "Grey Market Premium",
-    question: "How accurate is GMP in predicting the actual listing price?",
+    id: "val-4",
+    category: "valuation",
+    categoryLabel: "Price Discovery & Valuation",
+    question: "What is the difference between Fresh Issue and Offer for Sale (OFS)?",
     answer:
-      "Statistically, GMP shows a strong positive correlation (around 70–80%) with listing day open prices during normal market conditions. However, sudden secondary market corrections, geopolitical shocks, or negative macroeconomic news between issue close and listing morning can significantly compress the listing gain.",
-    tags: ["Listing Accuracy", "Market Correlation"],
+      "In a Fresh Issue, the company issues new shares and receives all proceeds to fund expansion, capital expenditure, or working capital. In an Offer for Sale (OFS), existing promoters or private equity investors sell their holdings, and the proceeds go directly to selling shareholders rather than the company.",
+    tags: ["Fresh Issue", "Offer for Sale", "OFS Meaning"],
   },
 
   // ── 2. Allotment & Refund FAQs ──
@@ -165,9 +165,9 @@ export const ALL_FAQS: FaqItem[] = [
     id: "calc-2",
     category: "calculator",
     categoryLabel: "Calculator & Returns",
-    question: "How is expected listing profit calculated from lot size and GMP?",
+    question: "How is potential listing return calculated from lot size and price appreciation?",
     answer:
-      "Expected Listing Profit = (Number of Lots × Shares per Lot) × Live GMP (₹). For example, if you are allotted 1 lot of 50 shares with a GMP of ₹80, your estimated listing gain is 50 × ₹80 = ₹4,000.",
+      "Expected Listing Profit = (Number of Lots × Shares per Lot) × Expected Price Appreciation (₹). For example, if you are allotted 1 lot of 50 shares with an estimated gain of ₹80 per share, your projected return is 50 × ₹80 = ₹4,000.",
     tags: ["Profit Formula", "Listing Return", "Lot Calculator"],
   },
   {
@@ -203,7 +203,7 @@ export const ALL_FAQS: FaqItem[] = [
 
 export const CATEGORIES = [
   { id: "all", label: "All Questions", count: ALL_FAQS.length },
-  { id: "gmp", label: "Grey Market Premium", count: 4 },
+  { id: "valuation", label: "Valuation & Pricing", count: 4 },
   { id: "allotment", label: "Allotment & Refunds", count: 4 },
   { id: "bidding", label: "Bidding & Quotas", count: 4 },
   { id: "calculator", label: "Calculator & Taxes", count: 3 },

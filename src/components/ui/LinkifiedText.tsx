@@ -22,7 +22,7 @@ const SEO_KEYWORD_MAP: KeywordLink[] = [
   { term: "IPO allotment status", href: "/allotment", title: "Check IPO Allotment Status Online" },
   { term: "allotment status", href: "/allotment", title: "IPO Share Allotment Status" },
   { term: "basis of allotment", href: "/articles/understanding-basis-of-allotment-retail-vs-hni", title: "Understanding Basis of Allotment Rules" },
-  { term: "Grey Market Premium", href: "/ipo-gmp", title: "Live IPO GMP Today" },
+  { term: "Grey Market Premium", href: "/ipo-gmp", title: "Live IPO Market" },
   { term: "live GMP", href: "/ipo-gmp", title: "Live Grey Market Premium" },
   { term: "Subject to Sauda", href: "/articles/kostak-rate-vs-subject-to-sauda-differences", title: "Kostak vs Subject to Sauda Difference" },
   { term: "Kostak rate", href: "/articles/kostak-rate-vs-subject-to-sauda-differences", title: "Kostak Rate in IPO Applications" },

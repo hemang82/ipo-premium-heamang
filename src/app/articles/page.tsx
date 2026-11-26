@@ -16,7 +16,6 @@ export const metadata: Metadata = {
   },
   keywords: [
     "IPO Educational Guides",
-    "What is IPO GMP",
     "Kostak Rate vs Subject to Sauda",
     "How to Increase Allotment Chances",
     "Mainboard vs SME Comparison",
@@ -107,10 +106,10 @@ export default function ArticlesIndexPage() {
             <div className="space-y-1.5">
               <div className="flex items-center gap-2 text-accent">
                 <TrendingUp className="w-5 h-5" />
-                <span className="text-xs uppercase font-bold tracking-wider">Premium Tracker</span>
+                <span className="text-xs uppercase font-bold tracking-wider">IPO Market</span>
               </div>
               <h3 className="font-heading font-bold text-base text-tx group-hover:text-accent transition-colors">
-                IPO GMP Today
+                IPO Market Today
               </h3>
               <p className="text-xs text-mut leading-relaxed">
                 Track live Grey Market Premium, expected listing gains, and Kostak rates for active IPOs.

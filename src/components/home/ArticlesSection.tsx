@@ -19,7 +19,7 @@ export function ArticlesSection() {
             IPO Educational Guides &amp; Market Insights
           </h2>
           <p className="text-xs sm:text-sm text-mut">
-            Master Grey Market Premium (GMP), allotment probability strategies, and SME investing.
+            Master IPO price discovery, allotment probability strategies, and SME investing rules.
           </p>
         </div>
 

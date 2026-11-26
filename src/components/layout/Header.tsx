@@ -75,7 +75,7 @@ const moreSubLinks = [
     label: "IPO FAQs",
     href: "/faq",
     icon: HelpCircle,
-    desc: "Complete Q&A on GMP, Allotment & SEBI rules",
+    desc: "Complete Q&A on IPOs, Allotment & SEBI rules",
   },
   {
     label: "About Us",
@@ -241,7 +241,7 @@ export function Header() {
               )}
             </div>
 
-            {/* B. IPO GMP */}
+            {/* B. IPO Market */}
             <Link
               href="/ipo-gmp"
               className={`flex items-center gap-1.5 px-3 py-2 rounded-xl transition-all ${
@@ -250,7 +250,7 @@ export function Header() {
                   : "text-tx hover:text-accent hover:bg-card2 font-semibold"
               }`}
             >
-              IPO GMP
+              IPO Market
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             </Link>
 
@@ -448,7 +448,7 @@ export function Header() {
                 </p>
               </div>
 
-              {/* IPO GMP */}
+              {/* IPO Market */}
               <Link
                 href="/ipo-gmp"
                 onClick={() => setMobileMenuOpen(false)}
@@ -460,7 +460,7 @@ export function Header() {
               >
                 <div className="flex items-center gap-3">
                   <Sparkles className={`w-4 h-4 ${pathname === "/ipo-gmp" ? "text-accent" : "text-mut"}`} />
-                  <span>IPO GMP</span>
+                  <span>IPO Market</span>
                 </div>
                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-bold bg-emerald-500/15 text-emerald-500">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -542,7 +542,7 @@ export function Header() {
                 <span className="font-semibold text-tx">10 AM – 5 PM IST</span>
               </div>
               <p className="text-[11px] text-mut/80 leading-relaxed">
-                India's real-time IPO GMP, Subscription &amp; Allotment tracker.
+                India's real-time IPO Premium, Subscription &amp; Allotment tracker.
               </p>
             </div>
           </div>

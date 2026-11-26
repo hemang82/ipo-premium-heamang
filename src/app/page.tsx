@@ -24,24 +24,24 @@ interface HomePageProps {
 
 const homeFaqs = [
   {
-    question: "What is IPO Grey Market Premium (GMP)?",
+    question: "What is an IPO Price Band and Cut-off Price?",
     answer:
-      "Grey Market Premium (GMP) is the unofficial price premium at which an unlisted IPO share trades in the off-market gray circles before it officially lists on stock exchanges (BSE/NSE). It provides an early signal of listing demand and expected listing day gain.",
+      "The Price Band is the bidding range set by the issuing company and lead managers (e.g., ₹150 to ₹158). The lower price is the Floor Price, and the highest limit is the Cut-off Price (Cap Price). Retail individual investors typically bid at the Cut-off Price to ensure maximum allotment eligibility.",
   },
   {
-    question: "How is the estimated listing price calculated from GMP?",
+    question: "How is the estimated listing price projected?",
     answer:
-      "The expected listing price is calculated by adding the live Grey Market Premium (GMP) to the IPO issue price cap. For example, if an IPO's upper price band is ₹500 and the GMP is ₹100, the estimated listing price is ₹600 (listing gain of 20%).",
+      "The projected listing price is calculated by adding the indicative pre-listing premium to the upper issue price cap: Estimated Price = Cap Price + Indicative Premium. For example, if an IPO's cap price is ₹500 and the indicative premium is ₹100, the estimated listing level is ₹600 (gain of 20%).",
   },
   {
-    question: "Is IPO GMP a 100% guarantee of listing profit?",
+    question: "Do pre-listing price indications guarantee listing profits?",
     answer:
-      "No. GMP is completely unofficial, volatile, and driven by market demand-supply and dealer bids. It carries no official backing from SEBI, BSE, or NSE. The actual listing price depends on secondary market sentiment, institutional anchor participation, and macroeconomic conditions on listing morning.",
+      "No. Indicative forward rates are informal estimates with no regulatory standing or approval from SEBI, BSE, or NSE. Final listing prices are determined solely by market demand-supply, institutional anchor bidding, and macroeconomic sentiment on the listing date morning.",
   },
   {
-    question: "What is Kostak Rate and Subject to Sauda (SS)?",
+    question: "What should investors review in an IPO Prospectus (RHP)?",
     answer:
-      "Kostak Rate is the fixed cash amount an investor earns by selling their entire IPO application to an off-market buyer regardless of allotment outcome. 'Subject to Sauda' is an agreement where profit is paid only if shares are actually allotted to the applicant.",
+      "Investors should review the company's Red Herring Prospectus (RHP) filed with SEBI to understand financial performance (Revenue, EBITDA, PAT margins), debt obligations, peer valuation multiples (P/E, P/B), management track record, and specific business risk factors.",
   },
   {
     question: "What is the difference between Mainboard IPO and SME IPO?",

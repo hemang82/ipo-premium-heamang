@@ -12,7 +12,7 @@ export function TrendingKeywordsDirectory({ ipos = [] }: TrendingKeywordsDirecto
     { label: "Live IPOs (Mainboard & SME)", href: "/ipo/live" },
     { label: "Upcoming IPOs Calendar", href: "/ipo/upcoming" },
     { label: "Listed IPOs & Historical Gains", href: "/ipo/listed" },
-    { label: "Live IPO GMP Today Tracker", href: "/ipo-gmp" },
+    { label: "Live IPO Market Tracker", href: "/ipo-gmp" },
     { label: "Live IPO Subscription Status", href: "/subscription" },
     { label: "Closing Today IPO Alerts", href: "/ipo/live?status=Close+Today" },
   ];
@@ -27,9 +27,9 @@ export function TrendingKeywordsDirectory({ ipos = [] }: TrendingKeywordsDirecto
   ];
 
   const guideLinks = [
-    { label: "What is IPO Grey Market Premium?", href: "/articles/what-is-ipo-gmp-grey-market-premium" },
+    { label: "Understanding IPO Price Bands", href: "/articles/what-is-ipo-gmp-grey-market-premium" },
     { label: "How to Check Allotment Fast", href: "/articles/how-to-check-ipo-allotment-status-fast" },
-    { label: "Kostak Rate vs Subject to Sauda", href: "/articles/kostak-rate-vs-subject-to-sauda-differences" },
+    { label: "Pre-Listing Valuation Metrics", href: "/articles/kostak-rate-vs-subject-to-sauda-differences" },
     { label: "BSE SME vs NSE Emerge Lot Rules", href: "/articles/bse-sme-vs-nse-emerge-lot-size-rules" },
     { label: "QIB NII Retail Subscription Meaning", href: "/articles/understanding-qib-nii-retail-subscription-data" },
     { label: "IPO Lot Size & Profit Calculator", href: "/tools/lot-calculator" },
@@ -46,7 +46,7 @@ export function TrendingKeywordsDirectory({ ipos = [] }: TrendingKeywordsDirecto
               Popular IPO Searches &amp; Quick Directory
             </h3>
             <p className="text-xs sm:text-sm text-mut mt-0.5">
-              Direct access to Live IPOs, Upcoming IPOs, Listed IPOs, registrars, and GMP calculators.
+              Direct access to Live IPOs, Upcoming IPOs, Listed IPOs, registrars, and return calculators.
             </p>
           </div>
           <span className="text-xs font-semibold text-accent flex items-center gap-1 shrink-0">

@@ -81,14 +81,14 @@ export default async function IpoDetailPage({ params }: PageProps) {
 
   // Dynamic FAQs for this IPO
   const ipoFaqs = [
-    {
-      question: `What is ${ipo.name} IPO GMP today?`,
-      answer: `As of today, ${ipo.name} IPO Grey Market Premium (GMP) is trading at ${formatINR(
-        ipo.gmp
-      )} per share. With an issue cap price of ${formatINR(
-        ipo.issuePrice
-      )}, the expected listing price is ${formatINR(estListing)} (${formatPercent(percent)} gain).`,
-    },
+    // {
+    //   question: `What is ${ipo.name} IPO GMP today?`,
+    //   answer: `As of today, ${ipo.name} IPO Grey Market Premium (GMP) is trading at ${formatINR(
+    //     ipo.gmp
+    //   )} per share. With an issue cap price of ${formatINR(
+    //     ipo.issuePrice
+    //   )}, the expected listing price is ${formatINR(estListing)} (${formatPercent(percent)} gain).`,
+    // },
     {
       question: `What is the lot size and minimum investment for ${ipo.name} IPO?`,
       answer: `The market lot size for ${ipo.name} is ${ipo.lotSize} shares. At the upper band price of ${formatINR(

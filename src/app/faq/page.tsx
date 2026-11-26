@@ -9,9 +9,9 @@ export const dynamic = "force-static";
 export const revalidate = 10;
 
 export const metadata: Metadata = {
-  title: "IPO FAQs – Meaning, Allotment Process & GMP Guide",
+  title: "IPO FAQs – Meaning, Price Discovery & Allotment Process",
   description:
-    "Answers to top IPO questions: what is IPO in share market, full form, meaning, allotment process by PAN, public issue of shares, and grey market premium.",
+    "Answers to top IPO questions: what is IPO in share market, full form, meaning, allotment process by PAN, public issue of shares, and SEBI regulations.",
   alternates: {
     canonical: `${SITE_URL}/faq`,
   },
@@ -26,13 +26,13 @@ export const metadata: Metadata = {
     "Allotment Process Meaning",
     "IPO Information",
     "IPO Status Check",
-    "Current IPO GMP",
-    "Latest IPO GMP",
+    "IPO Price Discovery",
+    "IPO Regulations",
   ],
   openGraph: {
-    title: "IPO FAQs – Meaning, Allotment Process & GMP Guide",
+    title: "IPO FAQs – Meaning, Price Discovery & Allotment Process",
     description:
-      "Answers to top IPO questions: what is IPO in share market, full form, meaning, allotment process by PAN, public issue of shares, and grey market premium.",
+      "Answers to top IPO questions: what is IPO in share market, full form, meaning, allotment process by PAN, public issue of shares, and SEBI regulations.",
     url: `${SITE_URL}/faq`,
     type: "website",
     locale: "en_IN",
@@ -85,9 +85,7 @@ export default function FaqPage() {
               </h1>
 
               <p className="text-sm sm:text-base text-mut leading-relaxed">
-                Clear, verified, and expert answers to every question about Indian IPOs: Grey Market
-                Premium (GMP) dynamics, retail computerized lottery allotment, UPI mandate unblocking,
-                and SEBI listing rules.
+                Clear, verified, and expert answers to every question about Indian IPOs: valuation and price discovery, retail computerized lottery allotment, UPI mandate unblocking, and SEBI listing rules.
               </p>
             </div>
           </div>

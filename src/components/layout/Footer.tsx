@@ -16,7 +16,7 @@ export function Footer() {
               </span>
             </div>
             <p className="text-sm text-mut max-w-md leading-relaxed">
-              India&apos;s authoritative tracker for live IPO Grey Market Premium (GMP), real-time QIB/NII/Retail subscriptions, and allotment verification guides.
+              India&apos;s authoritative tracker for live IPO metrics, real-time QIB/NII/Retail subscriptions, and allotment verification guides.
             </p>
             <p className="text-xs text-accent/90 font-medium">
               Know the premium before you apply.
@@ -30,7 +30,7 @@ export function Footer() {
               <li><Link href="/ipo/live" className="hover:text-accent transition-colors">Live IPOs</Link></li>
               <li><Link href="/ipo/upcoming" className="hover:text-accent transition-colors">Upcoming IPOs</Link></li>
               <li><Link href="/ipo/listed" className="hover:text-accent transition-colors">Listed IPOs</Link></li>
-              <li><Link href="/ipo-gmp" className="hover:text-accent transition-colors">IPO GMP Today</Link></li>
+              <li><Link href="/ipo-gmp" className="hover:text-accent transition-colors">IPO Market Tracker</Link></li>
               <li><Link href="/subscription" className="hover:text-accent transition-colors">IPO Subscription Status</Link></li>
               <li><Link href="/ipo/live?status=Close+Today" className="hover:text-accent transition-colors">Closing Today IPOs</Link></li>
             </ul>
@@ -45,7 +45,7 @@ export function Footer() {
               <li><Link href="/news" className="hover:text-accent transition-colors font-medium text-tx/90">IPO News &amp; Market</Link></li>
               <li><Link href="/articles" className="hover:text-accent transition-colors">IPO Guides &amp; Articles</Link></li>
               <li><Link href="/faq" className="hover:text-accent transition-colors">IPO FAQs Knowledge Hub</Link></li>
-              <li><Link href="/articles/what-is-ipo-gmp-grey-market-premium" className="hover:text-accent transition-colors">What is IPO GMP?</Link></li>
+              {/* <li><Link href="/articles/what-is-ipo-gmp-grey-market-premium" className="hover:text-accent transition-colors">What is IPO GMP?</Link></li> */}
             </ul>
           </div>
 
@@ -80,10 +80,20 @@ export function Footer() {
         <div className="p-4 rounded-2xl bg-card border border-line text-xs text-mut/90 leading-relaxed mb-6">
           <p className="font-semibold text-tx mb-1">⚠️ Statutory Financial Market Disclaimer:</p>
           <p>
-            Grey Market Premium (GMP) is purely unofficial, non-regulated, and derived from dealer quotes. It is <strong>not</strong> an official price or investment advice. Always read the Red Herring Prospectus (RHP) filed with SEBI before making any financial investment decisions.
+            Indicative market rates and dealer estimates are unofficial, non-regulated, and derived from OTC quotes. They do <strong>not</strong> constitute an official price or investment advice. Always read the Red Herring Prospectus (RHP) filed with SEBI before making any financial investment decisions.
+          </p>
+          <p className="mt-1.5 flex items-center gap-1.5 font-medium text-accent">
+            <a
+              href="https://docipo.ipotrending.com/uploads/otherdocument/1795585231037.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline inline-flex items-center gap-1"
+            >
+              📄 Read Official SEBI Advisory (PDF) →
+            </a>
           </p>
           <p className="mt-1 text-mut/70">
-            Real-time IPO information, subscription stats, and GMP metrics are synchronized dynamically from live market trading databases.
+            Real-time IPO information, subscription stats, and market metrics are synchronized dynamically from live market trading databases.
           </p>
         </div>
 

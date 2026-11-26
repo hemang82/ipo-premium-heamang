@@ -39,7 +39,7 @@ const QUICK_SEO_LINKS: QuickLinkItem[] = [
     badge: "Live",
   },
   {
-    label: "All IPO GMP Today",
+    label: "Live IPO Tracker",
     href: "/ipo-gmp",
     icon: Flame,
     variant: "accent",
@@ -81,12 +81,6 @@ const QUICK_SEO_LINKS: QuickLinkItem[] = [
     variant: "default",
   },
   {
-    label: "Kostak vs Subject to Sauda",
-    href: "/articles/kostak-rate-vs-subject-to-sauda-differences",
-    icon: Scale,
-    variant: "default",
-  },
-  {
     label: "IPO Lot Calculator",
     href: "/tools/lot-calculator",
     icon: Calculator,
@@ -99,7 +93,7 @@ const QUICK_SEO_LINKS: QuickLinkItem[] = [
     variant: "default",
   },
   {
-    label: "Recently Listed",
+    label: "Recently Listed IPOs",
     href: "/ipo/listed",
     icon: CheckCircle2,
     variant: "default",

@@ -5,7 +5,7 @@ export function ToolsSection() {
   const tools = [
     {
       title: "IPO Profit & Lot Calculator",
-      desc: "Calculate required investment outlay, minimum lot size, and estimated listing profit based on live market GMP.",
+      desc: "Calculate required investment outlay, minimum lot size, bidding limits, and estimated listing gain projections.",
       href: "/tools/lot-calculator",
       cta: "Open Calculator",
       icon: Calculator,
@@ -13,10 +13,10 @@ export function ToolsSection() {
       bg: "bg-amber-500/10 border-amber-500/20",
     },
     {
-      title: "Live IPO GMP Tracker",
-      desc: "Track real-time unofficial Grey Market Premium (GMP), kostak rates, and subject to sauda trends updated daily.",
+      title: "Live IPO Market Tracker",
+      desc: "Track real-time indicative market indicators, price band ranges, and expected listing projections updated daily.",
       href: "/ipo-gmp",
-      cta: "Check All GMP Rates",
+      cta: "Check Market Rates",
       icon: Flame,
       color: "text-orange-500",
       bg: "bg-orange-500/10 border-orange-500/20",
@@ -40,7 +40,7 @@ export function ToolsSection() {
             Essential IPO Tools &amp; Intelligence
           </h2>
           <p className="text-xs sm:text-sm text-mut mt-1">
-            Free investor calculators, live grey market analytics, and SEBI filing trackers.
+            Free investor calculators, valuation analytics, and SEBI filing trackers.
           </p>
         </div>
         <span className="text-xs font-semibold text-accent flex items-center gap-1.5 shrink-0">

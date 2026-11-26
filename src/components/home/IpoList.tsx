@@ -103,22 +103,24 @@ export function IpoList({ allIpos, currentStatus = "Open", currentSort = "defaul
             {/* Option C: Integrated Sleek Market Pulse Pills */}
             {stats && (
               <div className="flex items-center gap-1.5 flex-wrap ml-1">
-                {/* 1. Top GMP Pill */}
-                <Link
-                  href={stats.highestGmp?.slug ? `/ipo/${stats.highestGmp.slug}/${stats.highestGmp.symbol}` : "/ipo-gmp"}
-                  prefetch={false}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/25 text-[11px] font-semibold text-tx transition-colors"
-                  title="View Top GMP IPO"
-                >
-                  <Flame className="w-3 h-3 text-orange-500 fill-orange-500 shrink-0" />
-                  <span className="text-mut hidden sm:inline">Top GMP:</span>
-                  <span className="font-bold text-orange-600 dark:text-orange-400">
-                    {stats.highestGmp?.ipoName?.replace(/ Limited$/i, " Ltd")}
-                  </span>
-                  <span className="text-up font-heading font-bold">
-                    (+{stats.highestGmp?.gmpPercent}%)
-                  </span>
-                </Link>
+                {/* 1. Top Gain Pill (Only shown if highestGmp has actual positive gain) */}
+                {/* {stats.highestGmp?.gmpPercent > 0 && stats.highestGmp?.ipoName !== "N/A" && (
+                  <Link
+                    href={stats.highestGmp?.slug ? `/ipo/${stats.highestGmp.slug}/${stats.highestGmp.symbol}` : "/ipo-gmp"}
+                    prefetch={false}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/25 text-[11px] font-semibold text-tx transition-colors"
+                    title="View Top Performing IPO"
+                  >
+                    <Flame className="w-3 h-3 text-orange-500 fill-orange-500 shrink-0" />
+                    <span className="text-mut hidden sm:inline">Top Gain:</span>
+                    <span className="font-bold text-orange-600 dark:text-orange-400">
+                      {stats.highestGmp?.ipoName?.replace(/ Limited$/i, " Ltd")}
+                    </span>
+                    <span className="text-up font-heading font-bold">
+                      (+{stats.highestGmp?.gmpPercent}%)
+                    </span>
+                  </Link>
+                )} */}
 
                 {/* 2. Top Demand Pill */}
                 {stats.mostSubscribed?.total > 0 && (
@@ -140,7 +142,7 @@ export function IpoList({ allIpos, currentStatus = "Open", currentSort = "defaul
           </div>
 
           <p className="text-xs sm:text-sm text-mut">
-            Live Grey Market Premium and subscription demand for Mainboard &amp; SME public issues.
+            Live subscription demand and price performance for Mainboard &amp; SME public issues.
           </p>
         </div>
 

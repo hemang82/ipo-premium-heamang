@@ -200,10 +200,10 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
                 </div>
                 <div>
                   <span className="font-heading font-bold text-xs sm:text-sm text-tx group-hover:text-accent transition-colors block">
-                    IPO GMP Today
+                    IPO Market Today
                   </span>
                   <span className="text-[11px] text-mut block">
-                    Live Grey Market Premium rates &amp; listing gains
+                    Live IPO Market rates &amp; listing gains
                   </span>
                 </div>
               </div>
